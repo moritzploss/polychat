@@ -15,16 +15,23 @@
     "start": "node ./dist/server.js"
   },
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/express-serve-static-core": "^4.17.1",
+    "@types/mongoose": "^5.5.39",
+    "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
+    "eslint-config-airbnb-typescript": "^6.3.1",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "express-ws": "^4.0.0",
     "helmet": "^3.21.2",
+    "mongoose": "^5.8.5",
     "morgan": "^1.9.1",
+    "ts-mongoose": "0.0.21",
     "uuid": "^3.3.3",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "ws": "^7.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",

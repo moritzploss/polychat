@@ -9,13 +9,13 @@ export class ClientService {
     this.clients[userId] = this.clients[userId]
       ? [...this.clients[userId], clientId]
       : [clientId];
-  }
+  };
 
   removeClient = (clientId: string, userId: string): void => {
     this.clients[userId] = this.clients[userId].filter((id: string) => id !== clientId);
-  }
+  };
 
-  removeUser = (userId: string): boolean => delete this.clients[userId]
+  removeUser = (userId: string): boolean => delete this.clients[userId];
 
   hasClients = (userId: string): boolean => (
     Boolean(this.getClientsByUserId(userId).length)

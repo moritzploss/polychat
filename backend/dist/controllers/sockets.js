@@ -6,8 +6,8 @@ exports.onOpen = function (webSocket, req, socketId) {
     return webSocket.send('welcome');
 };
 exports.onMessage = function (webSocket, data) {
-    return logging_1.logger.info('message received');
+    logging_1.logger.info('message received');
 };
 exports.onClose = function (webSocket, code) {
-    return logging_1.logger.info('connection closed');
+    logging_1.logger.info('connection closed');
 };

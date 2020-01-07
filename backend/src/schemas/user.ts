@@ -1,0 +1,55 @@
+import * as bcrypt from 'bcrypt';
+import { HookNextFunction } from 'mongoose';
+import { createSchema, Type, typedModel } from 'ts-mongoose';
+
+import { UserDocument } from '../types';
+
+const schema = createSchema({
+  email: Type.string({
+    unique: true,
+    required: true,
+    trim: true,
+  }),
+  password: Type.string({
+    required: true,
+  }),
+  name: Type.string({
+    required: true,
+  }),
+  language: Type.string({
+    required: true,
+  }),
+  createdAt: Type.date({
+    required: true,
+    default: Date.now,
+  }),
+  messages: Type.object({
+    required: true,
+    default: Object,
+  }),
+});
+
+schema.pre('save', (next: HookNextFunction) => {
+  bcrypt.hash(this.password, 10, (error: Error, hash: string) => {
+    if (error) return next(error);
+    this.password = hash;
+    return next();
+  });
+});
+
+schema.statics.authenticate = (email: string, password: string, callback: Function): Promise<string | Error> => this
+  .findOne({ email })
+  .exec((error: Error, user: UserDocument) => {
+    if (error) return callback(error);
+    if (!user) return callback(401);
+
+    return bcrypt.compare(password, user.password, (_, result) => (
+      (result === true)
+        ? callback(null, user)
+        : callback()
+    ));
+  });
+
+const user = typedModel('user', schema);
+
+export { user };

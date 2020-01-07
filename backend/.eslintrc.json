@@ -6,9 +6,9 @@
         "jest": true
     },
     "extends": [
-        "airbnb", 
-        "plugin:@typescript-eslint",
-        "plugin:import/typescript"
+        "airbnb-typescript",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -24,23 +24,36 @@
     ],
     "settings": {
         "import/resolver": {
-          "node": {
-            "extensions": [".js", ".ts"]
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".ts"
+                ]
             }
-        }
+        },
+        "import/core-modules": [
+            "express-serve-static-core"
+        ]
     },
     "rules": {
-        "indent": ["error", 2],
         "import/extensions": [
             "error",
             "ignorePackages",
             {
-            "js": "never",
-            "jsx": "never",
-            "ts": "never",
-            "tsx": "never"
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
             }
         ],
-        "import/prefer-default-export": "off"
+        "import/prefer-default-export": "off",
+        "indent": [
+            "error",
+            2
+        ],
+        "max-len": [
+            2,
+            120
+        ]
     }
 }
