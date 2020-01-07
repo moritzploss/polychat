@@ -10,11 +10,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocketService = /** @class */ (function () {
     function WebSocketService() {
         var _this = this;
-        this.addClient = function (webSocketId, userId) {
+        this.addWebSocket = function (webSocketId, userId) {
             _this.webSockets[userId] = _this.webSockets[userId]
                 ? __spreadArrays(_this.webSockets[userId], [webSocketId]) : [webSocketId];
         };
-        this.removeClient = function (clientId, userId) {
+        this.removeWebSocket = function (clientId, userId) {
             _this.webSockets[userId] = _this.webSockets[userId].filter(function (id) { return id !== clientId; });
         };
         this.removeUser = function (userId) { return delete _this.webSockets[userId]; };
@@ -27,4 +27,4 @@ var WebSocketService = /** @class */ (function () {
     return WebSocketService;
 }());
 exports.WebSocketService = WebSocketService;
-exports.clients = new WebSocketService();
+exports.webSockets = new WebSocketService();
