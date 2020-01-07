@@ -7,18 +7,14 @@ import helmet = require('helmet');
 import morgan = require('morgan');
 import expressWs = require('express-ws');
 
-const wsInstance = expressWs(express());
-const { app } = wsInstance;
+const { app } = expressWs(express());
 
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(morgan('tiny', { stream: loggStream }));
 
-app.ws('/sockets/clients/:id', (ws, req) => {
-  console.log(req.params.id);
-  ws.on('close', () => console.log('closed'));
-});
+app.use('/api/sockets', socketsRouter);
 
-app.get('/login', (req, res) => res.send('hi'));
+app.get('/api/login', (req, res) => res.send('hi'));
 
 export default app;

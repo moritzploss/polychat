@@ -1,14 +1,17 @@
+import { Request } from 'express-serve-static-core';
+import * as ws from 'ws';
+
 import { logger } from '../logging';
 
-export const onConnection = (ws, req) => {
+export const onOpen = (webSocket: ws, req: Request, socketId: string) => {
   logger.info('connection opened');
-  return ws.send('welcome');
+  return webSocket.send('welcome');
 };
 
-export const onMessage = (ws, req) => {
+export const onMessage = (webSocket: ws, data: WebSocket) => {
   return logger.info('message received');
 };
 
-export const onClose = (ws, req) => {
+export const onClose = (webSocket: ws, code: number) => {
   return logger.info('connection closed');
 };

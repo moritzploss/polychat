@@ -1,17 +1,18 @@
+import { Request } from 'express-serve-static-core';
+import * as ws from 'ws';
+
 import * as wsController from '../controllers/sockets';
 
 import express = require('express');
 import expressWs = require('express-ws');
 
-const wsInstance = expressWs(express());
+expressWs(express());
 const socketsRouter = express.Router();
 
-wsInstance.getWss().on('connection', (ws) => console.log('opened'));
-
-socketsRouter.ws('/clients/:id', (ws, req) => {
-  console.log(req.params.id);
-  ws.on('message', wsController.onMessage);
-  ws.on('close', wsController.onClose);
+socketsRouter.ws('/clients/:id', (webSocket: ws, req: Request): void => {
+  wsController.onOpen(webSocket, req, req.params.id);
+  webSocket.on('message', wsController.onMessage);
+  webSocket.on('close', wsController.onClose);
 });
 
 export default socketsRouter;

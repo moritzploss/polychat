@@ -2,11 +2,13 @@
     "env": {
         "es6": true,
         "node": true,
-        "mocha": true
+        "mocha": true,
+        "jest": true
     },
     "extends": [
         "airbnb", 
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint",
+        "plugin:import/typescript"
     ],
     "globals": {
         "Atomics": "readonly",

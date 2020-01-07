@@ -2,14 +2,14 @@ const proxy = require('http-proxy-middleware');
 
 module.exports = function (app) {
   app.use(
-    proxy("/sockets/clients/", {
+    proxy("/api/sockets/clients/", {
       target: "http://localhost:8080",
       ws: true
     }),
-    proxy("/login", {
+    proxy("/api/login", {
       target: "http://localhost:8080",
     }),
-    proxy("/register", {
+    proxy("/api/register", {
       target: "http://localhost:8080",
     })
   );
