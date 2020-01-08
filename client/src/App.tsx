@@ -1,5 +1,8 @@
 import React from 'react';
 import uuid from 'uuid/v4';
+import { BrowserRouter as Router } from "react-router-dom";
+
+import { Routes } from './Components/Routes';
 
 import './App.css';
 
@@ -14,9 +17,13 @@ const App: React.FC = () => {
   const socket = openWebSocket(uuid());
 
   return (
-    <div className="App">
-      {socket.readyState}
-    </div>
+    <Router>
+      <div className="App">
+        {socket.readyState}
+      </div>
+
+      <Routes />
+    </Router>
   );
 }
 
