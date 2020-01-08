@@ -15,4 +15,4 @@ socketsRouter.ws('/clients/:id', (webSocket: ws, req: Request): void => {
   webSocket.on('close', wsController.onClose);
 });
 
-export default socketsRouter;
+export { socketsRouter };

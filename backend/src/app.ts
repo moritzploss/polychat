@@ -1,4 +1,5 @@
-import socketsRouter from './routes/webSockets';
+import { socketsRouter } from './routes/webSockets';
+import { apiRouter } from './routes/api';
 import { loggStream } from './logging';
 import { connectDatabase, addTestUser } from './services/database';
 
@@ -17,7 +18,6 @@ app.use(morgan('tiny', { stream: loggStream }));
 connectDatabase().then(() => addTestUser());
 
 app.use('/api/websockets', socketsRouter);
-
-app.get('/api/login', (req, res) => res.send('hi'));
+app.use('/api', apiRouter);
 
 export default app;

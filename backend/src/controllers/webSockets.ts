@@ -8,10 +8,10 @@ export const onOpen = (webSocket: ws, req: Request, socketId: string): void => {
   return webSocket.send('welcome');
 };
 
-export const onMessage = (webSocket: ws, data: WebSocket): void => {
-  logger.info('message received');
+export const onMessage = (webSocket: ws, data: WebSocket) => {
+  return logger.info('message received');
 };
 
-export const onClose = (webSocket: ws, code: number): void => {
-  logger.info('connection closed');
+export const onClose = (webSocket: ws, code: number) => {
+  return logger.info('connection closed');
 };

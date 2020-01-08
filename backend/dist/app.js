@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var webSockets_1 = require("./routes/webSockets");
+var api_1 = require("./routes/api");
 var logging_1 = require("./logging");
 var database_1 = require("./services/database");
 var bodyParser = require("body-parser");
@@ -13,6 +14,6 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(morgan('tiny', { stream: logging_1.loggStream }));
 database_1.connectDatabase().then(function () { return database_1.addTestUser(); });
-app.use('/api/websockets', webSockets_1.default);
-app.get('/api/login', function (req, res) { return res.send('hi'); });
+app.use('/api/websockets', webSockets_1.socketsRouter);
+app.use('/api', api_1.apiRouter);
 exports.default = app;

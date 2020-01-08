@@ -39,18 +39,20 @@ schema.pre('save', function (next: HookNextFunction) {
   });
 });
 
-schema.statics.authenticate = (email: string, password: string, callback: Function): Promise<string | Error> => this
-  .findOne({ email })
-  .exec((error: Error, user: UserDocument) => {
-    if (error) return callback(error);
-    if (!user) return callback(401);
+schema.statics.authenticate = function (email: string, password: string, callback: Function): Promise<string | Error> {
+  return this
+    .findOne({ email })
+    .exec((error: Error, user: UserDocument) => {
+      if (error) return callback(error);
+      if (!user) return callback(401);
 
-    return bcrypt.compare(password, user.password, (_, result) => (
-      (result === true)
-        ? callback(null, user)
-        : callback()
-    ));
-  });
+      return bcrypt.compare(password, user.password, (_, result) => (
+        (result === true)
+          ? callback(null, user)
+          : callback()
+      ));
+    });
+};
 
 const User = typedModel('user', schema);
 
