@@ -4,7 +4,7 @@ import * as ws from 'ws';
 import { logger } from '../logging';
 
 export const onOpen = (webSocket: ws, req: Request, socketId: string): void => {
-  logger.info('connection opened');
+  logger.info(`connection opened on socket ${socketId}`);
   return webSocket.send('welcome');
 };
 

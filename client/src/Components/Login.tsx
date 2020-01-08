@@ -1,11 +1,19 @@
 import React from 'react';
+import { connect } from'react-redux';
 
-const Login: React.FC = () => {
+import { addUser, removeUser } from '../reducers/user';
+
+const Login: React.FC = ({ addUser }: any) => {
   return (
-    <h1>
-      Login
-    </h1>
+    <>
+      <h1>
+        Login
+      </h1>
+      <button onClick={() => addUser({name: 'Test User'})}>Login</button>
+    </>
   );
 }
 
-export { Login };
+const mapStateToProps = ({user}: any) => ({user});
+
+export default connect(mapStateToProps, { addUser, removeUser })(Login);
