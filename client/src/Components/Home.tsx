@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { addWebsocket } from '../reducers/client';
 
 const Home: React.FC = ({ client, user, addWebsocket }: any) => {
-
   if (!client.websocket) {
     addWebsocket(user.id);
   }
@@ -20,7 +19,7 @@ const Home: React.FC = ({ client, user, addWebsocket }: any) => {
       </p>
     </>
   );
-}
+};
 
 const mapStateToProps = ({ client, user }: any) => ({ client, user });
 

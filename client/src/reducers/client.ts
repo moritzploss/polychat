@@ -1,11 +1,15 @@
 import { openNewWebSocket } from '../websockets/websockets';
 
+interface Client {
+  websocket?: WebSocket;
+}
+
 const addWebsocket = (userId: string) => ({
   type: 'ADD WEBSOCKET',
   websocket: openNewWebSocket(userId),
 });
 
-const client = (client = {}, action: any) => {
+const clientReducer = (client = {}, action: any): Client => {
   switch (action.type) {
     case 'ADD WEBSOCKET':
       return {
@@ -17,4 +21,4 @@ const client = (client = {}, action: any) => {
   }
 };
 
-export { client, addWebsocket };
+export { clientReducer, addWebsocket };

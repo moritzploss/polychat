@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { client } from './client';
-import { user } from './user';
+import { clientReducer } from './client';
+import { userReducer } from './user';
 
 const rootReducer = combineReducers({
-  client,
-  user,
-})
+  client: clientReducer,
+  user: userReducer,
+});
 
 export { rootReducer };

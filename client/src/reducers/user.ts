@@ -12,10 +12,10 @@ const addUser = (userData: any) => ({
 
 const removeUser = () => ({ type: 'REMOVE' });
 
-const user = (user = {}, action: any) => {
+const userReducer = (user = {}, action: any) => {
   switch (action.type) {
     case 'ADD':
-      return action.userData ;
+      return action.userData;
     case 'REMOVE':
       return {};
     default:
@@ -23,4 +23,4 @@ const user = (user = {}, action: any) => {
   }
 };
 
-export { user, addUser, removeUser };
+export { userReducer, addUser, removeUser };
