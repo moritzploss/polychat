@@ -1,6 +1,8 @@
+import { Request, Response } from 'express-serve-static-core';
+
 import { User } from '../schemas/user';
 
-const authenticateRequest = async (req, res): Promise<void> => {
+const authenticateRequest = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
   await User.authenticate(email, password, (error: Error, user) => {

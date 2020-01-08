@@ -33,6 +33,7 @@ schema.pre('save', function (next) {
         return next();
     });
 });
+// eslint-disable-next-line func-names
 schema.statics.authenticate = function (email, password, callback) {
     return this
         .findOne({ email: email })
