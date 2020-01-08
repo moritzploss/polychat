@@ -1,5 +1,6 @@
-import socketsRouter from './routes/sockets';
+import socketsRouter from './routes/webSockets';
 import { loggStream } from './logging';
+import { connectDatabase, addTestUser } from './services/database';
 
 import bodyParser = require('body-parser');
 import express = require('express');
@@ -13,7 +14,9 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(morgan('tiny', { stream: loggStream }));
 
-app.use('/api/sockets', socketsRouter);
+connectDatabase().then(() => addTestUser());
+
+app.use('/api/websockets', socketsRouter);
 
 app.get('/api/login', (req, res) => res.send('hi'));
 

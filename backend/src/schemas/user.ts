@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import * as bcrypt from 'bcrypt';
 import { HookNextFunction } from 'mongoose';
 import { createSchema, Type, typedModel } from 'ts-mongoose';
@@ -23,16 +24,17 @@ const schema = createSchema({
     required: true,
     default: Date.now,
   }),
-  messages: Type.object({
-    required: true,
-    default: Object,
-  }),
+  // messages: Type.object({
+  //   required: true,
+  //   default: Object,
+  // }),
 });
 
-schema.pre('save', (next: HookNextFunction) => {
-  bcrypt.hash(this.password, 10, (error: Error, hash: string) => {
+// eslint-disable-next-line func-names
+schema.pre('save', function (next: HookNextFunction) {
+  bcrypt.hash(this['password'], 10, (error: Error, hash: string) => {
     if (error) return next(error);
-    this.password = hash;
+    this['password'] = hash;
     return next();
   });
 });
@@ -50,6 +52,6 @@ schema.statics.authenticate = (email: string, password: string, callback: Functi
     ));
   });
 
-const user = typedModel('user', schema);
+const User = typedModel('user', schema);
 
-export { user };
+export { User };

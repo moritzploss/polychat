@@ -22,11 +22,11 @@ describe('the clients service add function', () => {
   });
 
   it('should associate multiple clients with a user', () => {
-    const clientId2 = uuid();
+    const webSocketId2 = uuid();
     webSocketService.addWebSocket(webSocketId, userId);
-    webSocketService.addWebSocket(clientId2, userId);
+    webSocketService.addWebSocket(webSocketId2, userId);
     expect(webSocketService.getWebSocketsByUserId(userId)).contains(webSocketId);
-    expect(webSocketService.getWebSocketsByUserId(userId)).contains(clientId2);
+    expect(webSocketService.getWebSocketsByUserId(userId)).contains(webSocketId2);
     expect(webSocketService.getWebSocketsByUserId(userId).length).equals(2);
   });
 });

@@ -1,7 +1,7 @@
 import { Request } from 'express-serve-static-core';
 import * as ws from 'ws';
 
-import * as wsController from '../controllers/sockets';
+import * as wsController from '../controllers/webSockets';
 
 import express = require('express');
 import expressWs = require('express-ws');

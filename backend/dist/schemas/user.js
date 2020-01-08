@@ -1,6 +1,7 @@
 "use strict";
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable dot-notation */
 var bcrypt = require("bcrypt");
 var ts_mongoose_1 = require("ts-mongoose");
 var schema = ts_mongoose_1.createSchema({
@@ -22,16 +23,14 @@ var schema = ts_mongoose_1.createSchema({
         required: true,
         default: Date.now,
     }),
-    messages: ts_mongoose_1.Type.object({
-        required: true,
-        default: Object,
-    }),
 });
+// eslint-disable-next-line func-names
 schema.pre('save', function (next) {
-    bcrypt.hash(_this.password, 10, function (error, hash) {
+    var _this = this;
+    bcrypt.hash(this['password'], 10, function (error, hash) {
         if (error)
             return next(error);
-        _this.password = hash;
+        _this['password'] = hash;
         return next();
     });
 });
@@ -46,5 +45,5 @@ schema.statics.authenticate = function (email, password, callback) { return _thi
         ? callback(null, user)
         : callback()); });
 }); };
-var user = ts_mongoose_1.typedModel('user', schema);
-exports.user = user;
+var User = ts_mongoose_1.typedModel('user', schema);
+exports.User = User;

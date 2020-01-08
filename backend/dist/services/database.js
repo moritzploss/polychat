@@ -36,26 +36,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var mongoose = require("mongoose");
 var user_1 = require("../schemas/user");
-var toCredentials = function (userData) { return ({
-    name: userData.name,
-    language: userData.language,
-    email: userData.email,
-    id: userData.id,
+var logging_1 = require("../logging");
+// const session = require('express-session');
+// const mongoStore = require('connect-mongo')(session);
+var connectDatabase = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var credentials;
+    return __generator(this, function (_a) {
+        credentials = process.env.MONGO_USER + ":" + process.env.MONGO_PASSWORD;
+        mongoose.connect("mongodb+srv://" + credentials + "@polychat-afdg1.mongodb.net/test?retryWrites=true&w=majority", {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+        });
+        mongoose.connection.on('error', logging_1.logger.error);
+        mongoose.connection.once('open', function () { return logging_1.logger.info('connected to mongo db'); });
+        return [2 /*return*/, mongoose.connection];
+    });
 }); };
-var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+exports.connectDatabase = connectDatabase;
+var addTestUser = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var testUser;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                _a = req.body, email = _a.email, password = _a.password;
-                return [4 /*yield*/, user_1.User.authenticate(email, password, function (error, userData) { return ((error || !userData)
-                        ? res.status(401).json({ error: 'wrong email or password' })
-                        : res.json(toCredentials(userData))); })];
+                testUser = new user_1.User({
+                    email: process.env.TEST_USER_EMAIL,
+                    password: process.env.TEST_USER_PASSWORD,
+                    name: 'Test User',
+                    language: 'english',
+                });
+                return [4 /*yield*/, testUser.save(function () { })];
             case 1:
-                _b.sent();
+                _a.sent();
                 return [2 /*return*/];
         }
     });
 }); };
-exports.loginUser = loginUser;
+exports.addTestUser = addTestUser;
