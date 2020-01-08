@@ -1,6 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const proxy = require('http-proxy-middleware');
 
-module.exports = function (app) {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+module.exports = (app) => {
   app.use(
     proxy('/api/websockets/clients/', {
       target: 'http://localhost:8080',

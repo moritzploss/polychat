@@ -1,13 +1,4 @@
-import { openNewWebSocket } from '../websockets/websockets';
-
-interface Client {
-  websocket?: WebSocket;
-}
-
-const addWebsocket = (userId: string) => ({
-  type: 'ADD WEBSOCKET',
-  websocket: openNewWebSocket(userId),
-});
+import { Client } from '../types';
 
 const clientReducer = (client = {}, action: any): Client => {
   switch (action.type) {
@@ -21,4 +12,4 @@ const clientReducer = (client = {}, action: any): Client => {
   }
 };
 
-export { clientReducer, addWebsocket };
+export { clientReducer };

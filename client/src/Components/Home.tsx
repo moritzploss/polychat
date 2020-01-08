@@ -1,9 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { addWebsocket } from '../reducers/client';
+import * as clientActions from '../reducers/clientActions';
+import { ReduxStoreContents } from '../types';
 
-const Home: React.FC = ({ client, user, addWebsocket }: any) => {
+interface HomeProps extends ReduxStoreContents {
+  addWebsocket: Function;
+}
+
+const Home = ({ client, user, addWebsocket }: HomeProps): JSX.Element => {
   if (!client.websocket) {
     addWebsocket(user.id);
   }
@@ -21,6 +26,6 @@ const Home: React.FC = ({ client, user, addWebsocket }: any) => {
   );
 };
 
-const mapStateToProps = ({ client, user }: any) => ({ client, user });
+const mapStateToProps = (store: ReduxStoreContents): ReduxStoreContents => store;
 
-export default connect(mapStateToProps, { addWebsocket })(Home);
+export default connect(mapStateToProps, clientActions)(Home);

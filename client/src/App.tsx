@@ -3,12 +3,14 @@ import * as R from 'ramda';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { ReduxStoreContents, UserData } from './types';
+
 import './App.css';
 
-const App: React.FC = ({ user }: any) => (
-  <Redirect to={R.isEmpty(user) ? '/login' : '/home'} />
+const App = ({ user }: { user: UserData }): JSX.Element => (
+  <Redirect to={R.isEmpty(user) ? '/login' : '/'} />
 );
 
-const mapStateToProps = ({ user }: any) => ({ user });
+const mapStateToProps = (store: ReduxStoreContents): ReduxStoreContents => store;
 
 export default connect(mapStateToProps)(App);

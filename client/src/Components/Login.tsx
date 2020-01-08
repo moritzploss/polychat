@@ -1,9 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { addUser, removeUser } from '../reducers/user';
+import * as userActions from '../reducers/userActions';
 
-const Login: React.FC = ({ addUser }: any) => {
+interface LoginProps {
+  addUser: Function;
+}
+
+const Login = ({ addUser }: LoginProps): JSX.Element => {
   return (
     <>
       <h1>
@@ -14,6 +18,4 @@ const Login: React.FC = ({ addUser }: any) => {
   );
 };
 
-const mapStateToProps = ({user}: any) => ({ user });
-
-export default connect(mapStateToProps, { addUser, removeUser })(Login);
+export default connect(null, userActions)(Login);

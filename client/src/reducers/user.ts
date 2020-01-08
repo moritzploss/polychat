@@ -1,18 +1,6 @@
-interface Action {
-  type: string;
-  userData?: {
-    name: string;
-  };
-}
+import { UserData } from '../types';
 
-const addUser = (userData: any) => ({
-  type: 'ADD',
-  userData,
-});
-
-const removeUser = () => ({ type: 'REMOVE' });
-
-const userReducer = (user = {}, action: any) => {
+const userReducer = (user = {}, action: any): UserData => {
   switch (action.type) {
     case 'ADD':
       return action.userData;
@@ -23,4 +11,4 @@ const userReducer = (user = {}, action: any) => {
   }
 };
 
-export { userReducer, addUser, removeUser };
+export { userReducer };
