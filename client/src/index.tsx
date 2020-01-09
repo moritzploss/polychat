@@ -12,8 +12,6 @@ import { Routes } from './Components/Routes';
 
 import './index.css';
 
-require('dotenv').config();
-
 const store = createStore(rootReducer);
 initiateSessionService(store);
 
