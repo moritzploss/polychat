@@ -43,6 +43,7 @@ var toCredentials = function (userData) { return ({
     email: userData.email,
     id: userData.id,
 }); };
+exports.toCredentials = toCredentials;
 var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password;
     return __generator(this, function (_b) {

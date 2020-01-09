@@ -1,11 +1,10 @@
 import { Request, Response } from 'express-serve-static-core';
 
 import { User } from '../schemas/user';
+import { toCredentials } from './login';
 
 const authenticateRequest = async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
-
-  await User.authenticate(email, password, (error: Error, user) => {
+  await User.authenticate(req.body.email, req.body.password, (error: Error, user) => {
     if (error || !user) {
       return res
         .status(401)
@@ -13,13 +12,7 @@ const authenticateRequest = async (req: Request, res: Response): Promise<void> =
     }
 
     req.session.authorized = true;
-
-    return res.json({
-      name: user.name,
-      language: user.language,
-      email: user.email,
-      id: user.id,
-    });
+    return res.json(toCredentials(user));
   });
 };
 

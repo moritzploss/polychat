@@ -22,4 +22,4 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
   ));
 };
 
-export { loginUser };
+export { loginUser, toCredentials };

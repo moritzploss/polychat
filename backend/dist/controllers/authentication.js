@@ -37,28 +37,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var user_1 = require("../schemas/user");
+var login_1 = require("./login");
 var authenticateRequest = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, email = _a.email, password = _a.password;
-                return [4 /*yield*/, user_1.User.authenticate(email, password, function (error, user) {
-                        if (error || !user) {
-                            return res
-                                .status(401)
-                                .json({ error: 'wrong email or password' });
-                        }
-                        req.session.authorized = true;
-                        return res.json({
-                            name: user.name,
-                            language: user.language,
-                            email: user.email,
-                            id: user.id,
-                        });
-                    })];
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, user_1.User.authenticate(req.body.email, req.body.password, function (error, user) {
+                    if (error || !user) {
+                        return res
+                            .status(401)
+                            .json({ error: 'wrong email or password' });
+                    }
+                    req.session.authorized = true;
+                    return res.json(login_1.toCredentials(user));
+                })];
             case 1:
-                _b.sent();
+                _a.sent();
                 return [2 /*return*/];
         }
     });
