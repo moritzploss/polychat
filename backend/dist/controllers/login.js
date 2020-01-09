@@ -45,16 +45,13 @@ var toCredentials = function (userData) { return ({
 }); };
 exports.toCredentials = toCredentials;
 var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, email = _a.email, password = _a.password;
-                return [4 /*yield*/, user_1.User.authenticate(email, password, function (error, userData) { return ((error || !userData)
-                        ? res.status(401).json({ error: 'wrong email or password' })
-                        : res.json(toCredentials(userData))); })];
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, user_1.User.authenticate(req.body.email, req.body.password, function (error, userData) { return ((error || !userData)
+                    ? res.status(401).json({ error: 'wrong email or password' })
+                    : res.json(toCredentials(userData))); })];
             case 1:
-                _b.sent();
+                _a.sent();
                 return [2 /*return*/];
         }
     });

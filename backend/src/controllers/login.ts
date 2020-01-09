@@ -13,9 +13,7 @@ const toCredentials = (userData): UserCredentials => ({
 });
 
 const loginUser = async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
-
-  await User.authenticate(email, password, (error: Error, userData: MongooseDocument) => (
+  await User.authenticate(req.body.email, req.body.password, (error: Error, userData: MongooseDocument) => (
     (error || !userData)
       ? res.status(401).json({ error: 'wrong email or password' })
       : res.json(toCredentials(userData))
