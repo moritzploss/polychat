@@ -13,7 +13,7 @@ apiRouter.get('/validate-session', (req, res) => {
   return res.status(status).send();
 });
 
-apiRouter.get('/invalidate-session', (req, res) => {
+apiRouter.get('/destroy-session', (req, res) => {
   req.session.destroy(logger.error);
   return res.send();
 });

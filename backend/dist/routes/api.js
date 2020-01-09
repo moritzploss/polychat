@@ -10,7 +10,7 @@ apiRouter.get('/validate-session', function (req, res) {
     var status = req.session.authorized ? 200 : 401;
     return res.status(status).send();
 });
-apiRouter.get('/invalidate-session', function (req, res) {
+apiRouter.get('/destroy-session', function (req, res) {
     req.session.destroy(index_1.logger.error);
     return res.send();
 });
