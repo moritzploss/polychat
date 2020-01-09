@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as clientActions from '../reducers/clientActions';
 import { ReduxStoreContents } from '../types/types';
+import Navigation from './Navigation';
 
 interface HomeProps extends ReduxStoreContents {
   addWebsocket: Function;
@@ -15,6 +16,7 @@ const Home = ({ client, session, addWebsocket }: HomeProps): JSX.Element => {
 
   return (
     <>
+      <Navigation />
       <h1>
         Home
       </h1>

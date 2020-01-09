@@ -24,7 +24,6 @@ const Login = (): JSX.Element => {
   const loginSuccessCallback = (userData: UserData): void => {
     sessionService.saveSession();
     sessionService.saveUser(userData);
-    setCredentials(defaultCredentials);
   };
 
   const attemptLogin = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {

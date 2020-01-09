@@ -17,5 +17,8 @@ module.exports = (app) => {
     proxy('/api/validate-session', {
       target: 'http://localhost:8080',
     }),
+    proxy('/api/destroy-session', {
+      target: 'http://localhost:8080',
+    }),
   );
 };
