@@ -2,15 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as clientActions from '../reducers/clientActions';
-import { ReduxStoreContents } from '../types';
+import { ReduxStoreContents } from '../types/types';
 
 interface HomeProps extends ReduxStoreContents {
   addWebsocket: Function;
 }
 
-const Home = ({ client, user, addWebsocket }: HomeProps): JSX.Element => {
+const Home = ({ client, session, addWebsocket }: HomeProps): JSX.Element => {
   if (!client.websocket) {
-    addWebsocket(user.id);
+    addWebsocket(session.user.id);
   }
 
   return (
@@ -19,8 +19,8 @@ const Home = ({ client, user, addWebsocket }: HomeProps): JSX.Element => {
         Home
       </h1>
       <p>
-        {user.name}
-        {user.id}
+        {session.user.name}
+        {session.user.id}
       </p>
     </>
   );

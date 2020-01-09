@@ -5,3 +5,7 @@ var express = require("express");
 var apiRouter = express.Router();
 exports.apiRouter = apiRouter;
 apiRouter.post('/login', authentication_1.authenticateRequest);
+apiRouter.get('/validate-session', function (req, res) {
+    var status = req.session.authorized ? 200 : 401;
+    return res.status(status).send();
+});

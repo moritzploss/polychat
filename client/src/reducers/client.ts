@@ -1,4 +1,4 @@
-import { Client } from '../types';
+import { Client } from '../types/types';
 
 const clientReducer = (client = {}, action: any): Client => {
   switch (action.type) {

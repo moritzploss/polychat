@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
+import { sessionReducer } from 'redux-react-session';
 
 import { clientReducer } from './client';
-import { userReducer } from './user';
 
 const rootReducer = combineReducers({
   client: clientReducer,
-  user: userReducer,
+  session: sessionReducer,
 });
 
 export { rootReducer };
