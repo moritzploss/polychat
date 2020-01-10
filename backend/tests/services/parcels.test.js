@@ -6,20 +6,12 @@ const uuid = require('uuid/v4');
 
 const { WebSocketService } = require('../../dist/services/webSockets');
 const { ParcelService } = require('../../dist/services/parcels');
-const { mockSocket } = require('../mocks');
 
 const userId = uuid();
-const webSocketId = `${userId}--${uuid()}`;
-const webSocketId2 = `${userId}--${uuid()}`;
 let parcelService;
 let webSocketService;
 
-let webSocketData;
-let webSocketData2;
-
 beforeEach(() => {
-  webSocketData = { webSocketId, webSocket: mockSocket };
-  webSocketData2 = { webSocketId: webSocketId2, webSocket: mockSocket };
   webSocketService = new WebSocketService();
   parcelService = new ParcelService(webSocketService);
 });
