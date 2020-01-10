@@ -10,16 +10,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocketService = /** @class */ (function () {
     function WebSocketService() {
         var _this = this;
-        this.getUserId = function (webSocketId) { return webSocketId.split('--')[0]; };
         this.addWebSocket = function (webSocketId, webSocket) {
             var userId = _this.getUserId(webSocketId);
-            var webSocketData = {
-                webSocket: webSocket,
-                webSocketId: webSocketId,
-            };
+            var webSocketData = { webSocket: webSocket, webSocketId: webSocketId };
             _this.webSockets[userId] = _this.webSockets[userId]
                 ? __spreadArrays(_this.webSockets[userId], [webSocketData]) : [webSocketData];
         };
+        this.hasWebSockets = function (userId) { return (Boolean(_this.getWebSocketsByUserId(userId).length)); };
+        this.getWebSocketsByUserId = function (userId) { return (_this.webSockets[userId]
+            ? _this.webSockets[userId]
+            : []); };
+        this.getUserId = function (webSocketId) { return webSocketId.split('--')[0]; };
         this.removeWebSocket = function (webSocketId) {
             var userId = _this.getUserId(webSocketId);
             _this.webSockets[userId] = _this.webSockets[userId].filter(function (_a) {
@@ -31,13 +32,10 @@ var WebSocketService = /** @class */ (function () {
             }
         };
         this.removeUser = function (userId) { return delete _this.webSockets[userId]; };
-        this.hasWebSockets = function (userId) { return (Boolean(_this.getWebSocketsByUserId(userId).length)); };
-        this.getWebSocketsByUserId = function (userId) { return (_this.webSockets[userId]
-            ? _this.webSockets[userId]
-            : []); };
         this.webSockets = {};
     }
     return WebSocketService;
 }());
 exports.WebSocketService = WebSocketService;
-exports.webSocketService = new WebSocketService();
+var webSocketService = new WebSocketService();
+exports.webSocketService = webSocketService;
