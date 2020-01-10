@@ -1,26 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { expect } = require('chai');
 const uuid = require('uuid/v4');
 
 const { WebSocketService } = require('../../dist/services/webSockets');
+const { mockSocket } = require('../mocks');
 
 const userId = uuid();
-const userId2 = uuid();
 const webSocketId = `${userId}--${uuid()}`;
 const webSocketId2 = `${userId}--${uuid()}`;
 let webSocketService;
 
 let webSocketData;
 let webSocketData2;
-
-const mockSocket = {
-  send: () => { },
-  close: () => { },
-  open: () => { },
-};
 
 beforeEach(() => {
   webSocketData = { webSocketId, webSocket: mockSocket };
