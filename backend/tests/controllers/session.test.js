@@ -4,7 +4,6 @@
 const { expect } = require('chai');
 
 const { validateSession } = require('../../dist/controllers/session');
-const { mockSocket } = require('../mocks');
 
 describe('the validateSession function', () => {
   it('should return status 401 for unauthorized requests', () => {
