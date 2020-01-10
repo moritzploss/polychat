@@ -33,7 +33,7 @@ class WebSocketService {
     const userId = this.getUserId(webSocketId);
     this.webSockets[userId] = this.webSockets[userId].filter(({ webSocketId: id }) => id !== webSocketId);
     if (this.webSockets[userId].length === 0) {
-      delete this.webSockets[userId];
+      this.removeUser(userId);
     }
   };
 

@@ -28,7 +28,7 @@ var WebSocketService = /** @class */ (function () {
                 return id !== webSocketId;
             });
             if (_this.webSockets[userId].length === 0) {
-                delete _this.webSockets[userId];
+                _this.removeUser(userId);
             }
         };
         this.removeUser = function (userId) { return delete _this.webSockets[userId]; };

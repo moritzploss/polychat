@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-var-requires */
@@ -7,6 +8,7 @@ const uuid = require('uuid/v4');
 const { WebSocketService } = require('../../dist/services/webSockets');
 
 const userId = uuid();
+const userId2 = uuid();
 const webSocketId = `${userId}--${uuid()}`;
 const webSocketId2 = `${userId}--${uuid()}`;
 let webSocketService;
@@ -47,5 +49,21 @@ describe('the WebSocket service removeWebSocket function', () => {
     webSocketService.addWebSocket(webSocketId, userId);
     webSocketService.removeWebSocket(webSocketId, userId);
     expect(webSocketService.getWebSocketsByUserId(userId)).not.contains(webSocketId);
+  });
+});
+
+describe('the WebSocket service getUserId function', () => {
+  it('should extract the userId from a webSocketId', () => {
+    expect(webSocketService.getUserId(webSocketId)).to.equal(userId);
+  });
+});
+
+describe('the WebSocket service hasWebSockets function', () => {
+  it('should return true if user has associated webSockets', () => {
+    webSocketService.addWebSocket(webSocketId, mockSocket);
+    expect(webSocketService.hasWebSockets(userId)).to.be.true;
+  });
+  it('should return false if user has no associated webSockets', () => {
+    expect(webSocketService.hasWebSockets(userId)).to.be.false;
   });
 });
