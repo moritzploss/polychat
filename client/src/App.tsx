@@ -7,7 +7,6 @@ import { ReduxStoreContents, UserData } from './types/types';
 import './App.css';
 
 const App = ({ session }: { user: UserData; session: any }): JSX.Element => {
-  console.log(session);
   return <Redirect to={session.authenticated ? '/' : '/login'} />;
 };
 

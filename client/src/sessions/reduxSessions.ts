@@ -4,7 +4,6 @@ const validateSession = async (session: any): Promise<boolean> => {
   const res = await fetch('/api/validate-session', {
     credentials: 'include',
   });
-  console.log('validating session');
   return res.status === 200;
 };
 
