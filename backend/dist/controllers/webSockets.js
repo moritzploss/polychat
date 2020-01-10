@@ -7,13 +7,15 @@ var authenticateWebSocket = function (webSocket, req, next) { return ((req.param
     ? next()
     : webSocket.close()); };
 exports.authenticateWebSocket = authenticateWebSocket;
-var onOpen = function (webSocket, socketId) {
-    webSocketService_1.webSocketService.addWebSocket(socketId, webSocket);
-    logging_1.logger.info("connection opened on websocket " + socketId);
-    webSocket.send('welcome');
+var onOpen = function (webSocket, webSocketId) {
+    webSocketService_1.webSocketService.addWebSocket(webSocketId, webSocket);
+    logging_1.logger.info("connection opened on websocket " + webSocketId);
+    var userId = webSocketService_1.webSocketService.getUserId(webSocketId);
+    parcelService_1.parcelService.deliverSetupParcel(userId);
 };
 var onMessage = function (webSocket, data) {
-    parcelService_1.parcelService.receive(data);
+    var parcel = JSON.parse(data);
+    parcelService_1.parcelService.receive(parcel);
     logging_1.logger.info('message received');
 };
 var onClose = function (socketId) {

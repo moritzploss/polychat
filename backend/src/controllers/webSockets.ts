@@ -13,14 +13,16 @@ const authenticateWebSocket = (webSocket: ws, req: Request, next: NextFunction):
     : webSocket.close()
 );
 
-const onOpen = (webSocket: ws, socketId: string): void => {
-  webSocketService.addWebSocket(socketId, webSocket);
-  logger.info(`connection opened on websocket ${socketId}`);
-  webSocket.send('welcome');
+const onOpen = (webSocket: ws, webSocketId: string): void => {
+  webSocketService.addWebSocket(webSocketId, webSocket);
+  logger.info(`connection opened on websocket ${webSocketId}`);
+  const userId = webSocketService.getUserId(webSocketId);
+  parcelService.deliverSetupParcel(userId);
 };
 
-const onMessage = (webSocket: ws, data: Parcel): void => {
-  parcelService.receive(data);
+const onMessage = (webSocket: ws, data: string): void => {
+  const parcel = JSON.parse(data);
+  parcelService.receive(parcel);
   logger.info('message received');
 };
 
