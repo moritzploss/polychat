@@ -1,9 +1,9 @@
 import * as ws from 'ws';
 
-import { WebSocketDetails } from '../types';
+import { WebSocketData } from '../types';
 
 class WebSocketService {
-  webSockets: { [x: string]: WebSocketDetails[] };
+  webSockets: { [x: string]: WebSocketData[] };
 
   constructor() {
     this.webSockets = {};
@@ -21,7 +21,7 @@ class WebSocketService {
     Boolean(this.getWebSocketsByUserId(userId).length)
   );
 
-  getWebSocketsByUserId = (userId: string): WebSocketDetails[] => (
+  getWebSocketsByUserId = (userId: string): WebSocketData[] => (
     this.webSockets[userId]
       ? this.webSockets[userId]
       : []

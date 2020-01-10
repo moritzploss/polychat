@@ -1,6 +1,13 @@
 import { MongooseDocument } from 'mongoose';
 import * as ws from 'ws';
 
+export interface Parcel {
+  type: string;
+  senderId: string;
+  receiverId: string;
+  body?: Record<string, any>;
+}
+
 export interface UserCredentials {
   name: string;
   language: string;
@@ -23,7 +30,7 @@ export interface UserData {
   id: string;
 }
 
-export interface WebSocketDetails {
+export interface WebSocketData {
   webSocket: ws;
   webSocketId: string;
 }
