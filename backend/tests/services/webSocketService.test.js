@@ -3,7 +3,7 @@
 const { expect } = require('chai');
 const uuid = require('uuid/v4');
 
-const { WebSocketService } = require('../../dist/services/webSockets');
+const { WebSocketService } = require('../../dist/services/webSocketService');
 const { mockSocket } = require('../mocks');
 
 const userId = uuid();
@@ -53,6 +53,7 @@ describe('the WebSocket service getUserId function', () => {
 describe('the WebSocket service hasWebSockets function', () => {
   it('should return true if user has associated webSockets', () => {
     webSocketService.addWebSocket(webSocketId, mockSocket);
+    webSocketService.addWebSocket(webSocketId2, mockSocket);
     expect(webSocketService.hasWebSockets(userId)).to.be.true;
   });
   it('should return false if user has no associated webSockets', () => {

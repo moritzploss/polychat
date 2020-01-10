@@ -2,8 +2,8 @@ import * as ws from 'ws';
 
 import { Parcel, WebSocketData } from '../types';
 
-import { webSocketService, WebSocketService } from './webSockets';
 import { logger } from '../logging';
+import { webSocketService, WebSocketService } from './webSocketService';
 
 const logUnknownParcel = (parcel: Parcel): void => {
   logger.info({
@@ -26,12 +26,12 @@ class ParcelService {
       .forEach((webSocket: ws) => webSocket.send(parcel));
   };
 
-  receive = (parcel: Parcel, onUnknownParcel = logUnknownParcel): void => {
+  receive = (parcel: Parcel): void => {
     switch (parcel.type) {
       case 'DIRECT MESSAGE':
         return this.deliver(parcel);
       default:
-        return onUnknownParcel(parcel);
+        return logUnknownParcel(parcel);
     }
   };
 }

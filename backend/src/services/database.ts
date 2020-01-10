@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
-import { User } from '../schemas/user';
 import { logger } from '../logging';
+import { User } from '../schemas/user';
 
 // const session = require('express-session');
 // const mongoStore = require('connect-mongo')(session);

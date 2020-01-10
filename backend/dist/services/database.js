@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = require("mongoose");
-var user_1 = require("../schemas/user");
 var logging_1 = require("../logging");
+var user_1 = require("../schemas/user");
 // const session = require('express-session');
 // const mongoStore = require('connect-mongo')(session);
 var connectDatabase = function () { return __awaiter(void 0, void 0, void 0, function () {

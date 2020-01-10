@@ -4,12 +4,12 @@ import express = require('express');
 import expressWs = require('express-ws');
 
 expressWs(express());
-const socketsRouter = express.Router();
+const webSocketsRouter = express.Router();
 
-socketsRouter.ws(
+webSocketsRouter.ws(
   '/clients/:id',
   wsController.authenticateWebSocket,
   wsController.setupEventListeners,
 );
 
-export { socketsRouter };
+export { webSocketsRouter };

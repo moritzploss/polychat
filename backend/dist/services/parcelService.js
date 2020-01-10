@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var webSockets_1 = require("./webSockets");
 var logging_1 = require("../logging");
+var webSocketService_1 = require("./webSocketService");
 var logUnknownParcel = function (parcel) {
     logging_1.logger.info({
         message: "received parcel of unknown type " + parcel.type,
@@ -33,5 +33,5 @@ var ParcelService = /** @class */ (function () {
     return ParcelService;
 }());
 exports.ParcelService = ParcelService;
-var parcelService = new ParcelService(webSockets_1.webSocketService);
+var parcelService = new ParcelService(webSocketService_1.webSocketService);
 exports.parcelService = parcelService;

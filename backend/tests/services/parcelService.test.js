@@ -4,8 +4,8 @@
 const { expect } = require('chai');
 const uuid = require('uuid/v4');
 
+const { ParcelService } = require('../../dist/services/parcelService');
 const { WebSocketService } = require('../../dist/services/webSockets');
-const { ParcelService } = require('../../dist/services/parcels');
 
 const userId = uuid();
 let parcelService;

@@ -1,34 +1,38 @@
 import { Request, NextFunction } from 'express-serve-static-core';
 import * as ws from 'ws';
 
+import { Parcel } from '../types';
+
 import { logger } from '../logging';
-import { webSocketService } from '../services/webSockets';
+import { parcelService } from '../services/parcelService';
+import { webSocketService } from '../services/webSocketService';
 
-const authenticateWebSocket = (webSocket: ws, req: Request, next: NextFunction): void => {
-  return (req.params.id.startsWith(req.session.userId) && req.session.authorized)
+const authenticateWebSocket = (webSocket: ws, req: Request, next: NextFunction): void => (
+  (req.params.id.startsWith(req.session.userId) && req.session.authorized)
     ? next()
-    : webSocket.close();
-};
+    : webSocket.close()
+);
 
-const onOpen = (webSocket: ws, req: Request, socketId: string): void => {
+const onOpen = (webSocket: ws, socketId: string): void => {
   webSocketService.addWebSocket(socketId, webSocket);
-  logger.info(`connection opened on socket ${socketId}`);
-  return webSocket.send('welcome');
+  logger.info(`connection opened on websocket ${socketId}`);
+  webSocket.send('welcome');
 };
 
-const onMessage = (webSocket: ws, data: WebSocket) => {
-  return logger.info('message received');
+const onMessage = (webSocket: ws, data: Parcel): void => {
+  parcelService.receive(data);
+  logger.info('message received');
 };
 
-const onClose = (webSocket: ws, req: Request) => {
-  webSocketService.removeWebSocket(req.params.id);
-  return logger.info(`connection closed ${req.params.id}`);
+const onClose = (socketId: string): void => {
+  webSocketService.removeWebSocket(socketId);
+  logger.info(`connection closed on websocket ${socketId}`);
 };
 
 const setupEventListeners = (webSocket: ws, req: Request): void => {
-  onOpen(webSocket, req, req.params.id);
+  onOpen(webSocket, req.params.id);
   webSocket.on('message', onMessage);
-  webSocket.on('close', () => onClose(webSocket, req));
+  webSocket.on('close', () => onClose(req.params.id));
 };
 
 export { authenticateWebSocket, setupEventListeners };

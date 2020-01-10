@@ -1,8 +1,8 @@
-import { socketsRouter } from './routes/webSockets';
-import { apiRouter } from './routes/api';
 import { loggStream } from './logging';
+import { apiRouter } from './routes/api';
 import { connectDatabase, addTestUser } from './services/database';
 import { sessionConfig } from './sessions/expressSession';
+import { webSocketsRouter } from './routes/webSockets';
 
 import bodyParser = require('body-parser');
 import express = require('express');
@@ -19,7 +19,7 @@ app.use(morgan('tiny', { stream: loggStream }));
 
 connectDatabase().then(() => addTestUser());
 
-app.use('/api/websockets', socketsRouter);
+app.use('/api/websockets', webSocketsRouter);
 app.use('/api', apiRouter);
 
 export default app;
