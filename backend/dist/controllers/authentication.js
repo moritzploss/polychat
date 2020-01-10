@@ -48,6 +48,7 @@ var authenticateRequest = function (req, res) { return __awaiter(void 0, void 0,
                             .json({ error: 'wrong email or password' });
                     }
                     req.session.authorized = true;
+                    req.session.userId = user.id;
                     return res.json(login_1.toCredentials(user));
                 })];
             case 1:

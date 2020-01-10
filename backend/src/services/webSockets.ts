@@ -1,18 +1,35 @@
+import * as ws from 'ws';
+
+import { WebSocketDetails } from '../types';
+
+import uuid = require('uuid/v4');
+
 export class WebSocketService {
-  webSockets: { [x: string]: string[] };
+  webSockets: { [x: string]: WebSocketDetails[] };
 
   constructor() {
     this.webSockets = {};
   }
 
-  addWebSocket = (webSocketId: string, userId: string): void => {
+  getUserId = (webSocketId: string): string => webSocketId.split('--')[0];
+
+  addWebSocket = (webSocketId: string, webSocket: ws): void => {
+    const userId = this.getUserId(webSocketId);
+    const webSocketData = {
+      webSocket,
+      webSocketId,
+    };
     this.webSockets[userId] = this.webSockets[userId]
-      ? [...this.webSockets[userId], webSocketId]
-      : [webSocketId];
+      ? [...this.webSockets[userId], webSocketData]
+      : [webSocketData];
   };
 
-  removeWebSocket = (clientId: string, userId: string): void => {
-    this.webSockets[userId] = this.webSockets[userId].filter((id: string) => id !== clientId);
+  removeWebSocket = (webSocketId: string): void => {
+    const userId = this.getUserId(webSocketId);
+    this.webSockets[userId] = this.webSockets[userId].filter(({ webSocketId: id }) => id !== webSocketId);
+    if (this.webSockets[userId].length === 0) {
+      delete this.webSockets[userId];
+    }
   };
 
   removeUser = (userId: string): boolean => delete this.webSockets[userId];
@@ -21,11 +38,11 @@ export class WebSocketService {
     Boolean(this.getWebSocketsByUserId(userId).length)
   );
 
-  getWebSocketsByUserId = (userId: string): string[] => (
+  getWebSocketsByUserId = (userId: string): WebSocketDetails[] => (
     this.webSockets[userId]
       ? this.webSockets[userId]
       : []
   );
 }
 
-export const webSockets = new WebSocketService();
+export const webSocketService = new WebSocketService();

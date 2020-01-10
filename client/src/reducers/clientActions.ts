@@ -5,4 +5,8 @@ const addWebsocket = (userId: string): { type: string; websocket: WebSocket } =>
   websocket: openNewWebSocket(userId),
 });
 
-export { addWebsocket };
+const removeWebsocket = (): { type: string } => ({
+  type: 'REMOVE WEBSOCKET',
+});
+
+export { addWebsocket, removeWebsocket };

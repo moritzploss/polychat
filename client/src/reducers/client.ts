@@ -7,6 +7,11 @@ const clientReducer = (client = {}, action: any): Client => {
         ...client,
         websocket: action.websocket,
       };
+    case 'REMOVE WEBSOCKET':
+      return {
+        ...client,
+        websocket: undefined,
+      };
     default:
       return client;
   }

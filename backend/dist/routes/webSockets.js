@@ -6,8 +6,4 @@ var expressWs = require("express-ws");
 expressWs(express());
 var socketsRouter = express.Router();
 exports.socketsRouter = socketsRouter;
-socketsRouter.ws('/clients/:id', function (webSocket, req) {
-    wsController.onOpen(webSocket, req, req.params.id);
-    webSocket.on('message', wsController.onMessage);
-    webSocket.on('close', wsController.onClose);
-});
+socketsRouter.ws('/clients/:id', wsController.authenticateWebSocket, wsController.setupEventListeners);

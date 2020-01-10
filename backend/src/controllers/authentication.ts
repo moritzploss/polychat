@@ -12,6 +12,8 @@ const authenticateRequest = async (req: Request, res: Response): Promise<void> =
     }
 
     req.session.authorized = true;
+    req.session.userId = user.id;
+
     return res.json(toCredentials(user));
   });
 };

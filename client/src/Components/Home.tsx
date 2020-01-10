@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import uuid from 'uuid/v4';
 
 import * as clientActions from '../reducers/clientActions';
 import { ReduxStoreContents } from '../types/types';
@@ -9,9 +10,11 @@ interface HomeProps extends ReduxStoreContents {
   addWebsocket: Function;
 }
 
+const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
+
 const Home = ({ client, session, addWebsocket }: HomeProps): JSX.Element => {
-  if (!client.websocket) {
-    addWebsocket(session.user.id);
+  if (!client.websocket && session.user.id) {
+    addWebsocket(generateWebSocketId(session.user.id));
   }
 
   return (

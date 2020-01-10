@@ -14,4 +14,4 @@ export interface ReduxStoreContents {
 
 export type UserData = Record<string, any>;
 
-declare module 'redux-react-session';
+export type LoginResponseData = Record<string, any>;
