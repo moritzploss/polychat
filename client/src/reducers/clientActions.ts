@@ -1,12 +1,12 @@
-import { openNewWebSocket } from '../websockets/websockets';
+import { ParcelService } from '../websockets/parcelService';
 
-const addWebsocket = (userId: string): { type: string; websocket: WebSocket } => ({
-  type: 'ADD WEBSOCKET',
-  websocket: openNewWebSocket(userId),
+const addParcelService = (websocket: WebSocket): { type: string; parcelService: ParcelService } => ({
+  type: 'ADD PARCELSERVICE',
+  parcelService: new ParcelService(websocket),
 });
 
-const removeWebsocket = (): { type: string } => ({
-  type: 'REMOVE WEBSOCKET',
+const removeParcelService = (): { type: string } => ({
+  type: 'REMOVE PARCELSERVICE',
 });
 
-export { addWebsocket, removeWebsocket };
+export { addParcelService, removeParcelService };

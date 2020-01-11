@@ -5,20 +5,21 @@ import { sessionService } from 'redux-react-session';
 import * as clientActions from '../reducers/clientActions';
 import { ReduxStoreContents } from '../types/types';
 
-const logout = async (removeWebsocket: Function): Promise<void> => {
+const logout = async (removeParcelService: Function): Promise<void> => {
   const res = await fetch('/api/destroy-session');
   if (res.status === 200) {
-    removeWebsocket();
-    sessionService.deleteSession();
-    sessionService.deleteUser();
+    console.log('removing');
+    await sessionService.deleteUser();
+    await sessionService.deleteSession();
+    removeParcelService();
   }
 };
 
-const Navigation = ({ removeWebsocket }: {removeWebsocket: Function}): JSX.Element => {
+const Navigation = ({ removeParcelService }: {removeParcelService: Function}): JSX.Element => {
   return (
     <ul>
       <li>
-        <button type="button" onClick={(): Promise<void> => logout(removeWebsocket)}>
+        <button type="button" onClick={(): Promise<void> => logout(removeParcelService)}>
           Logout
         </button>
       </li>

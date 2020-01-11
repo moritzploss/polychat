@@ -5,16 +5,19 @@ import uuid from 'uuid/v4';
 import * as clientActions from '../reducers/clientActions';
 import { ReduxStoreContents } from '../types/types';
 import Navigation from './Navigation';
+import { openNewWebSocket } from '../websockets/websockets';
+
 
 interface HomeProps extends ReduxStoreContents {
-  addWebsocket: Function;
+  addParcelService: Function;
 }
 
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
 
-const Home = ({ client, session, addWebsocket }: HomeProps): JSX.Element => {
-  if (!client.websocket && session.user.id) {
-    addWebsocket(generateWebSocketId(session.user.id));
+const Home = ({ client, session, addParcelService }: HomeProps): JSX.Element => {
+  if (session.user.id && !client.parcelService.webSocket) {
+    const webSocket = openNewWebSocket(generateWebSocketId(session.user.id));
+    addParcelService(webSocket);
   }
 
   return (

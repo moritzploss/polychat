@@ -1,16 +1,19 @@
 import { Client } from '../types/types';
 
-const clientReducer = (client = {}, action: any): Client => {
+const initialState = { parcelService: { close: (): void => { } } };
+
+const clientReducer = (client = initialState, action: any): Client => {
   switch (action.type) {
-    case 'ADD WEBSOCKET':
+    case 'ADD PARCELSERVICE':
       return {
         ...client,
-        websocket: action.websocket,
+        parcelService: action.parcelService,
       };
-    case 'REMOVE WEBSOCKET':
+    case 'REMOVE PARCELSERVICE':
+      client.parcelService.close();
       return {
         ...client,
-        websocket: undefined,
+        parcelService: initialState.parcelService,
       };
     default:
       return client;

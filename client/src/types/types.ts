@@ -1,9 +1,11 @@
+import { ParcelService } from '../websockets/parcelService';
+
 export interface Action {
   type: string;
 }
 
 export interface Client {
-  websocket?: WebSocket;
+  parcelService: ParcelService | any;
 }
 
 export interface ReduxStoreContents {
