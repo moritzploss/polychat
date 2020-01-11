@@ -7,7 +7,6 @@ import { ReduxStoreContents } from '../types/types';
 import Navigation from './Navigation';
 import { openNewWebSocket } from '../websockets/websockets';
 
-
 interface HomeProps extends ReduxStoreContents {
   addParcelService: Function;
 }

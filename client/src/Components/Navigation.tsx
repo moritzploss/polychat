@@ -8,7 +8,6 @@ import { ReduxStoreContents } from '../types/types';
 const logout = async (removeParcelService: Function): Promise<void> => {
   const res = await fetch('/api/destroy-session');
   if (res.status === 200) {
-    console.log('removing');
     await sessionService.deleteUser();
     await sessionService.deleteSession();
     removeParcelService();
