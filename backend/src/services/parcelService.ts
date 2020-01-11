@@ -12,20 +12,20 @@ const logUnknownParcel = (parcel: Parcel): void => {
   });
 };
 
+const createParcel = ({ type, receiverId, senderId = 'system', body = {}, kwargs = {} }): Parcel => ({
+  ...kwargs,
+  type,
+  receiverId,
+  senderId,
+  body,
+});
+
 class ParcelService {
   webSocketService: WebSocketService;
 
   constructor(wsService: WebSocketService) {
     this.webSocketService = wsService;
   }
-
-  createParcel = (type: string, receiverId: string, senderId = 'system', body = {}, kwargs = {}): Parcel => ({
-    ...kwargs,
-    type,
-    receiverId,
-    senderId,
-    body: JSON.stringify(body),
-  });
 
   deliver = (parcel: Parcel): void => {
     this.webSocketService
@@ -34,11 +34,12 @@ class ParcelService {
       .forEach((webSocket: ws) => webSocket.send(JSON.stringify(parcel)));
   };
 
-  deliverSetupParcel = (userId: string): void => {
-    const parcel = this.createParcel(
-      'SETUP CLIENT',
-      userId,
-    );
+  deliverSetupParcel = (userId: string, messages: Record<string, any>): void => {
+    const parcel = createParcel({
+      type: 'SETUP CLIENT',
+      receiverId: userId,
+      body: { messages },
+    });
     this.deliver(parcel);
   };
 

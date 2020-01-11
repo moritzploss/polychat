@@ -6,6 +6,7 @@ import { Parcel } from '../types';
 import { logger } from '../logging';
 import { parcelService } from '../services/parcelService';
 import { webSocketService } from '../services/webSocketService';
+import { getUserMessages } from '../services/database';
 
 const authenticateWebSocket = (webSocket: ws, req: Request, next: NextFunction): void => (
   (req.params.id.startsWith(req.session.userId) && req.session.authorized)
@@ -17,7 +18,7 @@ const onOpen = (webSocket: ws, webSocketId: string): void => {
   webSocketService.addWebSocket(webSocketId, webSocket);
   logger.info(`connection opened on websocket ${webSocketId}`);
   const userId = webSocketService.getUserId(webSocketId);
-  parcelService.deliverSetupParcel(userId);
+  getUserMessages(userId, (messages) => parcelService.deliverSetupParcel(userId, messages));
 };
 
 const onMessage = (webSocket: ws, data: string): void => {

@@ -42,10 +42,8 @@ var user_1 = require("../schemas/user");
 // const session = require('express-session');
 // const mongoStore = require('connect-mongo')(session);
 var connectDatabase = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var credentials;
     return __generator(this, function (_a) {
-        credentials = process.env.MONGO_USER + ":" + process.env.MONGO_PASSWORD;
-        mongoose.connect("mongodb+srv://" + credentials + "@polychat-afdg1.mongodb.net/test?retryWrites=true&w=majority", {
+        mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
@@ -66,6 +64,9 @@ var addTestUser = function () { return __awaiter(void 0, void 0, void 0, functio
                     password: process.env.TEST_USER_PASSWORD,
                     name: 'Test User',
                     language: 'english',
+                    messages: {
+                        test: [1, 2, 3],
+                    },
                 });
                 return [4 /*yield*/, testUser.save(function () { })];
             case 1:
@@ -75,3 +76,7 @@ var addTestUser = function () { return __awaiter(void 0, void 0, void 0, functio
     });
 }); };
 exports.addTestUser = addTestUser;
+var getUserMessages = function (userId, callback) {
+    user_1.User.findById(userId, function (error, data) { return callback(error ? {} : data.messages); });
+};
+exports.getUserMessages = getUserMessages;

@@ -5,7 +5,7 @@ export interface Parcel {
   type: string;
   senderId: string;
   receiverId: string;
-  body?: string;
+  body?: Record<string, any>;
 }
 
 export interface UserCredentials {

@@ -22,6 +22,7 @@ var schema = ts_mongoose_1.createSchema({
         required: true,
         default: Date.now,
     }),
+    messages: ts_mongoose_1.Type.object().of({}),
 });
 // eslint-disable-next-line func-names
 schema.pre('save', function (next) {

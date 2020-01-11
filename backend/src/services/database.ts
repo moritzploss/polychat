@@ -7,9 +7,8 @@ import { User } from '../schemas/user';
 // const mongoStore = require('connect-mongo')(session);
 
 const connectDatabase = async (): Promise<mongoose.Connection> => {
-  const credentials = `${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}`;
   mongoose.connect(
-    `mongodb+srv://${credentials}@polychat-afdg1.mongodb.net/test?retryWrites=true&w=majority`,
+    process.env.MONGO_CONNECTION_STRING,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -27,8 +26,15 @@ const addTestUser = async (): Promise<void> => {
     password: process.env.TEST_USER_PASSWORD,
     name: 'Test User',
     language: 'english',
+    messages: {
+      test: [1, 2, 3],
+    },
   });
   await testUser.save(() => {});
 };
 
-export { connectDatabase, addTestUser };
+const getUserMessages = (userId: string, callback: Function): void => {
+  User.findById(userId, (error: Error, data) => callback(error ? {} : data.messages));
+};
+
+export { connectDatabase, addTestUser, getUserMessages };

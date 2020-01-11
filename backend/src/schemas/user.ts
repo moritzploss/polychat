@@ -24,10 +24,7 @@ const schema = createSchema({
     required: true,
     default: Date.now,
   }),
-  // messages: Type.object({
-  //   required: true,
-  //   default: Object,
-  // }),
+  messages: Type.object().of({}),
 });
 
 // eslint-disable-next-line func-names
