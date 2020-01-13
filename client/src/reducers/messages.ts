@@ -7,8 +7,10 @@ const messageReducer = (messages = initialState, action: any): Record<string, Pa
   switch (action.type) {
     case 'ADD DIRECTMESSAGE':
       return addDirectMessage(messages, action.parcel);
+    case 'REPLACE MESSAGE HISTORY':
+      return action.messages;
     default:
-      return initialState;
+      return messages;
   }
 };
 

@@ -15,14 +15,16 @@ class ParcelService {
 
   receive = (data: string): void => {
     const parcel = JSON.parse(data);
+    console.log(parcel);
     switch (parcel.type) {
       case 'DIRECT MESSAGE':
         return this.actions.addDirectMessage(parcel);
-      case 'UPDATE MESSAGES':
-        return this.actions.addDirectMessage(parcel);
+      case 'REPLACE MESSAGE HISTORY':
+        return this.actions.replaceMessageHistory(parcel);
       case 'UPDATE CONTACTLIST':
-        console.log(parcel);
         return this.actions.updateContactList(parcel);
+      case 'UPDATE CONNECTED USERS':
+        return this.actions.updateConnectedUsers(parcel);
       default:
         return console.log(parcel);
     }

@@ -1,15 +1,25 @@
 import { createParcel } from '../services/parcelService';
 import { webSocketService } from '../services/webSocketService';
 
+import { UserCredentials } from '../types';
+
 const messageHistoryParcel = (userId: string, messages: Record<string, any>) => createParcel({
-  type: 'UPDATE MESSAGES',
+  type: 'REPLACE MESSAGE HISTORY',
   receiverId: userId,
   body: {
     messages,
   },
 });
 
-const contactListParcel = (userId: string, contactList: string[]) => createParcel({
+const connectedUserParcel = (userId: string) => createParcel({
+  type: 'UPDATE CONNECTED USERS',
+  receiverId: userId,
+  body: {
+    connectedUsers: webSocketService.getConnectedUsers(),
+  },
+});
+
+const contactListParcel = (userId: string, contactList: UserCredentials[]) => createParcel({
   type: 'UPDATE CONTACTLIST',
   receiverId: userId,
   body: {
@@ -18,4 +28,4 @@ const contactListParcel = (userId: string, contactList: string[]) => createParce
   },
 });
 
-export { messageHistoryParcel, contactListParcel };
+export { messageHistoryParcel, contactListParcel, connectedUserParcel };

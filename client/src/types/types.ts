@@ -19,12 +19,12 @@ export interface Parcel {
 }
 
 export interface ReduxStoreContents {
-  client: Record<string, any>;
-  session: {
+  client?: Record<string, any>;
+  session?: {
     user: Record<string, any>;
   };
-  messages: Record<string, Parcel[]>;
-  parcelService: any;
+  messages?: Record<string, Parcel[]>;
+  parcelService?: any;
 }
 
 export type UserData = Record<string, any>;

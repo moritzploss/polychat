@@ -5,6 +5,11 @@ const messageActions = {
     type: 'ADD DIRECTMESSAGE',
     parcel,
   }),
+
+  replaceMessageHistory: (parcel: Parcel): { type: string; messages: Parcel[] } => ({
+    type: 'REPLACE MESSAGE HISTORY',
+    messages: parcel.body.messages ? parcel.body.messages : [],
+  }),
 };
 
 export { messageActions };

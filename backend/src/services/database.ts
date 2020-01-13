@@ -44,4 +44,10 @@ const getUserContacts = (userId: string, callback: Function): void => {
   User.findById(userId, (error: Error, data) => callback(error ? [] : data.contacts));
 };
 
-export { connectDatabase, addTestUser, getUserMessages, getUserContacts };
+const getUsersById = (userIds: string[], callback: Function): void => {
+  User.find({
+    _id: { $in: userIds.map((id) => mongoose.Types.ObjectId(id)) },
+  }, (error: Error, users: mongoose.Document) => callback(error ? [] : users));
+};
+
+export { connectDatabase, addTestUser, getUserMessages, getUserContacts, getUsersById };

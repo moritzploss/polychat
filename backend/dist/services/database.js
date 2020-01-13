@@ -87,3 +87,9 @@ var getUserContacts = function (userId, callback) {
     user_1.User.findById(userId, function (error, data) { return callback(error ? [] : data.contacts); });
 };
 exports.getUserContacts = getUserContacts;
+var getUsersById = function (userIds, callback) {
+    user_1.User.find({
+        _id: { $in: userIds.map(function (id) { return mongoose.Types.ObjectId(id); }) },
+    }, function (error, users) { return callback(error ? [] : users); });
+};
+exports.getUsersById = getUsersById;

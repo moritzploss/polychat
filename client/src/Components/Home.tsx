@@ -10,7 +10,8 @@ import { openNewWebSocket } from '../websockets/websockets';
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
 
 const Home = ({ store, ...actionBundle }: Record<string, any>): JSX.Element => {
-  console.log(store.client);
+  console.log(store);
+  console.log('messages ', store.messages);
   if (store.session.user.id && !store.parcelService.webSocket) {
     const webSocket = openNewWebSocket(generateWebSocketId(store.session.user.id));
     actionBundle.addParcelService(webSocket, actionBundle);
