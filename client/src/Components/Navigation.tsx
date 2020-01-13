@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 
-import * as clientActions from '../reducers/clientActions';
+import { clientActions } from '../reducers/clientActions';
 import { ReduxStoreContents } from '../types/types';
 
 const logout = async (removeParcelService: Function): Promise<void> => {

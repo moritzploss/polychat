@@ -27,7 +27,17 @@ class WebSocketService {
       : []
   );
 
+  getAllWebSockets = (): WebSocketData[] => {
+    let webSocketData = [];
+    Object.values(this.webSockets).forEach((dataSet: WebSocketData[]) => {
+      webSocketData = [...webSocketData, ...dataSet];
+    });
+    return webSocketData;
+  };
+
   getUserId = (webSocketId: string): string => webSocketId.split('--')[0];
+
+  getConnectedUsers = (): string[] => Object.keys(this.webSockets);
 
   removeWebSocket = (webSocketId: string): void => {
     const userId = this.getUserId(webSocketId);

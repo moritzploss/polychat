@@ -1,10 +1,10 @@
 import { Request, NextFunction } from 'express-serve-static-core';
 import * as ws from 'ws';
 
-import { Parcel } from '../types';
-
 import { logger } from '../logging';
 import { parcelService } from '../services/parcelService';
+import { setupParcel, contactListParcel } from '../parcels/defaults';
+
 import { webSocketService } from '../services/webSocketService';
 import { getUserMessages } from '../services/database';
 
@@ -18,7 +18,8 @@ const onOpen = (webSocket: ws, webSocketId: string): void => {
   webSocketService.addWebSocket(webSocketId, webSocket);
   logger.info(`connection opened on websocket ${webSocketId}`);
   const userId = webSocketService.getUserId(webSocketId);
-  getUserMessages(userId, (messages) => parcelService.deliverSetupParcel(userId, messages));
+  getUserMessages(userId, (messages: Record<string, any>) => parcelService.deliver(setupParcel(userId, messages)));
+  parcelService.broadCast(contactListParcel());
 };
 
 const onMessage = (webSocket: ws, data: string): void => {

@@ -1,4 +1,4 @@
-import { ParcelService } from '../websockets/parcelService';
+import { ParcelService } from '../services/parcelService';
 
 export interface Action {
   type: string;
@@ -6,12 +6,15 @@ export interface Action {
 
 export interface Client {
   parcelService: ParcelService | any;
+  messages: Record<string, any>;
+  connectedUsers: string[];
 }
 
 export interface ReduxStoreContents {
   client: Record<string, any>;
-  user: Record<string, string>;
-  session: Record<string, any>;
+  session: {
+    user: Record<string, any>;
+  };
 }
 
 export type UserData = Record<string, any>;

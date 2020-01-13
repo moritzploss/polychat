@@ -20,7 +20,15 @@ var WebSocketService = /** @class */ (function () {
         this.getWebSocketsByUserId = function (userId) { return (_this.webSockets[userId]
             ? _this.webSockets[userId]
             : []); };
+        this.getAllWebSockets = function () {
+            var webSocketData = [];
+            Object.values(_this.webSockets).forEach(function (dataSet) {
+                webSocketData = __spreadArrays(webSocketData, dataSet);
+            });
+            return webSocketData;
+        };
         this.getUserId = function (webSocketId) { return webSocketId.split('--')[0]; };
+        this.getConnectedUsers = function () { return Object.keys(_this.webSockets); };
         this.removeWebSocket = function (webSocketId) {
             var userId = _this.getUserId(webSocketId);
             _this.webSockets[userId] = _this.webSockets[userId].filter(function (_a) {

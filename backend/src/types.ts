@@ -4,8 +4,9 @@ import * as ws from 'ws';
 export interface Parcel {
   type: string;
   senderId: string;
-  receiverId: string;
+  receiverId?: string;
   body?: Record<string, any>;
+  timeStamp: string;
 }
 
 export interface UserCredentials {

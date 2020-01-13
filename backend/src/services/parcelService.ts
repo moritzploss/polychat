@@ -12,8 +12,9 @@ const logUnknownParcel = (parcel: Parcel): void => {
   });
 };
 
-const createParcel = ({ type, receiverId, senderId = 'system', body = {}, kwargs = {} }): Parcel => ({
+const createParcel = ({ type, receiverId = 'all', senderId = 'system', body = {}, kwargs = {} }): Parcel => ({
   ...kwargs,
+  timeStamp: new Date().toLocaleString(),
   type,
   receiverId,
   senderId,
@@ -26,6 +27,12 @@ class ParcelService {
   constructor(wsService: WebSocketService) {
     this.webSocketService = wsService;
   }
+
+  broadCast = (parcel: Parcel): void => {
+    this.webSocketService
+      .getAllWebSockets()
+      .forEach(({ webSocket }: { webSocket: ws}) => webSocket.send(JSON.stringify(parcel)));
+  };
 
   deliver = (parcel: Parcel): void => {
     this.webSocketService
@@ -55,4 +62,4 @@ class ParcelService {
 
 const parcelService = new ParcelService(webSocketService);
 
-export { ParcelService, parcelService };
+export { ParcelService, parcelService, createParcel };

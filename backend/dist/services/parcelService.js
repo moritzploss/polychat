@@ -20,15 +20,24 @@ var logUnknownParcel = function (parcel) {
     });
 };
 var createParcel = function (_a) {
-    var type = _a.type, receiverId = _a.receiverId, _b = _a.senderId, senderId = _b === void 0 ? 'system' : _b, _c = _a.body, body = _c === void 0 ? {} : _c, _d = _a.kwargs, kwargs = _d === void 0 ? {} : _d;
-    return (__assign(__assign({}, kwargs), { type: type,
+    var type = _a.type, _b = _a.receiverId, receiverId = _b === void 0 ? 'all' : _b, _c = _a.senderId, senderId = _c === void 0 ? 'system' : _c, _d = _a.body, body = _d === void 0 ? {} : _d, _e = _a.kwargs, kwargs = _e === void 0 ? {} : _e;
+    return (__assign(__assign({}, kwargs), { timeStamp: new Date().toLocaleString(), type: type,
         receiverId: receiverId,
         senderId: senderId,
         body: body }));
 };
+exports.createParcel = createParcel;
 var ParcelService = /** @class */ (function () {
     function ParcelService(wsService) {
         var _this = this;
+        this.broadCast = function (parcel) {
+            _this.webSocketService
+                .getAllWebSockets()
+                .forEach(function (_a) {
+                var webSocket = _a.webSocket;
+                return webSocket.send(JSON.stringify(parcel));
+            });
+        };
         this.deliver = function (parcel) {
             _this.webSocketService
                 .getWebSocketsByUserId(parcel.receiverId)
