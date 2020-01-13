@@ -29,6 +29,9 @@ const addTestUser = async (): Promise<void> => {
     messages: {
       test: [1, 2, 3],
     },
+    contacts: [
+      '5e1c5a31511ff782a56c837b',
+    ],
   });
   await testUser.save(() => {});
 };
@@ -37,4 +40,8 @@ const getUserMessages = (userId: string, callback: Function): void => {
   User.findById(userId, (error: Error, data) => callback(error ? {} : data.messages));
 };
 
-export { connectDatabase, addTestUser, getUserMessages };
+const getUserContacts = (userId: string, callback: Function): void => {
+  User.findById(userId, (error: Error, data) => callback(error ? [] : data.contacts));
+};
+
+export { connectDatabase, addTestUser, getUserMessages, getUserContacts };

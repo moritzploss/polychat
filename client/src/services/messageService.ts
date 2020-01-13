@@ -1,4 +1,4 @@
-import { Parcel } from '../types';
+import { Parcel } from '../types/types';
 
 const addDirectMessage = (messages: Record<string, any>, parcel: Parcel): Record<string, any> => {
   const newMessages = messages[parcel.senderId]

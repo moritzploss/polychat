@@ -3,10 +3,10 @@ import * as ws from 'ws';
 
 import { logger } from '../logging';
 import { parcelService } from '../services/parcelService';
-import { setupParcel, contactListParcel } from '../parcels/defaults';
+import { messageHistoryParcel, contactListParcel } from '../parcels/defaults';
 
 import { webSocketService } from '../services/webSocketService';
-import { getUserMessages } from '../services/database';
+import { getUserMessages, getUserContacts } from '../services/database';
 
 const authenticateWebSocket = (webSocket: ws, req: Request, next: NextFunction): void => (
   (req.params.id.startsWith(req.session.userId) && req.session.authorized)
@@ -18,8 +18,8 @@ const onOpen = (webSocket: ws, webSocketId: string): void => {
   webSocketService.addWebSocket(webSocketId, webSocket);
   logger.info(`connection opened on websocket ${webSocketId}`);
   const userId = webSocketService.getUserId(webSocketId);
-  getUserMessages(userId, (messages: Record<string, any>) => parcelService.deliver(setupParcel(userId, messages)));
-  parcelService.broadCast(contactListParcel());
+  getUserMessages(userId, (messages: Record<string, any>) => parcelService.deliver(messageHistoryParcel(userId, messages)));
+  getUserContacts(userId, (contacts: string[]) => parcelService.deliver(contactListParcel(userId, contacts)));
 };
 
 const onMessage = (webSocket: ws, data: string): void => {

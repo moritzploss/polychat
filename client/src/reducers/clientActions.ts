@@ -1,5 +1,5 @@
 import { ParcelService } from '../services/parcelService';
-import { Parcel } from '../types';
+import { Parcel } from '../types/types';
 
 const clientActions = {
   addParcelService: (websocket: WebSocket, actions: Record<string, Function>): { type: string; parcelService: ParcelService } => ({

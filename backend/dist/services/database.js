@@ -67,6 +67,9 @@ var addTestUser = function () { return __awaiter(void 0, void 0, void 0, functio
                     messages: {
                         test: [1, 2, 3],
                     },
+                    contacts: [
+                        '5e1c5a31511ff782a56c837b',
+                    ],
                 });
                 return [4 /*yield*/, testUser.save(function () { })];
             case 1:
@@ -80,3 +83,7 @@ var getUserMessages = function (userId, callback) {
     user_1.User.findById(userId, function (error, data) { return callback(error ? {} : data.messages); });
 };
 exports.getUserMessages = getUserMessages;
+var getUserContacts = function (userId, callback) {
+    user_1.User.findById(userId, function (error, data) { return callback(error ? [] : data.contacts); });
+};
+exports.getUserContacts = getUserContacts;

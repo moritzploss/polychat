@@ -20,6 +20,8 @@ const schema = createSchema({
   language: Type.string({
     required: true,
   }),
+  contacts: Type.array().of(Type.string()),
+  inContactListOf: Type.array().of(Type.string()),
   createdAt: Type.date({
     required: true,
     default: Date.now,

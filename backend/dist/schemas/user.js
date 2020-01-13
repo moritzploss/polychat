@@ -18,6 +18,8 @@ var schema = ts_mongoose_1.createSchema({
     language: ts_mongoose_1.Type.string({
         required: true,
     }),
+    contacts: ts_mongoose_1.Type.array().of(ts_mongoose_1.Type.string()),
+    inContactListOf: ts_mongoose_1.Type.array().of(ts_mongoose_1.Type.string()),
     createdAt: ts_mongoose_1.Type.date({
         required: true,
         default: Date.now,

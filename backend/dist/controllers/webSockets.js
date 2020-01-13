@@ -13,8 +13,8 @@ var onOpen = function (webSocket, webSocketId) {
     webSocketService_1.webSocketService.addWebSocket(webSocketId, webSocket);
     logging_1.logger.info("connection opened on websocket " + webSocketId);
     var userId = webSocketService_1.webSocketService.getUserId(webSocketId);
-    database_1.getUserMessages(userId, function (messages) { return parcelService_1.parcelService.deliver(defaults_1.setupParcel(userId, messages)); });
-    parcelService_1.parcelService.broadCast(defaults_1.contactListParcel());
+    database_1.getUserMessages(userId, function (messages) { return parcelService_1.parcelService.deliver(defaults_1.messageHistoryParcel(userId, messages)); });
+    database_1.getUserContacts(userId, function (contacts) { return parcelService_1.parcelService.deliver(defaults_1.contactListParcel(userId, contacts)); });
 };
 var onMessage = function (webSocket, data) {
     var parcel = JSON.parse(data);

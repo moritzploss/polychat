@@ -1,20 +1,21 @@
 import { createParcel } from '../services/parcelService';
 import { webSocketService } from '../services/webSocketService';
 
-const contactListParcel = () => createParcel({
-  type: 'UPDATE CONNECTED USERS',
-  senderId: 'system',
-  body: {
-    connectedUsers: webSocketService.getConnectedUsers(),
-  },
-});
-
-const setupParcel = (userId: string, messages: Record<string, any>) => createParcel({
-  type: 'SETUP CLIENT',
+const messageHistoryParcel = (userId: string, messages: Record<string, any>) => createParcel({
+  type: 'UPDATE MESSAGES',
   receiverId: userId,
   body: {
     messages,
   },
 });
 
-export { contactListParcel, setupParcel };
+const contactListParcel = (userId: string, contacts: string[]) => createParcel({
+  type: 'UPDATE CONTACTLIST',
+  receiverId: userId,
+  body: {
+    contacts,
+    connected: webSocketService.getConnectedUsers(),
+  },
+});
+
+export { messageHistoryParcel, contactListParcel };

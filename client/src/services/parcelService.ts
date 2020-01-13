@@ -1,4 +1,4 @@
-import { Parcel } from '../types';
+import { Parcel } from '../types/types';
 
 class ParcelService {
   webSocket: WebSocket;
@@ -18,10 +18,9 @@ class ParcelService {
     switch (parcel.type) {
       case 'DIRECT MESSAGE':
         return this.actions.addDirectMessage(parcel);
-      case 'SETUP CLIENT':
+      case 'UPDATE MESSAGES':
         return this.actions.addDirectMessage(parcel);
       case 'UPDATE CONNECTED USERS':
-        console.log('parcel: ', parcel);
         return this.actions.updateConnectedUsers(parcel);
       default:
         return console.log(parcel);
