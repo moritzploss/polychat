@@ -2,7 +2,9 @@ import React, { useState, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 
-import { LoginResponseData, ReduxStoreContents } from '../types/client';
+import { Store } from '../types/client';
+import { mapStateToProps } from '../reducers/util';
+import { UserCredentials } from '../types/applicationWide';
 
 import { appStateActions } from '../reducers/appStateActions';
 import { postRequestJson } from '../http/requests';
@@ -10,7 +12,7 @@ import LabeledInputField from './LabeledInputField';
 
 const loginErrorCallback = console.log;
 
-interface Props extends ReduxStoreContents {
+interface Props extends Store {
   goToHome: Function;
 }
 
@@ -26,9 +28,9 @@ const Login = ({ goToHome }: Props): JSX.Element => {
     }));
   };
 
-  const loginSuccessCallback = (responseData: LoginResponseData): void => {
+  const loginSuccessCallback = (user: UserCredentials): void => {
     sessionService.saveSession();
-    sessionService.saveUser(responseData);
+    sessionService.saveUser(user);
     goToHome();
   };
 
@@ -67,7 +69,5 @@ const Login = ({ goToHome }: Props): JSX.Element => {
     </>
   );
 };
-
-const mapStateToProps = (store: ReduxStoreContents): ReduxStoreContents => store;
 
 export default connect(mapStateToProps, appStateActions)(Login);

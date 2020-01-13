@@ -1,8 +1,12 @@
-import { Parcel, UserCredentials } from './applicationWide';
+import { UserCredentials, Messages } from './applicationWide';
+import { ParcelService } from '../services/parcelService';
+import { actions } from '../reducers/rootActions';
 
 export interface Action {
   type: string;
 }
+
+export type ReducerActions = typeof actions;
 
 export interface AppState {
   currentState: string;
@@ -14,18 +18,25 @@ export interface Client {
   chatPartner: string;
 }
 
-export interface ReduxStoreContents {
-  appState: Record<string, any>;
-  client?: Record<string, any>;
-  session?: {
-    user: Record<string, any>;
-  };
-  messages?: Record<string, Parcel[]>;
-  parcelService?: any;
+export interface Session {
+  user: UserCredentials;
+  authenticated: boolean;
+  checked: boolean;
+  invalid: boolean;
 }
 
+export type Props = Record<string, any>;
 
+export interface Store {
+  appState: AppState;
+  client: Client;
+  session: Session;
+  messages: Messages;
+  parcelService: ParcelService;
+}
 
-export type UserData = Record<string, any>;
-
-export type LoginResponseData = Record<string, any>;
+export interface ReduxProps {
+  store: Store;
+  reducerActions: ReducerActions;
+  ownProps: Props;
+}
