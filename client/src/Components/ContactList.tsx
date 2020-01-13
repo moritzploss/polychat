@@ -9,7 +9,6 @@ import { openNewWebSocket } from '../websockets/websockets';
 
 interface HomeProps extends ReduxStoreContents {
   addParcelService: Function;
-  initiateMessageStore: Function;
 }
 
 const ContactList = ({ client, session, ...actions }: HomeProps): JSX.Element => {
@@ -22,9 +21,11 @@ const ContactList = ({ client, session, ...actions }: HomeProps): JSX.Element =>
   );
 };
 
-const mapStateToProps = ({ client, session }: ReduxStoreContents): ReduxStoreContents => ({
+const mapStateToProps = ({ client, session, parcelService, messages }: ReduxStoreContents): ReduxStoreContents => ({
   client,
   session,
+  parcelService,
+  messages,
 });
 
 export default connect(mapStateToProps, clientActions)(ContactList);

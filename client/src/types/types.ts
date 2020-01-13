@@ -1,13 +1,10 @@
-import { ParcelService } from '../services/parcelService';
-
 export interface Action {
   type: string;
 }
 
 export interface Client {
-  parcelService: ParcelService | any;
-  messages: Record<string, any>;
   connectedUsers: string[];
+  contactList: string[];
 }
 
 export interface Parcel {
@@ -16,7 +13,8 @@ export interface Parcel {
   receiverId: string;
   body: {
     messages?: Parcel[];
-    connectedUsers: string[];
+    connectedUsers?: string[];
+    contactList?: string[];
   };
 }
 
@@ -25,6 +23,8 @@ export interface ReduxStoreContents {
   session: {
     user: Record<string, any>;
   };
+  messages: Record<string, Parcel[]>;
+  parcelService: any;
 }
 
 export type UserData = Record<string, any>;

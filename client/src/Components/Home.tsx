@@ -2,24 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
 
-import { clientActions } from '../reducers/clientActions';
+import { actions } from '../reducers/rootActions';
 import { ReduxStoreContents } from '../types/types';
 import Navigation from './Navigation';
 import { openNewWebSocket } from '../websockets/websockets';
 
-interface HomeProps extends ReduxStoreContents {
-  addParcelService: Function;
-  initiateMessageStore: Function;
-}
-
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
 
-const Home = ({ client, session, ...actions }: HomeProps): JSX.Element => {
-  console.log(client);
-  if (session.user.id && !client.parcelService.webSocket) {
-    const webSocket = openNewWebSocket(generateWebSocketId(session.user.id));
-    actions.initiateMessageStore();
-    actions.addParcelService(webSocket, actions);
+const Home = ({ store, ...actionBundle }: Record<string, any>): JSX.Element => {
+  console.log(store.client);
+  if (store.session.user.id && !store.parcelService.webSocket) {
+    const webSocket = openNewWebSocket(generateWebSocketId(store.session.user.id));
+    actionBundle.addParcelService(webSocket, actionBundle);
   }
 
   return (
@@ -29,16 +23,13 @@ const Home = ({ client, session, ...actions }: HomeProps): JSX.Element => {
         Home
       </h1>
       <p>
-        {session.user.name}
-        {session.user.id}
+        {store.session.user.name}
+        {store.session.user.id}
       </p>
     </>
   );
 };
 
-const mapStateToProps = ({ client, session }: ReduxStoreContents): ReduxStoreContents => ({
-  client,
-  session,
-});
+const mapStateToProps = (store: ReduxStoreContents): Record<string, ReduxStoreContents> => ({ store });
 
-export default connect(mapStateToProps, clientActions)(Home);
+export default connect(mapStateToProps, actions)(Home);

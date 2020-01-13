@@ -20,8 +20,9 @@ class ParcelService {
         return this.actions.addDirectMessage(parcel);
       case 'UPDATE MESSAGES':
         return this.actions.addDirectMessage(parcel);
-      case 'UPDATE CONNECTED USERS':
-        return this.actions.updateConnectedUsers(parcel);
+      case 'UPDATE CONTACTLIST':
+        console.log(parcel);
+        return this.actions.updateContactList(parcel);
       default:
         return console.log(parcel);
     }

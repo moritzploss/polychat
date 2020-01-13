@@ -9,11 +9,11 @@ const messageHistoryParcel = (userId: string, messages: Record<string, any>) => 
   },
 });
 
-const contactListParcel = (userId: string, contacts: string[]) => createParcel({
+const contactListParcel = (userId: string, contactList: string[]) => createParcel({
   type: 'UPDATE CONTACTLIST',
   receiverId: userId,
   body: {
-    contacts,
+    contactList,
     connected: webSocketService.getConnectedUsers(),
   },
 });

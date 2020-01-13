@@ -10,11 +10,11 @@ var messageHistoryParcel = function (userId, messages) { return parcelService_1.
     },
 }); };
 exports.messageHistoryParcel = messageHistoryParcel;
-var contactListParcel = function (userId, contacts) { return parcelService_1.createParcel({
+var contactListParcel = function (userId, contactList) { return parcelService_1.createParcel({
     type: 'UPDATE CONTACTLIST',
     receiverId: userId,
     body: {
-        contacts: contacts,
+        contactList: contactList,
         connected: webSocketService_1.webSocketService.getConnectedUsers(),
     },
 }); };

@@ -1,16 +1,6 @@
-import { ParcelService } from '../services/parcelService';
 import { Parcel } from '../types/types';
 
 const clientActions = {
-  addParcelService: (websocket: WebSocket, actions: Record<string, Function>): { type: string; parcelService: ParcelService } => ({
-    type: 'ADD PARCELSERVICE',
-    parcelService: new ParcelService(websocket, actions),
-  }),
-
-  initiateMessageStore: (): { type: string } => ({
-    type: 'INITIATE MESSAGESTORE',
-  }),
-
   addDirectMessage: (parcel: Parcel): { type: string; parcel: Parcel } => ({
     type: 'ADD DIRECTMESSAGE',
     parcel,
@@ -21,8 +11,9 @@ const clientActions = {
     connectedUsers: parcel.body.connectedUsers ? parcel.body.connectedUsers : [],
   }),
 
-  removeParcelService: (): { type: string } => ({
-    type: 'REMOVE PARCELSERVICE',
+  updateContactList: (parcel: Parcel): { type: string; contactList: string[] } => ({
+    type: 'UPDATE CONTACTLIST',
+    contactList: parcel.body.contactList ? parcel.body.contactList : [],
   }),
 };
 
