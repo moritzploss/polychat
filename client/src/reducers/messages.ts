@@ -1,4 +1,4 @@
-import { Parcel } from '../types/types';
+import { Parcel } from '../types/applicationWide';
 import { addDirectMessage } from '../services/messageService';
 
 const initialState = {};

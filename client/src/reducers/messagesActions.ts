@@ -1,14 +1,14 @@
-import { Parcel } from '../types/types';
+import { DirectMessageParcel, MessageHistoryParcel, Messages } from '../types/applicationWide';
 
 const messageActions = {
-  addDirectMessage: (parcel: Parcel): { type: string; parcel: Parcel } => ({
+  addDirectMessage: (parcel: DirectMessageParcel): { type: string; parcel: DirectMessageParcel } => ({
     type: 'ADD DIRECTMESSAGE',
     parcel,
   }),
 
-  replaceMessageHistory: (parcel: Parcel): { type: string; messages: Parcel[] } => ({
+  replaceMessageHistory: (parcel: MessageHistoryParcel): { type: string; messages: Messages | [] } => ({
     type: 'REPLACE MESSAGE HISTORY',
-    messages: parcel.body.messages ? parcel.body.messages : [],
+    messages: parcel.messages ? parcel.messages : [],
   }),
 };
 

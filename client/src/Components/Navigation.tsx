@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 
 import { actions } from '../reducers/rootActions';
-import { ReduxStoreContents } from '../types/types';
+import { ReduxStoreContents } from '../types/client';
 
 const logout = async (removeParcelService: Function): Promise<void> => {
   const res = await fetch('/api/destroy-session');

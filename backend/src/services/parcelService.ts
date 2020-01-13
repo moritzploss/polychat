@@ -1,6 +1,7 @@
 import * as ws from 'ws';
 
-import { Parcel, WebSocketData } from '../types';
+import { WebSocketData } from '../types/backend';
+import { Parcel } from '../types/applicationWide';
 
 import { logger } from '../logging';
 import { webSocketService, WebSocketService } from './webSocketService';
@@ -12,13 +13,12 @@ const logUnknownParcel = (parcel: Parcel): void => {
   });
 };
 
-const createParcel = ({ type, receiverId = 'all', senderId = 'system', body = {}, kwargs = {} }): Parcel => ({
-  ...kwargs,
+const createParcel = (type: string, receiverId = 'all', senderId = 'system', kwargs = {}): Parcel => ({
   timeStamp: new Date().toLocaleString(),
   type,
   receiverId,
   senderId,
-  body,
+  ...kwargs,
 });
 
 class ParcelService {
@@ -42,11 +42,7 @@ class ParcelService {
   };
 
   deliverSetupParcel = (userId: string, messages: Record<string, any>): void => {
-    const parcel = createParcel({
-      type: 'SETUP CLIENT',
-      receiverId: userId,
-      body: { messages },
-    });
+    const parcel = createParcel('SETUP CLIENT', userId, '', { messages });
     this.deliver(parcel);
   };
 

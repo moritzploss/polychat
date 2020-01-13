@@ -1,4 +1,4 @@
-import { Parcel } from '../types/types';
+import { Parcel } from '../types/applicationWide';
 
 class ParcelService {
   webSocket: WebSocket;

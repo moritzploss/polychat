@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var logging_1 = require("../logging");
 var parcelService_1 = require("../services/parcelService");
-var defaults_1 = require("../parcels/defaults");
+var blueprints_1 = require("../parcels/blueprints");
 var webSocketService_1 = require("../services/webSocketService");
 var database_1 = require("../services/database");
 var login_1 = require("./login");
@@ -14,13 +14,13 @@ var onOpen = function (webSocket, webSocketId) {
     webSocketService_1.webSocketService.addWebSocket(webSocketId, webSocket);
     logging_1.logger.info("connection opened on websocket " + webSocketId);
     var userId = webSocketService_1.webSocketService.getUserId(webSocketId);
-    database_1.getUserMessages(userId, function (messages) { return (parcelService_1.parcelService.deliver(defaults_1.messageHistoryParcel(userId, messages))); });
+    database_1.getUserMessages(userId, function (messages) { return (parcelService_1.parcelService.deliver(blueprints_1.messageHistoryParcel(userId, messages))); });
     database_1.getUserContacts(userId, function (contacts) {
         return database_1.getUsersById(contacts, function (users) {
-            return parcelService_1.parcelService.deliver(defaults_1.contactListParcel(userId, users.map(login_1.toCredentials)));
+            return parcelService_1.parcelService.deliver(blueprints_1.contactListParcel(userId, users.map(login_1.toCredentials)));
         });
     });
-    parcelService_1.parcelService.deliver(defaults_1.connectedUserParcel(userId));
+    parcelService_1.parcelService.deliver(blueprints_1.connectedUserParcel(userId));
 };
 var onMessage = function (data) {
     console.log(data);

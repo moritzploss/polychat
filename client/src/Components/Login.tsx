@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 
-import { LoginResponseData, ReduxStoreContents } from '../types/types';
+import { LoginResponseData, ReduxStoreContents } from '../types/client';
 
 import { appStateActions } from '../reducers/appStateActions';
 import { postRequestJson } from '../http/requests';

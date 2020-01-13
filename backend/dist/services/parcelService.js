@@ -19,12 +19,13 @@ var logUnknownParcel = function (parcel) {
         parcel: parcel,
     });
 };
-var createParcel = function (_a) {
-    var type = _a.type, _b = _a.receiverId, receiverId = _b === void 0 ? 'all' : _b, _c = _a.senderId, senderId = _c === void 0 ? 'system' : _c, _d = _a.body, body = _d === void 0 ? {} : _d, _e = _a.kwargs, kwargs = _e === void 0 ? {} : _e;
-    return (__assign(__assign({}, kwargs), { timeStamp: new Date().toLocaleString(), type: type,
+var createParcel = function (type, receiverId, senderId, kwargs) {
+    if (receiverId === void 0) { receiverId = 'all'; }
+    if (senderId === void 0) { senderId = 'system'; }
+    if (kwargs === void 0) { kwargs = {}; }
+    return (__assign({ timeStamp: new Date().toLocaleString(), type: type,
         receiverId: receiverId,
-        senderId: senderId,
-        body: body }));
+        senderId: senderId }, kwargs));
 };
 exports.createParcel = createParcel;
 var ParcelService = /** @class */ (function () {
@@ -48,11 +49,7 @@ var ParcelService = /** @class */ (function () {
                 .forEach(function (webSocket) { return webSocket.send(JSON.stringify(parcel)); });
         };
         this.deliverSetupParcel = function (userId, messages) {
-            var parcel = createParcel({
-                type: 'SETUP CLIENT',
-                receiverId: userId,
-                body: { messages: messages },
-            });
+            var parcel = createParcel('SETUP CLIENT', userId, '', { messages: messages });
             _this.deliver(parcel);
         };
         this.receive = function (parcel) {

@@ -1,19 +1,14 @@
-import { Parcel } from '../types/types';
+import { ConnectedUsersParcel, ContactListParcel, UserCredentials } from '../types/applicationWide';
 
 const clientActions = {
-  addDirectMessage: (parcel: Parcel): { type: string; parcel: Parcel } => ({
-    type: 'ADD DIRECTMESSAGE',
-    parcel,
-  }),
-
-  updateConnectedUsers: (parcel: Parcel): { type: string; connectedUsers: string[] } => ({
+  updateConnectedUsers: (parcel: ConnectedUsersParcel): { type: string; connectedUsers: string[] } => ({
     type: 'UPDATE CONNECTED USERS',
-    connectedUsers: parcel.body.connectedUsers ? parcel.body.connectedUsers : [],
+    connectedUsers: parcel.connectedUsers ? parcel.connectedUsers : [],
   }),
 
-  updateContactList: (parcel: Parcel): { type: string; contactList: string[] } => ({
+  updateContactList: (parcel: ContactListParcel): { type: string; contactList: UserCredentials[] } => ({
     type: 'UPDATE CONTACTLIST',
-    contactList: parcel.body.contactList ? parcel.body.contactList : [],
+    contactList: parcel.contactList ? parcel.contactList : [],
   }),
 
   setChatPartner: (chatPartner: string): { type: string; chatPartner: string } => ({

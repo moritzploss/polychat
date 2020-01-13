@@ -1,8 +1,8 @@
 import React, { useState, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 
-import { Client } from '../types/types';
-import { createParcel } from '../parcels/defaults';
+import { Client } from '../types/client';
+import { directMessageParcel } from '../parcels/blueprints';
 
 const MessageEditor = ({ client, session, parcelService }: { client: Client; session: any; parcelService: any; setChatPartner: Function }): JSX.Element => {
   const [message, setMessage] = useState('');
@@ -14,13 +14,11 @@ const MessageEditor = ({ client, session, parcelService }: { client: Client; ses
 
   const sendMessage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     event.preventDefault();
-    const parcel = createParcel({
-      receiverId: client.chatPartner,
-      senderId: session.user.id,
-      body: {
-        message,
-      },
-    });
+    const parcel = directMessageParcel(
+      client.chatPartner,
+      session.user.id,
+      message,
+    );
     parcelService.deliver(parcel);
   };
 

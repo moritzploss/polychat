@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Client, UserCredentials } from '../types/types';
+import { Client } from '../types/client';
+import { UserCredentials } from '../types/applicationWide';
 
 import Contact from './Contact';
 

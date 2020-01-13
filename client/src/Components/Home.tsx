@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
 
 import { actions } from '../reducers/rootActions';
-import { ReduxStoreContents } from '../types/types';
+import { ReduxStoreContents } from '../types/client';
 import Navigation from './Navigation';
 import ContactList from './ContactList';
 import MessageBoard from './MessageBoard';

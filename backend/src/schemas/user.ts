@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { HookNextFunction } from 'mongoose';
 import { createSchema, Type, typedModel } from 'ts-mongoose';
 
-import { UserDocument } from '../types';
+import { UserDocument } from '../types/backend';
 
 const schema = createSchema({
   email: Type.string({

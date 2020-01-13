@@ -1,7 +1,7 @@
 import { Request, Response } from 'express-serve-static-core';
 import { MongooseDocument } from 'mongoose';
 
-import { UserCredentials } from '../types';
+import { UserCredentials } from '../types/applicationWide';
 
 import { User } from '../schemas/user';
 

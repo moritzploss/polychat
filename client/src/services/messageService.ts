@@ -1,6 +1,6 @@
-import { Parcel } from '../types/types';
+import { DirectMessageParcel, Messages } from '../types/applicationWide';
 
-const addDirectMessage = (messages: Record<string, any>, parcel: Parcel): Record<string, any> => {
+const addDirectMessage = (messages: Messages, parcel: DirectMessageParcel): Messages => {
   const newMessages = messages[parcel.senderId]
     ? [...messages[parcel.senderId], parcel]
     : [parcel];

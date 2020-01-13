@@ -1,4 +1,4 @@
-import { AppState } from '../types/types';
+import { AppState } from '../types/client';
 
 const appStates = {
   loggedOut: 'LOGGED OUT',

@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 
 import { logger } from '../logging';
 import { parcelService } from '../services/parcelService';
-import { messageHistoryParcel, contactListParcel, connectedUserParcel } from '../parcels/defaults';
+import { messageHistoryParcel, contactListParcel, connectedUserParcel } from '../parcels/blueprints';
 
 import { webSocketService } from '../services/webSocketService';
 import { getUserMessages, getUserContacts, getUsersById } from '../services/database';

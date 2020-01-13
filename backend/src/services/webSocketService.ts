@@ -1,6 +1,6 @@
 import * as ws from 'ws';
 
-import { WebSocketData } from '../types';
+import { WebSocketData } from '../types/backend';
 
 class WebSocketService {
   webSockets: { [x: string]: WebSocketData[] };

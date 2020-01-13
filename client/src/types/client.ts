@@ -1,3 +1,5 @@
+import { Parcel, UserCredentials } from './applicationWide';
+
 export interface Action {
   type: string;
 }
@@ -12,28 +14,6 @@ export interface Client {
   chatPartner: string;
 }
 
-export interface DirectMessage {
-  type: string;
-  senderId: string;
-  receiverId: string;
-  body: {
-    message: string;
-  };
-}
-
-export interface Parcel {
-  type: string;
-  senderId: string;
-  receiverId: string;
-  timeStamp: string;
-  body: {
-    message?: string;
-    messages?: Parcel[];
-    connectedUsers?: string[];
-    contactList?: string[];
-  };
-}
-
 export interface ReduxStoreContents {
   appState: Record<string, any>;
   client?: Record<string, any>;
@@ -45,12 +25,6 @@ export interface ReduxStoreContents {
 }
 
 
-export interface UserCredentials {
-  name: string;
-  language: string;
-  email: string;
-  id: string;
-}
 
 export type UserData = Record<string, any>;
 
