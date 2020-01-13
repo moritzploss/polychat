@@ -15,6 +15,11 @@ const clientActions = {
     type: 'UPDATE CONTACTLIST',
     contactList: parcel.body.contactList ? parcel.body.contactList : [],
   }),
+
+  setChatPartner: (chatPartner: string): { type: string; chatPartner: string } => ({
+    type: 'SET CHATPARTNER',
+    chatPartner,
+  }),
 };
 
 export { clientActions };

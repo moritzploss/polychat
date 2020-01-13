@@ -1,25 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { clientActions } from '../reducers/clientActions';
-import { ReduxStoreContents } from '../types/types';
+import { Client, UserCredentials } from '../types/types';
 
-interface HomeProps extends ReduxStoreContents {
-  addParcelService: Function;
-}
+import Contact from './Contact';
 
-const ContactList = ({ client, ...actions }: HomeProps): JSX.Element => {
+const ContactList = ({ client }: { client: Client; setChatPartner: Function }): JSX.Element => {
   return (
-    <>
+    <div className="contacts">
       <h1>
         Contacts
       </h1>
-    </>
+      <ul className="contacts-list">
+        {client.contactList.map((user: UserCredentials) => <Contact user={user} />)}
+      </ul>
+    </div>
   );
 };
 
-const mapStateToProps = ({ client }: ReduxStoreContents): ReduxStoreContents => ({
+const mapStateToProps = ({ client }: { client: Client }): Record<string, Client> => ({
   client,
 });
 
-export default connect(mapStateToProps, clientActions)(ContactList);
+export default connect(mapStateToProps)(ContactList);

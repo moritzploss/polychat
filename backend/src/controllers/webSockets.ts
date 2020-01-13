@@ -31,7 +31,8 @@ const onOpen = (webSocket: ws, webSocketId: string): void => {
   parcelService.deliver(connectedUserParcel(userId));
 };
 
-const onMessage = (webSocket: ws, data: string): void => {
+const onMessage = (data: string): void => {
+  console.log(data);
   const parcel = JSON.parse(data);
   parcelService.receive(parcel);
   logger.info('message received');

@@ -2,12 +2,19 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { ReduxStoreContents, UserData } from './types/types';
+import { ReduxStoreContents } from './types/types';
+
+import { appStates } from './reducers/appState';
 
 import './App.css';
 
-const App = ({ session }: { user: UserData; session: any }): JSX.Element => {
-  return <Redirect to={session.authenticated ? '/' : '/login'} />;
+const App = ({ appState }: ReduxStoreContents): JSX.Element => {
+  switch (appState.currentState) {
+    case appStates.loggedOut:
+      return <Redirect to="/login" />;
+    default:
+      return <Redirect to="/" />;
+  }
 };
 
 const mapStateToProps = (store: ReduxStoreContents): ReduxStoreContents => store;

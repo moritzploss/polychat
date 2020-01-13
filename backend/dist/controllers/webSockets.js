@@ -22,7 +22,8 @@ var onOpen = function (webSocket, webSocketId) {
     });
     parcelService_1.parcelService.deliver(defaults_1.connectedUserParcel(userId));
 };
-var onMessage = function (webSocket, data) {
+var onMessage = function (data) {
+    console.log(data);
     var parcel = JSON.parse(data);
     parcelService_1.parcelService.receive(parcel);
     logging_1.logger.info('message received');

@@ -4,17 +4,17 @@ import { sessionService } from 'redux-react-session';
 
 import { LoginResponseData, ReduxStoreContents } from '../types/types';
 
-import * as clientActions from '../reducers/clientActions';
+import { appStateActions } from '../reducers/appStateActions';
 import { postRequestJson } from '../http/requests';
 import LabeledInputField from './LabeledInputField';
 
 const loginErrorCallback = console.log;
 
 interface Props extends ReduxStoreContents {
-  addWebsocket: Function;
+  goToHome: Function;
 }
 
-const Login = ({ addWebsocket }: Props): JSX.Element => {
+const Login = ({ goToHome }: Props): JSX.Element => {
   const defaultCredentials = { email: '', password: '' };
   const [credentials, setCredentials] = useState(defaultCredentials);
 
@@ -29,6 +29,7 @@ const Login = ({ addWebsocket }: Props): JSX.Element => {
   const loginSuccessCallback = (responseData: LoginResponseData): void => {
     sessionService.saveSession();
     sessionService.saveUser(responseData);
+    goToHome();
   };
 
   const attemptLogin = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
@@ -69,4 +70,4 @@ const Login = ({ addWebsocket }: Props): JSX.Element => {
 
 const mapStateToProps = (store: ReduxStoreContents): ReduxStoreContents => store;
 
-export default connect(mapStateToProps, clientActions)(Login);
+export default connect(mapStateToProps, appStateActions)(Login);
