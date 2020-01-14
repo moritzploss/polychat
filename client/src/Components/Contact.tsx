@@ -5,16 +5,16 @@ import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 
-const Contact = ({ ownProps }: ReduxProps): JSX.Element => {
+const Contact = ({ ownProps, store }: ReduxProps): JSX.Element => {
   const { user, onClick } = ownProps;
   return (
-    <li className="contacts-list-item">
+    <li className={ownProps.className}>
       <button
         type="button"
         key={user.id}
-        onClick={() => onClick(user.id)}
+        onClick={(): void => onClick(user.id)}
       >
-        {user.name}
+        {`${user.name}${store.session.user.id === user.id ? ' (you)' : ''}`}
       </button>
     </li>
   );

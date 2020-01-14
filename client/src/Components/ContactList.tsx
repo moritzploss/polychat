@@ -8,19 +8,17 @@ import { UserData } from '../types/applicationWide';
 
 import Contact from './Contact';
 
-const ContactList = ({ store, actions }: ReduxProps): JSX.Element => {
+const ContactList = ({ store, actions, ownProps }: ReduxProps): JSX.Element => {
   const { client } = store;
   return (
     <div className="contacts">
-      <h1>
-        Contacts
-      </h1>
-      <ul className="contacts-list">
+      <ul className="contacts_list">
         {client.contactList.map((user: UserData) => (
           <Contact
             user={user}
             key={user.id}
             onClick={actions.setChatPartner}
+            className="contacts_list_item"
           />
         ))}
       </ul>

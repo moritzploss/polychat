@@ -18,9 +18,10 @@ const Login = ({ goToHome }: AppStateActions): JSX.Element => {
 
   const updateCredentials = (event: ChangeEvent<HTMLInputElement>): void => {
     event.persist();
+    console.log(event);
     setCredentials((previousCredentials) => ({
       ...previousCredentials,
-      [event.target.name]: event.target.value,
+      [event.target.name.toLowerCase()]: event.target.value,
     }));
   };
 
@@ -41,28 +42,30 @@ const Login = ({ goToHome }: AppStateActions): JSX.Element => {
   };
 
   return (
-    <>
-      <h1>
+    <div className="login">
+      <h1 className="login_header">
         Login
       </h1>
-      <form>
+      <form className="login_form">
         <LabeledInputField
           type="text"
           id="email"
-          name="email"
+          name="Email"
+          className="login_form_input"
           value={credentials.email}
           onChange={updateCredentials}
         />
         <LabeledInputField
           type="password"
           id="password"
-          name="password"
+          name="Password"
+          className="login_form_input"
           value={credentials.password}
           onChange={updateCredentials}
         />
         <button type="submit" onClick={attemptLogin}>Login</button>
       </form>
-    </>
+    </div>
   );
 };
 

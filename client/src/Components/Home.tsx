@@ -24,25 +24,24 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
   }
 
   return (
-    <>
-      <Navigation />
-      <ContactSearch />
-      <ContactList />
-      {!client.chatPartner
-        ? ''
-        : (
-          <>
-            <MessageBoard />
-            <MessageEditor />
-          </>
-        )}
-      <h1>
-        Home
-      </h1>
-      <p>
+    <div className="home">
+      <div className="home_sidebar">
         {session.user.name}
-      </p>
-    </>
+        <ContactSearch />
+        <ContactList />
+      </div>
+      <div className="home_main">
+        {!client.chatPartner
+          ? ''
+          : (
+            <>
+              <MessageBoard />
+              <MessageEditor />
+            </>
+          )}
+      </div>
+      <Navigation />
+    </div>
   );
 };
 

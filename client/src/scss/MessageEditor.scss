@@ -1,0 +1,19 @@
+.messageeditor {
+  height: 30px;
+  background: blue;
+
+  display: flex;
+  flex-direction: row;
+
+  &_form {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+
+    &_input {
+      padding: 2px 5px 2px 5px;
+      flex: 1;
+      font-size: $fontSmall;
+    }
+  }
+}

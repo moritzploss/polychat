@@ -13,14 +13,20 @@ const MessageBoard = ({ store }: ReduxProps): JSX.Element => {
   const hasPriorMessages = Boolean(messageList);
 
   return (
-    <>
-      <h1>
-        Message Board
-      </h1>
-      <ul>
-        {hasPriorMessages ? messageList.map((parcel: DirectMessageParcel) => <li key={parcel.timeStamp}>{parcel.message}</li>) : []}
+    <div className="messageboard">
+      <ul className="messageboard_list">
+        {hasPriorMessages
+          ? messageList.map((parcel: DirectMessageParcel) => (
+            <li
+              className={`messageboard_list_item messageboard_list_item_${parcel.senderId === store.session.user.id ? 'right' : 'left'}`}
+              key={parcel.timeStamp}
+            >
+              {parcel.message}
+            </li>
+          ))
+          : []}
       </ul>
-    </>
+    </div>
   );
 };
 

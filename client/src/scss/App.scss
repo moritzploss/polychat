@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400&display=swap');
+
+$theGoodBlue: #26547C;
+$theGoodPink: #ef476f;
+$mainDark: rgb(37, 55, 94);
+$highlight: #ef476f;
+$mainLight: rgb(86, 171, 238);
+
+$primary: #333;
+$secondary: #eee;
+
+$lightGrey: #eeeeee;
+
+$fontHuge: 48px;
+$fontMedium: 18px;
+$fontSmall: 14px;
+$headerText: black;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root, #root>div  {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+
+.App {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* Components */
+@import './Home.scss';
+@import './Login.scss';
+@import './Contacts.scss';
+@import './MessageBoard.scss';
+@import './MessageEditor.scss';

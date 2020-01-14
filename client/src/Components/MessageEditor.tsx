@@ -24,16 +24,14 @@ const MessageEditor = ({ client, session, parcelService }: Store): JSX.Element =
   };
 
   return (
-    <div className="message-editor">
-      <h1>
-        Message Editor
-      </h1>
-      <form>
+    <div className="messageeditor">
+      <form className="messageeditor_form">
         <input
           type="text"
           name="message"
           value={message}
           onChange={(event): void => updateMessage(event)}
+          className="messageeditor_form_input"
         />
         <button type="submit" onClick={sendMessage}>Send</button>
       </form>

@@ -1,0 +1,54 @@
+.login {
+  background: $lightGrey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &_header {
+    font-size: $fontHuge;
+    color: $headerText;
+    margin-bottom: 20px;
+  }
+
+  &_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+
+    &_input input  {
+      margin-bottom: 20px;
+      padding: 10px 10px 10px 2px;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      border-style: solid;
+      border-width: 0px 0px 1px;
+      border-color: $primary;
+      background-color: $lightGrey;
+      filter: none;
+      outline: none;
+    }
+
+    label {
+      font-size: $fontSmall;
+    }
+
+    button {
+      max-width: 150px;
+      border: none;
+      background-color: $primary;
+      color: $secondary;
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: $fontMedium;
+    }
+
+    button:hover {
+      background-color: $secondary;
+      color: $primary;
+    }
+  }
+}

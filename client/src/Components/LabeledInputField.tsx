@@ -1,9 +1,11 @@
 import React from 'react';
 
 // eslint-disable-next-line object-curly-newline
-const LabeledInputField = ({ type, id, name, value, onChange }: Record<string, any>): JSX.Element => (
-  <label htmlFor={id}>
-    {name}
+const LabeledInputField = ({ type, id, name, value, onChange, className }: Record<string, any>): JSX.Element => (
+  <div className={className}>
+    <label htmlFor={id}>
+      {name}
+    </label>
     <input
       type={type}
       id={id}
@@ -11,7 +13,8 @@ const LabeledInputField = ({ type, id, name, value, onChange }: Record<string, a
       value={value}
       onChange={(event): void => onChange(event)}
     />
-  </label>
+  </div>
+ 
 );
 
 export default LabeledInputField;

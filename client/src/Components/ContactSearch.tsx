@@ -27,9 +27,6 @@ const ContactSearch = ({ store }: ReduxProps): JSX.Element => {
 
   return (
     <>
-      <h1>
-        Find Contacts
-      </h1>
       <form>
         <input
           type="text"

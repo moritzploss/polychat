@@ -1,0 +1,26 @@
+.contacts {
+  background-color: blue;
+
+  &_list {
+    list-style: none;
+
+    &_item{
+      background: green;
+      width: 100%;
+
+      button {
+        width: 100%;
+        text-align: left;
+        border: none;
+        padding: 5px 2px;
+        font-size: $fontSmall;
+      }
+
+      button:hover {
+        color: $highlight;
+      }
+
+    }
+
+  }
+}
