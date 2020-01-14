@@ -38,6 +38,7 @@ var ParcelService = /** @class */ (function () {
         this.receive = function (parcel) {
             switch (parcel.type) {
                 case 'DIRECT MESSAGE':
+                    _this.repository.saveDirectMessage(parcel);
                     return _this.deliver(parcel);
                 default:
                     return logUnknownParcel(parcel);

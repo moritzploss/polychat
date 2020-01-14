@@ -17,14 +17,14 @@ var onOpen = function (webSocket, webSocketId) {
     parcelService_1.parcelService.deliver(blueprints_1.connectedUserParcel(userId));
 };
 var onMessage = function (data) {
+    logging_1.logger.info('message received');
     console.log(data);
     var parcel = JSON.parse(data);
     parcelService_1.parcelService.receive(parcel);
-    logging_1.logger.info('message received');
 };
 var onClose = function (socketId) {
-    webSocketService_1.webSocketService.removeWebSocket(socketId);
     logging_1.logger.info("connection closed on websocket " + socketId);
+    webSocketService_1.webSocketService.removeWebSocket(socketId);
 };
 var setupEventListeners = function (webSocket, req) {
     onOpen(webSocket, req.params.id);

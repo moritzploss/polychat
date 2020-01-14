@@ -23,15 +23,15 @@ const onOpen = (webSocket: ws, webSocketId: string): void => {
 };
 
 const onMessage = (data: string): void => {
+  logger.info('message received');
   console.log(data);
   const parcel = JSON.parse(data);
   parcelService.receive(parcel);
-  logger.info('message received');
 };
 
 const onClose = (socketId: string): void => {
-  webSocketService.removeWebSocket(socketId);
   logger.info(`connection closed on websocket ${socketId}`);
+  webSocketService.removeWebSocket(socketId);
 };
 
 const setupEventListeners = (webSocket: ws, req: Request): void => {

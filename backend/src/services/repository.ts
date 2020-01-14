@@ -2,9 +2,20 @@ import * as mongoose from 'mongoose';
 
 import { logger } from '../logging';
 import { User, UserMongoose } from '../schemas/user';
+import { DirectMessageParcel, Messages, Parcel } from '../types/applicationWide';
 
 // const session = require('express-session');
 // const mongoStore = require('connect-mongo')(session);
+
+const updateDirectMessages = (messages: Messages, parcel: DirectMessageParcel, senderId: string = parcel.senderId): Messages => {
+  const newMessages = messages[senderId]
+    ? [...messages[senderId], parcel]
+    : [parcel];
+  return {
+    ...messages,
+    [senderId]: newMessages,
+  };
+};
 
 class Repository {
   user: UserMongoose;
@@ -41,6 +52,26 @@ class Repository {
       ],
     });
     await testUser.save(() => {});
+  };
+
+  saveParcelToUserMessages = (parcel: DirectMessageParcel, senderId: string, receiverId: string): void => {
+    this.user.findById(senderId, (error: Error, user) => {
+      if (error) return logger.error(error);
+      User.updateOne(
+        { _id: senderId },
+        { $set: { messages: updateDirectMessages(user.messages, parcel, receiverId) } },
+        logger.error,
+      );
+      return logger.info({
+        message: 'saved DirectMessageParcel to message database',
+        parcel,
+      });
+    });
+  };
+
+  saveDirectMessage = (parcel: DirectMessageParcel): void => {
+    this.saveParcelToUserMessages(parcel, parcel.senderId, parcel.receiverId);
+    this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
   };
 
   getUserMessages = (userId: string, callback: Function): void => {

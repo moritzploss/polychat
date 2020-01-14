@@ -2,7 +2,7 @@ import * as ws from 'ws';
 import * as mongoose from 'mongoose';
 
 import { WebSocketData } from '../types/backend';
-import { Parcel } from '../types/applicationWide';
+import { Parcel, DirectMessageParcel } from '../types/applicationWide';
 
 import { logger } from '../logging';
 import { webSocketService, WebSocketService } from './webSocketService';
@@ -57,6 +57,7 @@ class ParcelService {
   receive = (parcel: Parcel): void => {
     switch (parcel.type) {
       case 'DIRECT MESSAGE':
+        this.repository.saveDirectMessage(parcel as DirectMessageParcel);
         return this.deliver(parcel);
       default:
         return logUnknownParcel(parcel);
