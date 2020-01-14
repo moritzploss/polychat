@@ -120,6 +120,12 @@ var Repository = /** @class */ (function () {
             _this.saveParcelToUserMessages(parcel, parcel.senderId, parcel.receiverId);
             _this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
         };
+        this.findUsersByName = function (userName, callback) {
+            var regex = RegExp(userName);
+            _this.user.find({ name: { $regex: regex, $options: 'i' } }, function (error, data) {
+                callback(error, data);
+            });
+        };
         this.getUserMessages = function (userId, callback) {
             _this.user.findById(userId, function (error, data) { return callback(error ? {} : data.messages); });
         };

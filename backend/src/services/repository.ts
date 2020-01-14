@@ -74,6 +74,13 @@ class Repository {
     this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
   };
 
+  findUsersByName = (userName: string, callback: Function): void => {
+    const regex = RegExp(userName);
+    this.user.find({ name: { $regex: regex, $options: 'i' } }, (error: Error, data) => {
+      callback(error, data);
+    });
+  };
+
   getUserMessages = (userId: string, callback: Function): void => {
     this.user.findById(userId, (error: Error, data) => callback(error ? {} : data.messages));
   };

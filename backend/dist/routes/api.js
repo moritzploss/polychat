@@ -2,9 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var authentication_1 = require("../controllers/authentication");
 var session_1 = require("../controllers/session");
+var users_1 = require("../controllers/users");
 var express = require("express");
 var apiRouter = express.Router();
 exports.apiRouter = apiRouter;
 apiRouter.post('/login', authentication_1.authenticateRequest);
 apiRouter.get('/validate-session', session_1.validateSession);
 apiRouter.get('/destroy-session', session_1.destroySession);
+apiRouter.post('/users', users_1.findUsers);
