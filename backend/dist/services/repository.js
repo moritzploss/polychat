@@ -87,16 +87,13 @@ var Repository = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         testUser = new user_1.User({
-                            email: process.env.TEST_USER_EMAIL,
+                            email: 'moritz@test.com',
                             password: process.env.TEST_USER_PASSWORD,
                             name: 'Test User',
                             language: 'english',
                             messages: {
                                 test: [1, 2, 3],
                             },
-                            contacts: [
-                                '5e1c5a31511ff782a56c837b',
-                            ],
                         });
                         return [4 /*yield*/, testUser.save(function () { })];
                     case 1:
@@ -109,7 +106,7 @@ var Repository = /** @class */ (function () {
             _this.user.findById(senderId, function (error, user) {
                 if (error)
                     return logging_1.logger.error(error);
-                user_1.User.updateOne({ _id: senderId }, { $set: { messages: updateDirectMessages(user.messages, parcel, receiverId) } }, logging_1.logger.error);
+                _this.user.updateOne({ _id: senderId }, { $set: { messages: updateDirectMessages(user.messages, parcel, receiverId) } }, logging_1.logger.error);
                 return logging_1.logger.info({
                     message: 'saved DirectMessageParcel to message database',
                     parcel: parcel,
@@ -120,6 +117,32 @@ var Repository = /** @class */ (function () {
             _this.saveParcelToUserMessages(parcel, parcel.senderId, parcel.receiverId);
             _this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
         };
+        this.addUserToContactList = function (userId, userToAdd, callback) { return __awaiter(_this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                this.user.findById(userId, function (error, user) { return __awaiter(_this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (error)
+                                    return [2 /*return*/, logging_1.logger.error(error)];
+                                if (!!user.contacts.includes(userToAdd)) return [3 /*break*/, 3];
+                                return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: { contacts: __spreadArrays(user.contacts, [userToAdd]) } }, logging_1.logger.error)];
+                            case 1:
+                                _a.sent();
+                                return [4 /*yield*/, this.user.updateOne({ _id: userToAdd }, { $set: { inContactListOf: __spreadArrays(user.inContactListOf, [userId]) } }, logging_1.logger.error)];
+                            case 2:
+                                _a.sent();
+                                _a.label = 3;
+                            case 3:
+                                callback();
+                                return [2 /*return*/];
+                        }
+                    });
+                }); });
+                return [2 /*return*/];
+            });
+        }); };
         this.findUsersByName = function (userName, callback) {
             var regex = RegExp(userName);
             _this.user.find({ name: { $regex: regex, $options: 'i' } }, function (error, data) {

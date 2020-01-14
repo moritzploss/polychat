@@ -9,4 +9,5 @@ exports.apiRouter = apiRouter;
 apiRouter.post('/login', authentication_1.authenticateRequest);
 apiRouter.get('/validate-session', session_1.validateSession);
 apiRouter.get('/destroy-session', session_1.destroySession);
+apiRouter.post('/users/add', users_1.addUserToContactList);
 apiRouter.post('/users', users_1.findUsers);

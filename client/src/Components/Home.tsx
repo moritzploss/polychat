@@ -11,6 +11,7 @@ import Navigation from './Navigation';
 import ContactList from './ContactList';
 import MessageBoard from './MessageBoard';
 import MessageEditor from './MessageEditor';
+import ContactSearch from './ContactSearch';
 
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
 
@@ -25,6 +26,7 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
   return (
     <>
       <Navigation />
+      <ContactSearch />
       <ContactList />
       {!client.chatPartner
         ? ''

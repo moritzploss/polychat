@@ -40,16 +40,13 @@ class Repository {
 
   addTestUser = async (): Promise<void> => {
     const testUser = new User({
-      email: process.env.TEST_USER_EMAIL,
+      email: 'moritz@test.com',
       password: process.env.TEST_USER_PASSWORD,
       name: 'Test User',
       language: 'english',
       messages: {
         test: [1, 2, 3],
       },
-      contacts: [
-        '5e1c5a31511ff782a56c837b',
-      ],
     });
     await testUser.save(() => {});
   };
@@ -57,7 +54,7 @@ class Repository {
   saveParcelToUserMessages = (parcel: DirectMessageParcel, senderId: string, receiverId: string): void => {
     this.user.findById(senderId, (error: Error, user) => {
       if (error) return logger.error(error);
-      User.updateOne(
+      this.user.updateOne(
         { _id: senderId },
         { $set: { messages: updateDirectMessages(user.messages, parcel, receiverId) } },
         logger.error,
@@ -72,6 +69,25 @@ class Repository {
   saveDirectMessage = (parcel: DirectMessageParcel): void => {
     this.saveParcelToUserMessages(parcel, parcel.senderId, parcel.receiverId);
     this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
+  };
+
+  addUserToContactList = async (userId: string, userToAdd: string, callback: Function): Promise<void> => {
+    this.user.findById(userId, async (error: Error, user) => {
+      if (error) return logger.error(error);
+      if (!user.contacts.includes(userToAdd)) {
+        await this.user.updateOne(
+          { _id: userId },
+          { $set: { contacts: [...user.contacts, userToAdd] } },
+          logger.error,
+        );
+        await this.user.updateOne(
+          { _id: userToAdd },
+          { $set: { inContactListOf: [...user.inContactListOf, userId] } },
+          logger.error,
+        );
+      }
+      callback();
+    });
   };
 
   findUsersByName = (userName: string, callback: Function): void => {

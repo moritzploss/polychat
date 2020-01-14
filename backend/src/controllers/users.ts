@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express-serve-static-core';
+import { Request, Response } from 'express-serve-static-core';
 import { repository } from '../services/repository';
+import { parcelService } from '../services/parcelService';
 import { toCredentials } from './login';
 
 const findUsers = (req: Request, res: Response): void => {
@@ -11,4 +12,12 @@ const findUsers = (req: Request, res: Response): void => {
   ));
 };
 
-export { findUsers };
+const addUserToContactList = (req: Request, res: Response): void => {
+  const { userId, userToAdd } = req.body;
+  repository.addUserToContactList(userId, userToAdd, () => {
+    parcelService.deliverContactListParcel(userId);
+    res.json({});
+  });
+};
+
+export { findUsers, addUserToContactList };

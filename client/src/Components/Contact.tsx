@@ -5,8 +5,8 @@ import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 
-const Contact = ({ store, actions }: ReduxProps): JSX.Element => {
-  const { user } = store.session;
+const Contact = ({ actions, ownProps }: ReduxProps): JSX.Element => {
+  const { user } = ownProps;
   return (
     <li className="contacts-list-item">
       <button
@@ -21,5 +21,3 @@ const Contact = ({ store, actions }: ReduxProps): JSX.Element => {
 };
 
 export default connect(mapStateToProps, clientActions, mergeProps)(Contact);
-
-// export default connect(mapStateToProps, clientActions)(Contact);

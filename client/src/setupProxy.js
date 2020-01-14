@@ -11,6 +11,12 @@ module.exports = (app) => {
     proxy('/api/login', {
       target: 'http://localhost:8080',
     }),
+    proxy('/api/users', {
+      target: 'http://localhost:8080',
+    }),
+    proxy('/api/users/add', {
+      target: 'http://localhost:8080',
+    }),
     proxy('/api/register', {
       target: 'http://localhost:8080',
     }),
