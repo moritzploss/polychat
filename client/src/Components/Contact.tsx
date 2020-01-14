@@ -5,14 +5,14 @@ import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 
-const Contact = ({ actions, ownProps }: ReduxProps): JSX.Element => {
-  const { user } = ownProps;
+const Contact = ({ ownProps }: ReduxProps): JSX.Element => {
+  const { user, onClick } = ownProps;
   return (
     <li className="contacts-list-item">
       <button
         type="button"
         key={user.id}
-        onClick={() => actions.setChatPartner(user.id)}
+        onClick={() => onClick(user.id)}
       >
         {user.name}
       </button>
