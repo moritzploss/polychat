@@ -11,11 +11,12 @@ $mainLight: rgb(86, 171, 238);
 $primary: #333;
 $secondary: #eee;
 
-$lightGrey: #eeeeee;
+$lightGrey: #efefef;
 
 $fontHuge: 48px;
 $fontMedium: 18px;
 $fontSmall: 14px;
+$fontTiny: 11px;
 $headerText: black;
 
 * {
@@ -42,7 +43,6 @@ button {
 .link:hover {
   text-decoration: underline;
 }
-
 
 .App {
   display: flex;

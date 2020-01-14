@@ -6,6 +6,11 @@ const messageActions = {
     parcel,
   }),
 
+  addOwnDirectMessage: (parcel: DirectMessageParcel): { type: string; parcel: DirectMessageParcel } => ({
+    type: 'ADD OWN DIRECTMESSAGE',
+    parcel,
+  }),
+
   replaceMessageHistory: (parcel: MessageHistoryParcel): { type: string; messages: Messages | [] } => ({
     type: 'REPLACE MESSAGE HISTORY',
     messages: parcel.messages ? parcel.messages : [],

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { Store, ReactChangeEvent, ReactMouseEvent } from '../types/client';
-import { mapStateToProps } from '../reducers/util';
+import { reducerActions } from '../reducers/rootActions';
+import { Store, ReactChangeEvent, ReactMouseEvent, ReduxProps } from '../types/client';
+import { mapStateToProps, mergeProps } from '../reducers/util';
 import { directMessageParcel } from '../parcels/blueprints';
 
-const MessageEditor = ({ client, session, parcelService }: Store): JSX.Element => {
+const MessageEditor = ({ store, actions }: ReduxProps): JSX.Element => {
   const [message, setMessage] = useState('');
+  const { client, session, parcelService } = store;
 
   const updateMessage = (event: ReactChangeEvent): void => {
     event.persist();
@@ -16,11 +18,14 @@ const MessageEditor = ({ client, session, parcelService }: Store): JSX.Element =
   const sendMessage = (event: ReactMouseEvent): void => {
     event.preventDefault();
     const parcel = directMessageParcel(
-      client.chatPartner,
       session.user.id,
+      client.chatPartner,
       message,
     );
     parcelService.deliver(parcel);
+    if (parcel.receiverId !== session.user.id) {
+      actions.addOwnDirectMessage(parcel);
+    }
   };
 
   return (
@@ -39,4 +44,4 @@ const MessageEditor = ({ client, session, parcelService }: Store): JSX.Element =
   );
 };
 
-export default connect(mapStateToProps)(MessageEditor);
+export default connect(mapStateToProps, reducerActions, mergeProps)(MessageEditor);

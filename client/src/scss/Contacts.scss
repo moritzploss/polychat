@@ -1,12 +1,23 @@
 .contacts {
-  background-color: blue;
-
   &_list {
     list-style: none;
 
-    &_item{
-      background: green;
+    &_item {
       width: 100%;
+      border-style: solid;
+      border-width: 0px 0px 1px 0px;
+      border-color: $lightGrey;
+
+      span {
+        display: block;
+      }
+
+      &_name:hover {
+      }
+
+      &_language {
+        font-size: $fontTiny;
+      }
 
       button {
         width: 100%;
@@ -14,13 +25,12 @@
         border: none;
         padding: 5px 2px;
         font-size: $fontSmall;
+        background: none;
       }
-
-      button:hover {
-        color: $highlight;
-      }
-
     }
 
+    &_item:hover {
+      background: $lightGrey;
+    }
   }
 }

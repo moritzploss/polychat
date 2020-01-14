@@ -14,7 +14,8 @@ const Contact = ({ ownProps, store }: ReduxProps): JSX.Element => {
         key={user.id}
         onClick={(): void => onClick(user.id)}
       >
-        {`${user.name}${store.session.user.id === user.id ? ' (you)' : ''}`}
+        <span className={`${ownProps.className}_name`}>{`${user.name}${store.session.user.id === user.id ? ' (you)' : ''}`}</span>
+        <span className={`${ownProps.className}_language`}>{user.language}</span>
       </button>
     </li>
   );

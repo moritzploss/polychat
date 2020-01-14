@@ -11,7 +11,9 @@ class ParcelService {
     this.actions = actions;
   }
 
-  deliver = (parcel: Parcel): void => this.webSocket.send(JSON.stringify(parcel));
+  deliver = (parcel: Parcel): void => {
+    this.webSocket.send(JSON.stringify(parcel));
+  };
 
   receive = (data: string): void => {
     const parcel = JSON.parse(data);
