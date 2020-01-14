@@ -2,16 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { clientActions } from '../reducers/clientActions';
-import { Client } from '../types/client';
-import { UserCredentials } from '../types/applicationWide';
+import { mapStateToProps, mergeProps } from '../reducers/util';
+import { ReduxProps } from '../types/client';
 
-const Contact = ({ setChatPartner, user }: { setChatPartner: Function; user: UserCredentials }): JSX.Element => {
+const Contact = ({ store, actions }: ReduxProps): JSX.Element => {
+  const { user } = store.session;
   return (
     <li className="contacts-list-item">
       <button
         type="button"
         key={user.id}
-        onClick={(): void => setChatPartner(user.id)}
+        onClick={() => actions.setChatPartner(user.id)}
       >
         {user.name}
       </button>
@@ -19,8 +20,6 @@ const Contact = ({ setChatPartner, user }: { setChatPartner: Function; user: Use
   );
 };
 
-const mapStateToProps = ({ client }: { client: Client }): Record<string, Client> => ({
-  client,
-});
+export default connect(mapStateToProps, clientActions, mergeProps)(Contact);
 
-export default connect(mapStateToProps, clientActions)(Contact);
+// export default connect(mapStateToProps, clientActions)(Contact);

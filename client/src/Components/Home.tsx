@@ -2,23 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
 
-import { actions } from '../reducers/rootActions';
+import { reducerActions } from '../reducers/rootActions';
 import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
+import { openNewWebSocket } from '../websockets/websockets';
+
 import Navigation from './Navigation';
 import ContactList from './ContactList';
 import MessageBoard from './MessageBoard';
 import MessageEditor from './MessageEditor';
-import { openNewWebSocket } from '../websockets/websockets';
 
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
 
-const Home = ({ store, reducerActions }: ReduxProps): JSX.Element => {
+const Home = ({ store, actions }: ReduxProps): JSX.Element => {
   const { session, parcelService, client } = store;
 
   if (session.user.id && !parcelService.webSocket) {
     const webSocket = openNewWebSocket(generateWebSocketId(session.user.id));
-    reducerActions.addParcelService(webSocket, reducerActions);
+    actions.addParcelService(webSocket, actions);
   }
 
   return (
@@ -43,4 +44,4 @@ const Home = ({ store, reducerActions }: ReduxProps): JSX.Element => {
   );
 };
 
-export default connect(mapStateToProps, actions, mergeProps)(Home);
+export default connect(mapStateToProps, reducerActions, mergeProps)(Home);

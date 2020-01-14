@@ -1,10 +1,12 @@
-import { Store, ReducerActions, ReduxProps, Props } from '../types/client';
+import {
+  Store, ReducerActions, ReduxProps, Props,
+} from '../types/client';
 
 const mapStateToProps = (store: Store): Store => store;
 
-const mergeProps = (store: Store, reducerActions: ReducerActions, ownProps: Props): ReduxProps => ({
+const mergeProps = (store: Store, actions: ReducerActions, ownProps: Props): ReduxProps => ({
   store,
-  reducerActions,
+  actions,
   ownProps,
 });
 

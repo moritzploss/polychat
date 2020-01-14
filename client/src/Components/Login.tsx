@@ -2,9 +2,9 @@ import React, { useState, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 
-import { Store } from '../types/client';
-import { mapStateToProps } from '../reducers/util';
+import { AppStateActions } from '../types/client';
 import { UserCredentials } from '../types/applicationWide';
+import { mapStateToProps } from '../reducers/util';
 
 import { appStateActions } from '../reducers/appStateActions';
 import { postRequestJson } from '../http/requests';
@@ -12,11 +12,7 @@ import LabeledInputField from './LabeledInputField';
 
 const loginErrorCallback = console.log;
 
-interface Props extends Store {
-  goToHome: Function;
-}
-
-const Login = ({ goToHome }: Props): JSX.Element => {
+const Login = ({ goToHome }: AppStateActions): JSX.Element => {
   const defaultCredentials = { email: '', password: '' };
   const [credentials, setCredentials] = useState(defaultCredentials);
 

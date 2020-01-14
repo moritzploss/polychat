@@ -1,12 +1,18 @@
 import { UserCredentials, Messages } from './applicationWide';
 import { ParcelService } from '../services/parcelService';
-import { actions } from '../reducers/rootActions';
+import { reducerActions } from '../reducers/rootActions';
+import { appStateActions } from '../reducers/appStateActions';
+
+export type ReactChangeEvent = React.ChangeEvent<HTMLInputElement>;
+export type ReactMouseEvent = React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
 export interface Action {
   type: string;
 }
 
-export type ReducerActions = typeof actions;
+export type AppStateActions = typeof appStateActions;
+
+export type ReducerActions = typeof reducerActions;
 
 export interface AppState {
   currentState: string;
@@ -37,6 +43,6 @@ export interface Store {
 
 export interface ReduxProps {
   store: Store;
-  reducerActions: ReducerActions;
+  actions: ReducerActions;
   ownProps: Props;
 }

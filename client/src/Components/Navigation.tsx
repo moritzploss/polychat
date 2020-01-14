@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 
-import { actions } from '../reducers/rootActions';
-import { Store } from '../types/client';
+import { reducerActions } from '../reducers/rootActions';
+import { Store, ReducerActions } from '../types/client';
 
 const logout = async (removeParcelService: Function): Promise<void> => {
   const res = await fetch('/api/destroy-session');
@@ -14,8 +14,8 @@ const logout = async (removeParcelService: Function): Promise<void> => {
   }
 };
 
-const Navigation = ({ removeParcelService, logOut }: Record<string, Function>): JSX.Element => {
-  const resetApp = () => {
+const Navigation = ({ removeParcelService, logOut }: ReducerActions): JSX.Element => {
+  const resetApp = (): void => {
     removeParcelService();
     logOut();
   };
@@ -33,4 +33,4 @@ const Navigation = ({ removeParcelService, logOut }: Record<string, Function>): 
 
 const mapStateToProps = (store: Store): Store => store;
 
-export default connect(mapStateToProps, actions)(Navigation);
+export default connect(mapStateToProps, reducerActions)(Navigation);

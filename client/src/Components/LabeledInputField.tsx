@@ -14,5 +14,4 @@ const LabeledInputField = ({ type, id, name, value, onChange }: Record<string, a
   </label>
 );
 
-
 export default LabeledInputField;

@@ -1,18 +1,19 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { Client } from '../types/client';
+import { Store, ReactChangeEvent, ReactMouseEvent } from '../types/client';
+import { mapStateToProps } from '../reducers/util';
 import { directMessageParcel } from '../parcels/blueprints';
 
-const MessageEditor = ({ client, session, parcelService }: { client: Client; session: any; parcelService: any; setChatPartner: Function }): JSX.Element => {
+const MessageEditor = ({ client, session, parcelService }: Store): JSX.Element => {
   const [message, setMessage] = useState('');
 
-  const updateMessage = (event: ChangeEvent<HTMLInputElement>): void => {
+  const updateMessage = (event: ReactChangeEvent): void => {
     event.persist();
     setMessage(event.target.value);
   };
 
-  const sendMessage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+  const sendMessage = (event: ReactMouseEvent): void => {
     event.preventDefault();
     const parcel = directMessageParcel(
       client.chatPartner,
@@ -39,11 +40,5 @@ const MessageEditor = ({ client, session, parcelService }: { client: Client; ses
     </div>
   );
 };
-
-const mapStateToProps = ({ client, session, parcelService }: { client: Client; session: any; parcelService: any }): Record<string, Client> => ({
-  client,
-  session,
-  parcelService,
-});
 
 export default connect(mapStateToProps)(MessageEditor);
