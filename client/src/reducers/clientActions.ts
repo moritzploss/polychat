@@ -1,4 +1,4 @@
-import { ConnectedUsersParcel, ContactListParcel, UserCredentials } from '../types/applicationWide';
+import { ConnectedUsersParcel, ContactListParcel, UserData } from '../types/applicationWide';
 
 const clientActions = {
   updateConnectedUsers: (parcel: ConnectedUsersParcel): { type: string; connectedUsers: string[] } => ({
@@ -6,7 +6,7 @@ const clientActions = {
     connectedUsers: parcel.connectedUsers ? parcel.connectedUsers : [],
   }),
 
-  updateContactList: (parcel: ContactListParcel): { type: string; contactList: UserCredentials[] } => ({
+  updateContactList: (parcel: ContactListParcel): { type: string; contactList: UserData[] } => ({
     type: 'UPDATE CONTACTLIST',
     contactList: parcel.contactList ? parcel.contactList : [],
   }),

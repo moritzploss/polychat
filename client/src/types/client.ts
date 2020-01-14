@@ -1,4 +1,4 @@
-import { UserCredentials, Messages } from './applicationWide';
+import { UserData, Messages } from './applicationWide';
 import { ParcelService } from '../services/parcelService';
 import { reducerActions } from '../reducers/rootActions';
 import { appStateActions } from '../reducers/appStateActions';
@@ -20,12 +20,12 @@ export interface AppState {
 
 export interface Client {
   connectedUsers: string[];
-  contactList: UserCredentials[];
+  contactList: UserData[];
   chatPartner: string;
 }
 
 export interface Session {
-  user: UserCredentials;
+  user: UserData;
   authenticated: boolean;
   checked: boolean;
   invalid: boolean;

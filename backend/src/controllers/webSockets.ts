@@ -1,14 +1,11 @@
 import { Request, NextFunction } from 'express-serve-static-core';
 import * as ws from 'ws';
-import * as mongoose from 'mongoose';
 
 import { logger } from '../logging';
 import { parcelService } from '../services/parcelService';
-import { messageHistoryParcel, contactListParcel, connectedUserParcel } from '../parcels/blueprints';
+import { connectedUserParcel } from '../parcels/blueprints';
 
 import { webSocketService } from '../services/webSocketService';
-import { getUserMessages, getUserContacts, getUsersById } from '../services/database';
-import { toCredentials } from './login';
 
 const authenticateWebSocket = (webSocket: ws, req: Request, next: NextFunction): void => (
   (req.params.id.startsWith(req.session.userId) && req.session.authorized)
@@ -17,17 +14,11 @@ const authenticateWebSocket = (webSocket: ws, req: Request, next: NextFunction):
 );
 
 const onOpen = (webSocket: ws, webSocketId: string): void => {
-  webSocketService.addWebSocket(webSocketId, webSocket);
   logger.info(`connection opened on websocket ${webSocketId}`);
+  webSocketService.addWebSocket(webSocketId, webSocket);
   const userId = webSocketService.getUserId(webSocketId);
-  getUserMessages(userId, (messages: Record<string, any>) => (
-    parcelService.deliver(messageHistoryParcel(userId, messages))
-  ));
-  getUserContacts(userId, (contacts: string[]) =>
-    getUsersById(contacts, (users: mongoose.Document[]) =>
-      parcelService.deliver(contactListParcel(userId, users.map(toCredentials))),
-    ),
-  );
+  parcelService.deliverContactListParcel(userId);
+  parcelService.deliverMessageHistoryParcel(userId);
   parcelService.deliver(connectedUserParcel(userId));
 };
 

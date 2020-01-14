@@ -1,6 +1,6 @@
 import { loggStream } from './logging';
 import { apiRouter } from './routes/api';
-import { connectDatabase, addTestUser } from './services/database';
+import { repository } from './services/repository';
 import { sessionConfig } from './sessions/expressSession';
 import { webSocketsRouter } from './routes/webSockets';
 
@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(sessionConfig);
 app.use(morgan('tiny', { stream: loggStream }));
 
-connectDatabase().then(() => addTestUser());
+repository.connectDatabase().then(() => repository.addTestUser());
 
 app.use('/api/websockets', webSocketsRouter);
 app.use('/api', apiRouter);

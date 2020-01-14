@@ -22,6 +22,7 @@ var getParcel = function (type, receiverId, senderId) {
         senderId: senderId,
     });
 };
+exports.getParcel = getParcel;
 var directMessageParcel = function (userId, message) { return (__assign(__assign({}, getParcel('DIRECT MESSAGE', userId)), { message: message })); };
 exports.directMessageParcel = directMessageParcel;
 var messageHistoryParcel = function (userId, messages) { return (__assign(__assign({}, getParcel('REPLACE MESSAGE HISTORY', userId)), { messages: messages })); };

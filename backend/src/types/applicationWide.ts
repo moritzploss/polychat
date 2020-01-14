@@ -18,12 +18,12 @@ export interface ConnectedUsersParcel extends Parcel {
 }
 
 export interface ContactListParcel extends ConnectedUsersParcel {
-  contactList: UserCredentials[];
+  contactList: UserData[];
 }
 
 export type Messages = Record<string, DirectMessageParcel[]>;
 
-export interface UserCredentials {
+export interface UserData {
   name: string;
   language: string;
   email: string;

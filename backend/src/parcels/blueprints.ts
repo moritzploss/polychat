@@ -1,6 +1,6 @@
 import { webSocketService } from '../services/webSocketService';
 
-import { UserCredentials, MessageHistoryParcel, Messages, Parcel, ConnectedUsersParcel, ContactListParcel, DirectMessageParcel 
+import { UserData, MessageHistoryParcel, Messages, Parcel, ConnectedUsersParcel, ContactListParcel, DirectMessageParcel 
 } from '../types/applicationWide';
 
 const getParcel = (type: string, receiverId = 'all', senderId = 'system'): Parcel => ({
@@ -25,10 +25,16 @@ const connectedUserParcel = (userId: string): ConnectedUsersParcel => ({
   connectedUsers: webSocketService.getConnectedUsers(),
 });
 
-const contactListParcel = (userId: string, contactList: UserCredentials[]): ContactListParcel => ({
+const contactListParcel = (userId: string, contactList: UserData[]): ContactListParcel => ({
   ...getParcel('UPDATE CONTACTLIST', userId),
   contactList,
   connectedUsers: webSocketService.getConnectedUsers(),
 });
 
-export { messageHistoryParcel, contactListParcel, connectedUserParcel, directMessageParcel };
+export {
+  messageHistoryParcel,
+  contactListParcel,
+  connectedUserParcel,
+  directMessageParcel,
+  getParcel,
+};

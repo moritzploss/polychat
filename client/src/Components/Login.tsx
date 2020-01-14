@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 
 import { AppStateActions } from '../types/client';
-import { UserCredentials } from '../types/applicationWide';
+import { UserData } from '../types/applicationWide';
 import { mapStateToProps } from '../reducers/util';
 
 import { appStateActions } from '../reducers/appStateActions';
@@ -24,7 +24,7 @@ const Login = ({ goToHome }: AppStateActions): JSX.Element => {
     }));
   };
 
-  const loginSuccessCallback = (user: UserCredentials): void => {
+  const loginSuccessCallback = (user: UserData): void => {
     sessionService.saveSession();
     sessionService.saveUser(user);
     goToHome();

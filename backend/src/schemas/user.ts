@@ -56,4 +56,6 @@ schema.statics.authenticate = function (email: string, password: string, callbac
 
 const User = typedModel('user', schema);
 
+export type UserMongoose = typeof User;
+
 export { User };

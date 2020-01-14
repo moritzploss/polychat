@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var logging_1 = require("./logging");
 var api_1 = require("./routes/api");
-var database_1 = require("./services/database");
+var repository_1 = require("./services/repository");
 var expressSession_1 = require("./sessions/expressSession");
 var webSockets_1 = require("./routes/webSockets");
 var bodyParser = require("body-parser");
@@ -15,7 +15,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(expressSession_1.sessionConfig);
 app.use(morgan('tiny', { stream: logging_1.loggStream }));
-database_1.connectDatabase().then(function () { return database_1.addTestUser(); });
+repository_1.repository.connectDatabase().then(function () { return repository_1.repository.addTestUser(); });
 app.use('/api/websockets', webSockets_1.webSocketsRouter);
 app.use('/api', api_1.apiRouter);
 exports.default = app;

@@ -1,11 +1,10 @@
 import { Request, Response } from 'express-serve-static-core';
 import { MongooseDocument } from 'mongoose';
 
-import { UserCredentials } from '../types/applicationWide';
-
+import { UserData } from '../types/applicationWide';
 import { User } from '../schemas/user';
 
-const toCredentials = (userData): UserCredentials => ({
+const toCredentials = (userData): UserData => ({
   name: userData.name,
   language: userData.language,
   email: userData.email,
