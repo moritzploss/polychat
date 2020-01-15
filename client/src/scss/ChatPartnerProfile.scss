@@ -6,6 +6,12 @@
     display: block;
   }
 
+  &_language {
+    display: block;
+    font-size: $fontSmall;
+    color: $mediumGrey;
+  }
+
   &_img {
     border-radius: 50%;
     width: 96px;

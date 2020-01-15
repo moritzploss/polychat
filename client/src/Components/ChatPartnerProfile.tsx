@@ -11,6 +11,7 @@ const ChatPartnerProfile = ({ store }: ReduxProps): JSX.Element => {
     <div className="chatpartnerprofile">
       <img alt="chatpartner avatar" className="chatpartnerprofile_img" src={`${process.env.PUBLIC_URL}/avatars/${client.chatPartner.avatar}`} />
       <span className="chatpartnerprofile_name">{client.chatPartner.name}</span>
+      <span className="chatpartnerprofile_language">{client.chatPartner.language}</span>
     </div>
   );
 };
