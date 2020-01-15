@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { clientActions } from '../reducers/clientActions';
+import { reducerActions } from '../reducers/rootActions';
 import { postRequestJson } from '../http/requests';
+import { errorCallback } from '../util/errors';
 
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps, ReactChangeEvent } from '../types/client';
@@ -10,7 +11,7 @@ import { UserData } from '../types/applicationWide';
 
 import ContactList from './ContactList';
 
-const ContactSearch = ({ store }: ReduxProps): JSX.Element => {
+const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState([]);
 
@@ -20,16 +21,22 @@ const ContactSearch = ({ store }: ReduxProps): JSX.Element => {
     return (event.target.value === '')
       ? setSearchResult([])
       : postRequestJson(
-        console.log,
+        errorCallback,
         (body: Record<string, any>) => setSearchResult(body.result), '/api/users', { query: event.target.value },
       );
   };
 
   const addUserToContacts = (user: UserData): void => {
-    postRequestJson(console.log, () => { }, '/api/users/add', {
+    postRequestJson(errorCallback, () => { }, '/api/users/add', {
       userId: store.session.user.id,
       userToAdd: user.id,
     });
+  };
+
+  const onClick = (event: Event, user: UserData): void => {
+    addUserToContacts(user);
+    actions.goToHome();
+    actions.setChatPartner(user);
   };
 
   return (
@@ -47,10 +54,10 @@ const ContactSearch = ({ store }: ReduxProps): JSX.Element => {
       </form>
       <ContactList
         contactList={searchResult}
-        clickHandler={(event: Event, user: UserData): void => addUserToContacts(user)}
+        clickHandler={onClick}
       />
     </div>
   );
 };
 
-export default connect(mapStateToProps, clientActions, mergeProps)(ContactSearch);
+export default connect(mapStateToProps, reducerActions, mergeProps)(ContactSearch);

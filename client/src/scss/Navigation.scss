@@ -11,11 +11,15 @@
   border-color: $lightGrey;
 
   svg {
-    color: $grey;
     cursor: pointer;
   }
 
-  svg:hover {
-    color: $highlight;
+  path {
+    fill: $mediumGrey;
   }
+
+  path:hover {
+    fill: $highlight;
+  }
+
 }

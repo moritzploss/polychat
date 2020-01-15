@@ -16,6 +16,7 @@ import MessageEditor from './MessageEditor';
 import ContactSearch from './ContactSearch';
 import UserProfile from './UserProfile';
 import ChatPartnerProfile from './ChatPartnerProfile';
+import Welcome from './Welcome';
 
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
 
@@ -47,7 +48,7 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
       </div>
       <div className="home_main">
         {!client.chatPartner.id
-          ? ''
+          ? <Welcome />
           : (
             <>
               <ChatPartnerProfile />

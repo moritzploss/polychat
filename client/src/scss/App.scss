@@ -20,7 +20,7 @@ $fontHuge: 48px;
 $fontMedium: 18px;
 $fontSmall: 14px;
 $fontTiny: 11px;
-$headerText: black;
+$headerText: $darkGrey;
 
 $toolbarHeight: 35px;
 
@@ -58,6 +58,10 @@ button {
   text-align: center;
 }
 
+h1 {
+  color: $mediumGrey;
+}
+
 /* Components */
 @import './Home.scss';
 @import './Login.scss';
@@ -68,3 +72,4 @@ button {
 @import './MessageEditor.scss';
 @import './Navigation.scss';
 @import './UserProfile.scss';
+@import './Welcome.scss';

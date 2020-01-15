@@ -1,5 +1,4 @@
 .login {
-  background: $lightGrey;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,16 +19,17 @@
 
     &_input input  {
       margin-bottom: 20px;
-      padding: 10px 10px 10px 2px;
+      padding: 10px 10px 3px 2px;
       display: flex;
       flex-direction: column;
       text-align: left;
       border-style: solid;
       border-width: 0px 0px 1px;
       border-color: $primary;
-      background-color: $lightGrey;
       filter: none;
       outline: none;
+      font-size: $fontMedium;
+      width: 180px;
     }
 
     label {
@@ -37,18 +37,18 @@
     }
 
     button {
-      max-width: 150px;
+      max-width: 200px;
       border: none;
-      background-color: $primary;
+      background-color: $darkGrey;
       color: $secondary;
       margin-top: 10px;
-      padding: 10px 15px;
+      padding: 7px 15px;
       font-size: $fontMedium;
     }
 
     button:hover {
-      background-color: $secondary;
-      color: $primary;
+      background-color: $highlight;
+      color: white;
     }
   }
 }
