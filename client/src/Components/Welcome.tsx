@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressCard, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
@@ -12,7 +12,7 @@ const Welcome = ({ store }: ReduxProps): JSX.Element => {
 
   const icon = contactListIsEmpty
     ? faSearch
-    : faAddressCard;
+    : faUser;
 
   const text = contactListIsEmpty
     ? 'Your Contactlist is empty!'

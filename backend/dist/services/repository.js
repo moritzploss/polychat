@@ -68,6 +68,7 @@ var Repository = /** @class */ (function () {
     function Repository(user) {
         var _this = this;
         this.connectDatabase = function () { return __awaiter(_this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_a) {
                 mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
                     useNewUrlParser: true,
@@ -75,7 +76,10 @@ var Repository = /** @class */ (function () {
                     useCreateIndex: true,
                 });
                 mongoose.connection.on('error', logging_1.logger.error);
-                mongoose.connection.once('open', function () { return logging_1.logger.info('connected to mongo db'); });
+                mongoose.connection.once('open', function () {
+                    logging_1.logger.info('connected to mongo db');
+                    _this.addTestUser();
+                });
                 return [2 /*return*/, mongoose.connection];
             });
         }); };

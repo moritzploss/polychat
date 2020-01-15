@@ -8,18 +8,20 @@ import { UserData } from '../types/applicationWide';
 
 import Contact from './Contact';
 
-const ContactList = ({ ownProps }: ReduxProps): JSX.Element => {
-  const { contactList, clickHandler } = ownProps;
+const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
+  const getOnlineStatus = (userId: string): string => (
+    store.client.connectedUsers.includes(userId) ? 'online ' : ''
+  );
 
   return (
     <div className="contacts">
       <ul className="contacts_list">
-        {contactList.map((user: UserData) => (
+        {ownProps.contactList.map((user: UserData) => (
           <Contact
             user={user}
             key={user.id}
-            onClick={(event: Event): void => clickHandler(event, user)}
-            className="contacts_list_item"
+            onClick={(event: Event): void => ownProps.clickHandler(event, user)}
+            className={`${getOnlineStatus(user.id)}contacts_list_item`}
           />
         ))}
       </ul>

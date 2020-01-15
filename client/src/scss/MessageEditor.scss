@@ -1,5 +1,5 @@
 .messageeditor {
-  height: $toolbarHeight;
+  min-height: $toolbarHeight;
 
   display: flex;
   flex-direction: row;
@@ -18,13 +18,12 @@
     &_input {
       font-family: 'Roboto', Arial, Helvetica, sans-serif;
       resize: none;
-      padding: 2px 5px 2px 5px;
       flex: 1;
       font-size: $fontSmall;
       border: none;
-      padding: 0px 20px;
-      overflow: auto;
+      padding: 10px 20px;
       min-height: 100% !important;
+      box-sizing: border-box;
     }
 
     button {

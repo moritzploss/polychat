@@ -17,6 +17,15 @@ const MessageBoard = ({ store }: ReduxProps): JSX.Element => {
   const messageList = messages[client.chatPartner.id];
   const hasPriorMessages = Boolean(messageList);
 
+  const getDateTimeString = (timeStamp: string): string => {
+    const nowDate = new Date().toDateString();
+    const messageTime = new Date(timeStamp);
+    const messageDate = messageTime.toDateString();
+    return (nowDate === messageDate)
+      ? messageTime.toLocaleTimeString('sv-SV')
+      : messageDate;
+  };
+
   return (
     <div className="messageboard" ref={messageArea}>
       <ul className="messageboard_list">
@@ -26,7 +35,8 @@ const MessageBoard = ({ store }: ReduxProps): JSX.Element => {
               className={`messageboard_list_item messageboard_list_item_${parcel.senderId === store.session.user.id ? 'right' : 'left'}`}
               key={parcel.timeStamp}
             >
-              {parcel.message}
+              <span>{parcel.message}</span>
+              <span className="messageboard_list_item_time">{getDateTimeString(parcel.timeStamp)}</span>
             </li>
           ))
           : []}

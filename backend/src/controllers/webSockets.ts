@@ -24,7 +24,6 @@ const onOpen = (webSocket: ws, webSocketId: string): void => {
 
 const onMessage = (data: string): void => {
   logger.info('message received');
-  console.log(data);
   const parcel = JSON.parse(data);
   parcelService.receive(parcel);
 };

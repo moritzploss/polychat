@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(sessionConfig);
 app.use(morgan('tiny', { stream: loggStream }));
 
-repository.connectDatabase().then(() => repository.addTestUser());
+repository.connectDatabase();
 
 app.use('/api/websockets', webSocketsRouter);
 app.use('/api', apiRouter);

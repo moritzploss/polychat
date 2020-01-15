@@ -15,7 +15,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(expressSession_1.sessionConfig);
 app.use(morgan('tiny', { stream: logging_1.loggStream }));
-repository_1.repository.connectDatabase().then(function () { return repository_1.repository.addTestUser(); });
+repository_1.repository.connectDatabase();
 app.use('/api/websockets', webSockets_1.webSocketsRouter);
 app.use('/api', api_1.apiRouter);
 exports.default = app;

@@ -18,7 +18,6 @@ var onOpen = function (webSocket, webSocketId) {
 };
 var onMessage = function (data) {
     logging_1.logger.info('message received');
-    console.log(data);
     var parcel = JSON.parse(data);
     parcelService_1.parcelService.receive(parcel);
 };

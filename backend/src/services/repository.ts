@@ -31,7 +31,10 @@ class Repository {
       },
     );
     mongoose.connection.on('error', logger.error);
-    mongoose.connection.once('open', () => logger.info('connected to mongo db'));
+    mongoose.connection.once('open', () => {
+      logger.info('connected to mongo db');
+      this.addTestUser();
+    });
     return mongoose.connection;
   };
 
