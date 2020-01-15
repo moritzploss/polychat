@@ -8,8 +8,9 @@ import { UserData } from '../types/applicationWide';
 
 import Contact from './Contact';
 
-const ContactList = ({ store, actions, ownProps }: ReduxProps): JSX.Element => {
-  const { contactList } = ownProps;
+const ContactList = ({ ownProps }: ReduxProps): JSX.Element => {
+  const { contactList, clickHandler } = ownProps;
+
   return (
     <div className="contacts">
       <ul className="contacts_list">
@@ -17,7 +18,7 @@ const ContactList = ({ store, actions, ownProps }: ReduxProps): JSX.Element => {
           <Contact
             user={user}
             key={user.id}
-            onClick={actions.setChatPartner}
+            onClick={(event: Event): void => clickHandler(event, user)}
             className="contacts_list_item"
           />
         ))}

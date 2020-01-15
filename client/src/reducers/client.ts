@@ -3,7 +3,13 @@ import { Client } from '../types/client';
 const initialState = {
   connectedUsers: [],
   contactList: [],
-  chatPartner: '',
+  chatPartner: {
+    id: '',
+    name: '',
+    email: '',
+    language: '',
+    avatar: '',
+  },
 };
 
 const clientReducer = (client = initialState, action: any): Client => {
@@ -14,6 +20,7 @@ const clientReducer = (client = initialState, action: any): Client => {
         connectedUsers: action.connectedUsers,
       };
     case 'UPDATE CONTACTLIST':
+      console.log('receiving update', action.contactList);
       return {
         ...client,
         contactList: action.contactList,

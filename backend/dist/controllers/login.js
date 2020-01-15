@@ -42,6 +42,7 @@ var toCredentials = function (userData) { return ({
     language: userData.language,
     email: userData.email,
     id: userData.id,
+    avatar: userData.avatar,
 }); };
 exports.toCredentials = toCredentials;
 var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {

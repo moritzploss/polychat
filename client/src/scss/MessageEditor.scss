@@ -1,19 +1,40 @@
 .messageeditor {
-  height: 30px;
-  background: blue;
+  height: $toolbarHeight;
 
   display: flex;
   flex-direction: row;
 
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: $lightGrey;
+
   &_form {
     display: flex;
     flex-direction: row;
-    flex: 1;
+    flex: 1 1;
 
     &_input {
       padding: 2px 5px 2px 5px;
       flex: 1;
       font-size: $fontSmall;
+      border: none;
+      padding: 0px 20px;
+    }
+
+    button {
+      background-color: white;
+      border: none;
+    }
+
+    svg {
+      color: $primary;
+      width: 20px !important;
+      height: 20px !important;
+      margin: 5px 15px 5px 5px;
+    }
+
+    svg:hover {
+      color: $highlight;
     }
   }
 }

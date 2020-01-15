@@ -7,7 +7,6 @@ import { postRequestJson } from '../http/requests';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps, ReactChangeEvent } from '../types/client';
 import { UserData } from '../types/applicationWide';
-import { useParams } from 'react-router';
 
 import ContactList from './ContactList';
 
@@ -26,10 +25,10 @@ const ContactSearch = ({ store }: ReduxProps): JSX.Element => {
       );
   };
 
-  const addUserToContacts = (userToAdd: string): void => {
+  const addUserToContacts = (user: UserData): void => {
     postRequestJson(console.log, () => { }, '/api/users/add', {
       userId: store.session.user.id,
-      userToAdd,
+      userToAdd: user.id,
     });
   };
 
@@ -43,10 +42,13 @@ const ContactSearch = ({ store }: ReduxProps): JSX.Element => {
           name="contactsearch"
           value={query}
           onChange={updateCredentials}
-          placeholder="Search Users..."
+          placeholder="&#x1f50e; Search for Users"
         />
       </form>
-      <ContactList contactList={searchResult} />
+      <ContactList
+        contactList={searchResult}
+        clickHandler={(event: Event, user: UserData): void => addUserToContacts(user)}
+      />
     </div>
   );
 };

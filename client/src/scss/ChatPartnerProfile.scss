@@ -1,0 +1,13 @@
+.chatpartnerprofile {
+  padding: 30px 0;
+  text-align: center;
+
+  &_name {
+    display: block;
+  }
+
+  &_img {
+    border-radius: 50%;
+    width: 96px;
+  }
+}

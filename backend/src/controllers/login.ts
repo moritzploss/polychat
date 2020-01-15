@@ -9,6 +9,7 @@ const toCredentials = (userData): UserData => ({
   language: userData.language,
   email: userData.email,
   id: userData.id,
+  avatar: userData.avatar,
 });
 
 const loginUser = async (req: Request, res: Response): Promise<void> => {

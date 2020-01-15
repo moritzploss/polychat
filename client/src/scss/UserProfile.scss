@@ -1,0 +1,22 @@
+.userprofile {
+  padding: 20px 0;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: $lightGrey;
+  text-align: center;
+
+  &_name {
+    display: block;
+    margin-bottom: -5px;
+  }
+
+  &_language {
+    font-size: $fontTiny;
+    color: $mediumGrey;
+  }
+
+  &_img {
+    border-radius: 50%;
+    width: 48px;
+  }
+}

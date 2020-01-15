@@ -6,12 +6,15 @@ $theGoodBlue: #26547C;
 $theGoodPink: #ef476f;
 $mainDark: rgb(37, 55, 94);
 $highlight: #ef476f;
-$mainLight: rgb(86, 171, 238);
+$mainLight: rgb(245, 245, 165);
 
-$primary: #333;
+$primary: #888;
 $secondary: #eee;
 
-$lightGrey: #efefef;
+$lightGrey: rgb(248, 248, 248);
+$mediumGrey: rgb(160, 160, 160);
+$darkGrey: rgb(60, 60, 60);
+$grey: rgb(190, 190, 190);
 
 $fontHuge: 48px;
 $fontMedium: 18px;
@@ -19,9 +22,12 @@ $fontSmall: 14px;
 $fontTiny: 11px;
 $headerText: black;
 
+$toolbarHeight: 35px;
+
 * {
   margin: 0;
   padding: 0;
+  color: $darkGrey;
 }
 
 html, body, #root, #root>div  {
@@ -55,8 +61,10 @@ button {
 /* Components */
 @import './Home.scss';
 @import './Login.scss';
+@import './ChatPartnerProfile.scss';
 @import './Contacts.scss';
 @import './ContactSearch.scss';
 @import './MessageBoard.scss';
 @import './MessageEditor.scss';
 @import './Navigation.scss';
+@import './UserProfile.scss';

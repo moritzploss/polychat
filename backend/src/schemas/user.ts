@@ -20,6 +20,10 @@ const schema = createSchema({
   language: Type.string({
     required: true,
   }),
+  avatar: Type.string({
+    required: true,
+    default: `avatar-${Math.floor(Math.random() * 6)}.svg`,
+  }),
   contacts: Type.array().of(Type.string()),
   inContactListOf: Type.array().of(Type.string()),
   createdAt: Type.date({

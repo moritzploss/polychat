@@ -18,7 +18,6 @@ const Login = ({ goToHome }: AppStateActions): JSX.Element => {
 
   const updateCredentials = (event: ChangeEvent<HTMLInputElement>): void => {
     event.persist();
-    console.log(event);
     setCredentials((previousCredentials) => ({
       ...previousCredentials,
       [event.target.name.toLowerCase()]: event.target.value,

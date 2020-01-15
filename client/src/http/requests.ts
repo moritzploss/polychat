@@ -8,7 +8,6 @@ const postRequestJson = async (errCallback: Function, successCallback: Function,
   });
 
   const resBody = await res.json();
-  console.log(resBody);
   return (resBody.error)
     ? errCallback(resBody)
     : successCallback(resBody);

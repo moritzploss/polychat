@@ -2,10 +2,7 @@ import * as mongoose from 'mongoose';
 
 import { logger } from '../logging';
 import { User, UserMongoose } from '../schemas/user';
-import { DirectMessageParcel, Messages, Parcel } from '../types/applicationWide';
-
-// const session = require('express-session');
-// const mongoStore = require('connect-mongo')(session);
+import { DirectMessageParcel, Messages } from '../types/applicationWide';
 
 const updateDirectMessages = (messages: Messages, parcel: DirectMessageParcel, senderId: string = parcel.senderId): Messages => {
   const newMessages = messages[senderId]
@@ -40,9 +37,9 @@ class Repository {
 
   addTestUser = async (): Promise<void> => {
     const testUser = new User({
-      email: process.env.TEST_USER_EMAIL,
+      email: 'random2@test.com',
       password: process.env.TEST_USER_PASSWORD,
-      name: 'Test User',
+      name: 'Random 2',
       language: 'english',
       messages: {
         test: [1, 2, 3],

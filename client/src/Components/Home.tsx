@@ -7,7 +7,6 @@ import { reducerActions } from '../reducers/rootActions';
 import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { openNewWebSocket } from '../websockets/websockets';
-import { appStateActions } from '../reducers/appStateActions';
 import { appStates } from '../reducers/appState';
 
 import Navigation from './Navigation';
@@ -15,6 +14,8 @@ import ContactList from './ContactList';
 import MessageBoard from './MessageBoard';
 import MessageEditor from './MessageEditor';
 import ContactSearch from './ContactSearch';
+import UserProfile from './UserProfile';
+import ChatPartnerProfile from './ChatPartnerProfile';
 
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
 
@@ -33,21 +34,23 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
       case (appStates.userSearch):
         return <ContactSearch />;
       default:
-        return <ContactList contactList={client.contactList} />;
+        return <ContactList contactList={client.contactList} clickHandler={actions.setChatPartner} />;
     }
   };
 
   return (
     <div className="home">
       <div className="home_sidebar">
+        <UserProfile />
         {getView()}
         <Navigation />
       </div>
       <div className="home_main">
-        {!client.chatPartner
+        {!client.chatPartner.id
           ? ''
           : (
             <>
+              <ChatPartnerProfile />
               <MessageBoard />
               <MessageEditor />
             </>

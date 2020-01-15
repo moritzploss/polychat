@@ -1,5 +1,8 @@
 .messageboard {
-  flex: 1;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  height: 0;
+  text-align: left;
 
   &_list {
     list-style: none;
@@ -9,15 +12,15 @@
       max-width: 400px;
       margin-bottom: 10px;
       padding: 7px 12px 7px 12px;
-      border-radius: 5px;
+      border-radius: 10px;
 
       &_right {
         float: right;
         clear: both;
         margin-right: 5px;
         margin-left: 20%;
-        background: rgb(37, 55, 94);
-        color: white;
+        background: $mainLight;
+        color: black;
       }
 
       &_left {

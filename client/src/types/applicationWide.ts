@@ -28,4 +28,5 @@ export interface UserData {
   language: string;
   email: string;
   id: string;
+  avatar: string;
 }

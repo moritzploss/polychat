@@ -1,15 +1,17 @@
 .navigation {
-  padding: 10px 0;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  height: $toolbarHeight;
+  align-items: center;
+  min-height: $toolbarHeight;
 
   border-style: solid;
   border-width: 1px 0 0 0;
   border-color: $lightGrey;
 
   svg {
-    color: $primary;
+    color: $grey;
     cursor: pointer;
   }
 

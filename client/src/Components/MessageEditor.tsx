@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import { reducerActions } from '../reducers/rootActions';
-import { Store, ReactChangeEvent, ReactMouseEvent, ReduxProps } from '../types/client';
+import { ReactChangeEvent, ReactMouseEvent, ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { directMessageParcel } from '../parcels/blueprints';
 
@@ -17,28 +19,34 @@ const MessageEditor = ({ store, actions }: ReduxProps): JSX.Element => {
 
   const sendMessage = (event: ReactMouseEvent): void => {
     event.preventDefault();
-    const parcel = directMessageParcel(
-      session.user.id,
-      client.chatPartner,
-      message,
-    );
-    parcelService.deliver(parcel);
-    if (parcel.receiverId !== session.user.id) {
-      actions.addOwnDirectMessage(parcel);
+    if (message) {
+      const parcel = directMessageParcel(
+        session.user.id,
+        client.chatPartner.id,
+        message,
+      );
+      parcelService.deliver(parcel);
+      if (parcel.receiverId !== session.user.id) {
+        actions.addOwnDirectMessage(parcel);
+      }
+      setMessage('');
     }
   };
 
   return (
     <div className="messageeditor">
-      <form className="messageeditor_form">
+      <form className="messageeditor_form" onSubmit={sendMessage}>
         <input
           type="text"
           name="message"
           value={message}
           onChange={(event): void => updateMessage(event)}
           className="messageeditor_form_input"
+          placeholder="Say something!"
         />
-        <button type="submit" onClick={sendMessage}>Send</button>
+        <button type="submit">
+          <FontAwesomeIcon className="messageeditor_form_sendmessage" icon={faPaperPlane} onClick={sendMessage} />
+        </button>
       </form>
     </div>
   );

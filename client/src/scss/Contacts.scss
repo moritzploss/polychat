@@ -1,23 +1,30 @@
 .contacts {
+  flex: 1;
+
   &_list {
     list-style: none;
 
     &_item {
-      width: 100%;
       border-style: solid;
       border-width: 0px 0px 1px 0px;
       border-color: $lightGrey;
       padding: 2px 10px;
 
-      span {
-        display: block;
+      &_details {
+        &_name {
+          display: block;
+          color: $darkGrey;
+        }
+        &_language {
+          display: block;
+          font-size: $fontTiny;
+          color: $mediumGrey;
+        }
       }
 
-      &_name:hover {
-      }
-
-      &_language {
-        font-size: $fontTiny;
+      &_avatar {
+        width: 28px;
+        margin-right: 10px;
       }
 
       button {
@@ -27,6 +34,12 @@
         padding: 5px 2px;
         font-size: $fontSmall;
         background: none;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        
       }
     }
 

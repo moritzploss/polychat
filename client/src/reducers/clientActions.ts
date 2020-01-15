@@ -11,7 +11,7 @@ const clientActions = {
     contactList: parcel.contactList ? parcel.contactList : [],
   }),
 
-  setChatPartner: (chatPartner: string): { type: string; chatPartner: string } => ({
+  setChatPartner: (chatPartner: UserData): { type: string; chatPartner: UserData } => ({
     type: 'SET CHATPARTNER',
     chatPartner,
   }),

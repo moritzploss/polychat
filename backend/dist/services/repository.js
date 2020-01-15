@@ -57,8 +57,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = require("mongoose");
 var logging_1 = require("../logging");
 var user_1 = require("../schemas/user");
-// const session = require('express-session');
-// const mongoStore = require('connect-mongo')(session);
 var updateDirectMessages = function (messages, parcel, senderId) {
     var _a;
     if (senderId === void 0) { senderId = parcel.senderId; }
@@ -87,9 +85,9 @@ var Repository = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         testUser = new user_1.User({
-                            email: process.env.TEST_USER_EMAIL,
+                            email: 'random2@test.com',
                             password: process.env.TEST_USER_PASSWORD,
-                            name: 'Test User',
+                            name: 'Random 2',
                             language: 'english',
                             messages: {
                                 test: [1, 2, 3],

@@ -4,7 +4,7 @@ import { reducerActions } from '../reducers/rootActions';
 import { appStateActions } from '../reducers/appStateActions';
 
 export type ReactChangeEvent = React.ChangeEvent<HTMLInputElement>;
-export type ReactMouseEvent = React.MouseEvent<HTMLButtonElement, MouseEvent>;
+export type ReactMouseEvent = React.MouseEvent<any, MouseEvent>;
 
 export interface Action {
   type: string;
@@ -21,7 +21,7 @@ export interface AppState {
 export interface Client {
   connectedUsers: string[];
   contactList: UserData[];
-  chatPartner: string;
+  chatPartner: UserData;
 }
 
 export interface Session {

@@ -16,7 +16,6 @@ const appStateReducer = (appState = initialState, action: any): AppState => {
     case 'LOG OUT':
       return initialState;
     case 'GO TO HOME':
-      console.log(action);
       return {
         ...appState,
         currentState: appStates.home,
