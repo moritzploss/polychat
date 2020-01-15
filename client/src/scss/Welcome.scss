@@ -5,6 +5,15 @@
   justify-content: center;
   align-items: center;
 
+  &_icon {
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    color: $mediumLightGrey;
+    font-size: $fontLarge;
+  }
+
   svg {
     width: 300px !important;
     height: 300px !important;

@@ -81,19 +81,25 @@ var Repository = /** @class */ (function () {
         }); };
         this.addTestUser = function () { return __awaiter(_this, void 0, void 0, function () {
             var testUser;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         testUser = new user_1.User({
-                            email: 'random2@test.com',
+                            email: 'test@test.com',
                             password: process.env.TEST_USER_PASSWORD,
-                            name: 'Random 2',
-                            language: 'english',
+                            name: 'Random User',
+                            language: 'swedish',
                             messages: {
                                 test: [1, 2, 3],
                             },
                         });
-                        return [4 /*yield*/, testUser.save(function () { })];
+                        return [4 /*yield*/, testUser.save(function (error) {
+                                if (error)
+                                    return;
+                                var userId = testUser.id;
+                                _this.addUserToContactList(userId, userId, function () { });
+                            })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

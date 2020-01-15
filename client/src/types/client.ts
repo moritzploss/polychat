@@ -3,7 +3,7 @@ import { ParcelService } from '../services/parcelService';
 import { reducerActions } from '../reducers/rootActions';
 import { appStateActions } from '../reducers/appStateActions';
 
-export type ReactChangeEvent = React.ChangeEvent<HTMLInputElement>;
+export type ReactChangeEvent = React.ChangeEvent<any>;
 export type ReactMouseEvent = React.MouseEvent<any, MouseEvent>;
 
 export interface Action {

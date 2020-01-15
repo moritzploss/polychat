@@ -29,7 +29,7 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
     actions.addParcelService(webSocket, actions);
   }
 
-  const getView = (): JSX.Element => {
+  const getSideBarContents = (): JSX.Element => {
     switch (appState.currentState) {
       case (appStates.settings):
         return <Settings />;
@@ -40,23 +40,27 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
     }
   };
 
+  const getMainContents = (): JSX.Element => (
+    !client.chatPartner.id
+      ? <Welcome />
+      : (
+        <>
+          <ChatPartnerProfile />
+          <MessageBoard />
+          <MessageEditor />
+        </>
+      )
+  );
+
   return (
     <div className="home">
       <div className="home_sidebar">
         <UserProfile />
-        {getView()}
+        {getSideBarContents()}
         <Navigation />
       </div>
       <div className="home_main">
-        {!client.chatPartner.id
-          ? <Welcome />
-          : (
-            <>
-              <ChatPartnerProfile />
-              <MessageBoard />
-              <MessageEditor />
-            </>
-          )}
+        {getMainContents()}
       </div>
     </div>
   );

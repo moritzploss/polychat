@@ -9,7 +9,7 @@
     }
   
     &_header {
-      font-size: $fontMedium;
+      font-size: $fontSmall;
       color: $darkGrey;
       border-style: solid;
       border-color: $lightGrey;
@@ -25,6 +25,7 @@
       &_name {
         color: $mediumGrey;
         font-size: $fontSmall;
+        margin-bottom: 4px;
       }
 
       svg {

@@ -13,11 +13,16 @@ import { postRequestJson } from '../http/requests';
 import { errorCallback } from '../util/errors';
 
 
-const Settings = ({ store }: ReduxProps): JSX.Element => {
+const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
   const { session, client } = store;
 
   const removeFromUserContacts = (user: UserData): void => {
-    postRequestJson(errorCallback, () => { }, '/api/users/remove', {
+    const successCallback = (): void => {
+      if (client.chatPartner.id === user.id) {
+        actions.resetChatPartner();
+      }
+    };
+    postRequestJson(errorCallback, successCallback, '/api/users/remove', {
       userId: store.session.user.id,
       userToAdd: user.id,
     });
@@ -45,16 +50,18 @@ const Settings = ({ store }: ReduxProps): JSX.Element => {
       </div>
       <div className="settings_block">
         <h2 className="settings_block_header">Contacts</h2>
-        {client.contactList.map((user: UserData) => (
-          <div className="settings_block_user" key={user.id}>
-            <span className="settings_block_user_name">{user.name}</span>
-            <FontAwesomeIcon
-              className="settings_block_user_button"
-              icon={faTimesCircle}
-              onClick={(): void => removeFromUserContacts(user)}
-            />
-          </div>
-        ))}
+        {client.contactList
+          .filter((user): boolean => user.id !== session.user.id)
+          .map((user: UserData) => (
+            <div className="settings_block_user" key={user.id}>
+              <span className="settings_block_user_name">{user.name}</span>
+              <FontAwesomeIcon
+                className="settings_block_user_button"
+                icon={faTimesCircle}
+                onClick={(): void => removeFromUserContacts(user)}
+              />
+            </div>
+          ))}
       </div>
       <div className="settings_block">
         <div className="settings_block_logout">

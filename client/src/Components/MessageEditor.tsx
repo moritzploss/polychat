@@ -44,9 +44,7 @@ const MessageEditor = ({ store, actions }: ReduxProps): JSX.Element => {
           className="messageeditor_form_input"
           placeholder="Say something!"
         />
-        <button type="submit">
-          <FontAwesomeIcon className="messageeditor_form_sendmessage" icon={faPaperPlane} onClick={sendMessage} />
-        </button>
+        <FontAwesomeIcon className="messageeditor_form_sendmessage" icon={faPaperPlane} onClick={sendMessage} />
       </form>
     </div>
   );

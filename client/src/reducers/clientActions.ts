@@ -15,6 +15,10 @@ const clientActions = {
     type: 'SET CHATPARTNER',
     chatPartner,
   }),
+
+  resetChatPartner: (): { type: string } => ({
+    type: 'RESET CHATPARTNER',
+  }),
 };
 
 export { clientActions };

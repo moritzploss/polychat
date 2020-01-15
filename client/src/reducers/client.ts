@@ -1,15 +1,17 @@
 import { Client } from '../types/client';
 
+const chatPartner = {
+  id: '',
+  name: '',
+  email: '',
+  language: '',
+  avatar: '',
+};
+
 const initialState = {
   connectedUsers: [],
   contactList: [],
-  chatPartner: {
-    id: '',
-    name: '',
-    email: '',
-    language: '',
-    avatar: '',
-  },
+  chatPartner,
 };
 
 const clientReducer = (client = initialState, action: any): Client => {
@@ -20,7 +22,6 @@ const clientReducer = (client = initialState, action: any): Client => {
         connectedUsers: action.connectedUsers,
       };
     case 'UPDATE CONTACTLIST':
-      console.log('receiving update', action.contactList);
       return {
         ...client,
         contactList: action.contactList,
@@ -29,6 +30,11 @@ const clientReducer = (client = initialState, action: any): Client => {
       return {
         ...client,
         chatPartner: action.chatPartner,
+      };
+    case 'RESET CHATPARTNER':
+      return {
+        ...client,
+        chatPartner,
       };
     default:
       return client;

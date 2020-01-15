@@ -37,15 +37,19 @@ class Repository {
 
   addTestUser = async (): Promise<void> => {
     const testUser = new User({
-      email: 'random2@test.com',
+      email: 'test@test.com',
       password: process.env.TEST_USER_PASSWORD,
-      name: 'Random 2',
-      language: 'english',
+      name: 'Random User',
+      language: 'swedish',
       messages: {
         test: [1, 2, 3],
       },
     });
-    await testUser.save(() => {});
+    await testUser.save((error: Error) => {
+      if (error) return;
+      const userId = testUser.id;
+      this.addUserToContactList(userId, userId, () => { });
+    });
   };
 
   saveParcelToUserMessages = (parcel: DirectMessageParcel, senderId: string, receiverId: string): void => {
