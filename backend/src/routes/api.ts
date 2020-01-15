@@ -1,6 +1,6 @@
 import { authenticateRequest } from '../controllers/authentication';
 import { validateSession, destroySession } from '../controllers/session';
-import { findUsers, addUserToContactList } from '../controllers/users';
+import { findUsers, addUserToContactList, removeUserFromContactList } from '../controllers/users';
 
 import express = require('express');
 
@@ -13,6 +13,8 @@ apiRouter.get('/validate-session', validateSession);
 apiRouter.get('/destroy-session', destroySession);
 
 apiRouter.post('/users/add', addUserToContactList);
+
+apiRouter.post('/users/remove', removeUserFromContactList);
 
 apiRouter.post('/users', findUsers);
 

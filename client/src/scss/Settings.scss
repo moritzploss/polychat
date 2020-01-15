@@ -1,0 +1,51 @@
+.settings {
+  flex: 1;
+  padding: 0px 15px;
+
+  &_block {
+    &_logout {
+      text-align: center;
+      margin: 20px 0px;
+    }
+  
+    &_header {
+      font-size: $fontMedium;
+      color: $darkGrey;
+      border-style: solid;
+      border-color: $lightGrey;
+      border-width: 0px 0px 1px 0px;
+      margin: 20px 0px 5px;
+    }
+  
+    &_user {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      
+      &_name {
+        color: $mediumGrey;
+        font-size: $fontSmall;
+      }
+
+      svg {
+        height: 12px !important;
+        width: 12px !important;
+      }
+  
+      &_button {
+
+
+        path {
+          fill: $mediumGrey;
+          cursor: pointer;
+        }
+      
+        path:hover {
+          fill: $highlight;
+        }
+      }
+    }
+  }
+
+  
+}

@@ -141,6 +141,29 @@ var Repository = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
+        this.removeUserFromContactList = function (userId, userToRemove, callback) { return __awaiter(_this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                this.user.findById(userId, function (error, user) { return __awaiter(_this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (error)
+                                    return [2 /*return*/, logging_1.logger.error(error)];
+                                return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: { contacts: user.contacts.filter(function (contact) { return contact !== userToRemove; }) } }, logging_1.logger.error)];
+                            case 1:
+                                _a.sent();
+                                return [4 /*yield*/, this.user.updateOne({ _id: userToRemove }, { $set: { inContactListOf: user.inContactListOf.filter(function (contact) { return contact !== userId; }) } }, logging_1.logger.error)];
+                            case 2:
+                                _a.sent();
+                                callback();
+                                return [2 /*return*/];
+                        }
+                    });
+                }); });
+                return [2 /*return*/];
+            });
+        }); };
         this.findUsersByName = function (userName, callback) {
             var regex = RegExp(userName);
             _this.user.find({ name: { $regex: regex, $options: 'i' } }, function (error, data) {

@@ -16,6 +16,7 @@ import MessageEditor from './MessageEditor';
 import ContactSearch from './ContactSearch';
 import UserProfile from './UserProfile';
 import ChatPartnerProfile from './ChatPartnerProfile';
+import Settings from './Settings';
 import Welcome from './Welcome';
 
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
@@ -31,7 +32,7 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
   const getView = (): JSX.Element => {
     switch (appState.currentState) {
       case (appStates.settings):
-        return <ContactSearch />;
+        return <Settings />;
       case (appStates.userSearch):
         return <ContactSearch />;
       default:

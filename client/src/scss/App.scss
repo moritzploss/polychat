@@ -62,6 +62,20 @@ h1 {
   color: $mediumGrey;
 }
 
+button {
+  border: none;
+  background-color: $darkGrey;
+  color: $secondary;
+  margin-top: 10px;
+  padding: 7px 15px;
+  font-size: $fontMedium;
+}
+
+button:hover {
+  background-color: $highlight;
+  color: white;
+}
+
 /* Components */
 @import './Home.scss';
 @import './Login.scss';
@@ -73,3 +87,4 @@ h1 {
 @import './Navigation.scss';
 @import './UserProfile.scss';
 @import './Welcome.scss';
+@import './Settings.scss';

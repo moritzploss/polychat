@@ -20,4 +20,12 @@ const addUserToContactList = (req: Request, res: Response): void => {
   });
 };
 
-export { findUsers, addUserToContactList };
+const removeUserFromContactList = (req: Request, res: Response): void => {
+  const { userId, userToAdd } = req.body;
+  repository.removeUserFromContactList(userId, userToAdd, () => {
+    parcelService.deliverContactListParcel(userId);
+    res.json({});
+  });
+};
+
+export { findUsers, addUserToContactList, removeUserFromContactList };

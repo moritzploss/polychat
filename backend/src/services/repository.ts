@@ -87,6 +87,23 @@ class Repository {
     });
   };
 
+  removeUserFromContactList = async (userId: string, userToRemove: string, callback: Function): Promise<void> => {
+    this.user.findById(userId, async (error: Error, user) => {
+      if (error) return logger.error(error);
+      await this.user.updateOne(
+        { _id: userId },
+        { $set: { contacts: user.contacts.filter((contact: string) => contact !== userToRemove) } },
+        logger.error,
+      );
+      await this.user.updateOne(
+        { _id: userToRemove },
+        { $set: { inContactListOf: user.inContactListOf.filter((contact: string) => contact !== userId) } },
+        logger.error,
+      );
+      callback();
+    });
+  };
+
   findUsersByName = (userName: string, callback: Function): void => {
     const regex = RegExp(userName);
     this.user.find({ name: { $regex: regex, $options: 'i' } }, (error: Error, data) => {
