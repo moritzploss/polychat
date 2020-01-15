@@ -9,11 +9,11 @@ import { UserData } from '../types/applicationWide';
 import Contact from './Contact';
 
 const ContactList = ({ store, actions, ownProps }: ReduxProps): JSX.Element => {
-  const { client } = store;
+  const { contactList } = ownProps;
   return (
     <div className="contacts">
       <ul className="contacts_list">
-        {client.contactList.map((user: UserData) => (
+        {contactList.map((user: UserData) => (
           <Contact
             user={user}
             key={user.id}

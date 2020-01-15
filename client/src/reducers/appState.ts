@@ -3,6 +3,8 @@ import { AppState } from '../types/client';
 const appStates = {
   loggedOut: 'LOGGED OUT',
   home: 'HOME',
+  userSearch: 'USER SEARCH',
+  settings: 'SETTINGS',
 };
 
 const initialState = {
@@ -18,6 +20,16 @@ const appStateReducer = (appState = initialState, action: any): AppState => {
       return {
         ...appState,
         currentState: appStates.home,
+      };
+    case 'GO TO USER SEARCH':
+      return {
+        ...appState,
+        currentState: appStates.userSearch,
+      };
+    case 'GO TO SETTINGS':
+      return {
+        ...appState,
+        currentState: appStates.settings,
       };
     default:
       return appState;

@@ -6,6 +6,14 @@ const appStateActions = {
   logOut: (): { type: string } => ({
     type: 'LOG OUT',
   }),
+
+  goToUserSearch: (): { type: string } => ({
+    type: 'GO TO USER SEARCH',
+  }),
+
+  goToSettings: (): { type: string } => ({
+    type: 'GO TO SETTINGS',
+  }),
 };
 
 export { appStateActions };

@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-session';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faSearch, faCog } from '@fortawesome/free-solid-svg-icons';
 
 import { reducerActions } from '../reducers/rootActions';
-import { Store, ReducerActions } from '../types/client';
+import { mapStateToProps, mergeProps } from '../reducers/util';
+import { ReduxProps } from '../types/client';
 
 const logout = async (removeParcelService: Function): Promise<void> => {
   const res = await fetch('/api/destroy-session');
@@ -14,23 +17,19 @@ const logout = async (removeParcelService: Function): Promise<void> => {
   }
 };
 
-const Navigation = ({ removeParcelService, logOut }: ReducerActions): JSX.Element => {
+const Navigation = ({ store, actions }: ReduxProps): JSX.Element => {
   const resetApp = (): void => {
-    removeParcelService();
-    logOut();
+    actions.removeParcelService();
+    actions.logOut();
   };
 
   return (
-    <ul>
-      <li>
-        <button type="button" onClick={(): Promise<void> => logout(resetApp)}>
-          Logout
-        </button>
-      </li>
-    </ul>
+    <div className="navigation">
+      <FontAwesomeIcon className="navigation_item" icon={faHome} onClick={actions.goToHome} />
+      <FontAwesomeIcon className="navigation_item" icon={faSearch} onClick={actions.goToUserSearch} />
+      <FontAwesomeIcon className="navigation_item" icon={faCog} onClick={actions.goToSettings} />
+    </div>
   );
 };
 
-const mapStateToProps = (store: Store): Store => store;
-
-export default connect(mapStateToProps, reducerActions)(Navigation);
+export default connect(mapStateToProps, reducerActions, mergeProps)(Navigation);

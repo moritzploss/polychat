@@ -1,0 +1,26 @@
+.contactsearch {
+  display: flex;
+  flex-direction: column;
+  justify-content: felx-start;
+  text-align: center;
+
+  &_form {
+    padding: 12px 0px;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: $lightGrey;
+
+    &_input {
+      box-sizing: border-box;
+      padding: 2px 10px;
+      width: 90%;
+      font-size: $fontSmall;
+      border-radius: 4000px;
+      border-width: 1px 1px 1px 1px;
+      border-style: solid;
+      border-color: $lightGrey;
+    }
+
+  }
+
+}
