@@ -3,6 +3,16 @@ import { repository } from '../services/repository';
 import { parcelService } from '../services/parcelService';
 import { toCredentials } from './login';
 
+const updateUser = (req: Request, res: Response): void => {
+  const { userId, ...fieldsToUpdate } = req.body;
+  repository.updateUser(
+    () => res.json({}),
+    userId,
+    fieldsToUpdate,
+  );
+  parcelService.broadcastContactListUpdateToUserContacts(userId);
+};
+
 const findUsers = (req: Request, res: Response): void => {
   const { query } = req.body;
   repository.findUsersByName(query, (error: Error, data) => (
@@ -28,4 +38,4 @@ const removeUserFromContactList = (req: Request, res: Response): void => {
   });
 };
 
-export { findUsers, addUserToContactList, removeUserFromContactList };
+export { findUsers, addUserToContactList, removeUserFromContactList, updateUser };

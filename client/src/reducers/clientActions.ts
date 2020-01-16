@@ -6,9 +6,10 @@ const clientActions = {
     connectedUsers: parcel.connectedUsers ? parcel.connectedUsers : [],
   }),
 
-  updateContactList: (parcel: ContactListParcel): { type: string; contactList: UserData[] } => ({
+  updateContactList: (parcel: ContactListParcel): { type: string; contactList: UserData[]; connectedUsers: string[] } => ({
     type: 'UPDATE CONTACTLIST',
     contactList: parcel.contactList ? parcel.contactList : [],
+    connectedUsers: parcel.connectedUsers ? parcel.connectedUsers : [],
   }),
 
   setChatPartner: (chatPartner: UserData): { type: string; chatPartner: UserData } => ({

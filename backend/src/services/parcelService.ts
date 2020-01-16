@@ -41,6 +41,12 @@ class ParcelService {
     ),
   );
 
+  broadcastContactListUpdateToUserContacts = (userId: string): void => {
+    repository.getUserContacts(userId, (contacts: string[]) => {
+      contacts.forEach((contact: string) => this.deliverContactListParcel(contact));
+    });
+  };
+
   broadCast = (parcel: Parcel): void => {
     this.webSocketService
       .getAllWebSockets()

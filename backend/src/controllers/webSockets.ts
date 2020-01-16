@@ -20,6 +20,7 @@ const onOpen = (webSocket: ws, webSocketId: string): void => {
   parcelService.deliverContactListParcel(userId);
   parcelService.deliverMessageHistoryParcel(userId);
   parcelService.deliver(connectedUserParcel(userId));
+  parcelService.broadcastContactListUpdateToUserContacts(userId);
 };
 
 const onMessage = (data: string): void => {
@@ -31,6 +32,7 @@ const onMessage = (data: string): void => {
 const onClose = (socketId: string): void => {
   logger.info(`connection closed on websocket ${socketId}`);
   webSocketService.removeWebSocket(socketId);
+  parcelService.broadcastContactListUpdateToUserContacts(webSocketService.getUserId(socketId));
 };
 
 const setupEventListeners = (webSocket: ws, req: Request): void => {

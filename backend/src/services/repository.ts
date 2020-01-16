@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 import { logger } from '../logging';
 import { User, UserMongoose } from '../schemas/user';
-import { DirectMessageParcel, Messages } from '../types/applicationWide';
+import { DirectMessageParcel, Messages, UserData } from '../types/applicationWide';
 
 const updateDirectMessages = (messages: Messages, parcel: DirectMessageParcel, senderId: string = parcel.senderId): Messages => {
   const newMessages = messages[senderId]
@@ -73,6 +73,18 @@ class Repository {
   saveDirectMessage = (parcel: DirectMessageParcel): void => {
     this.saveParcelToUserMessages(parcel, parcel.senderId, parcel.receiverId);
     this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
+  };
+
+  updateUser = (callback: Function, userId: string, fields: Record<string, any>): void => {
+    this.user.findById(userId, async (error: Error, user) => {
+      if (error) return logger.error(error);
+      await this.user.updateOne(
+        { _id: userId },
+        { $set: fields },
+        logger.error,
+      );
+      callback();
+    });
   };
 
   addUserToContactList = async (userId: string, userToAdd: string, callback: Function): Promise<void> => {

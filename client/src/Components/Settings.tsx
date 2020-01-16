@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faPen, faArrowRight, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faArrowRight, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
 
-import { ReduxProps } from '../types/client';
+import { ReduxProps, ReactChangeEvent } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { reducerActions } from '../reducers/rootActions';
 import { UserData } from '../types/applicationWide';
-import { postRequestJson } from '../http/requests';
+import { putRequestJson, deleteRequestJson } from '../http/requests';
 import { errorCallback } from '../util/errors';
 
 // const logout = async (removeParcelService: Function): Promise<void> => {
@@ -22,6 +22,8 @@ import { errorCallback } from '../util/errors';
 const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
   const { session, client } = store;
 
+  const [newName, setNewName] = useState(session.user.name);
+
   const resetApp = (): void => {
     actions.removeParcelService();
     actions.logOut();
@@ -33,33 +35,43 @@ const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
         actions.resetChatPartner();
       }
     };
-    postRequestJson(errorCallback, successCallback, '/api/users/remove', {
+    deleteRequestJson(errorCallback, successCallback, '/api/users', {
       userId: store.session.user.id,
       userToAdd: user.id,
     });
   };
 
-  const editUserData = (field: string) => {
-
+  const updateNewName = (event: ReactChangeEvent): void => {
+    setNewName(event.target.value);
   };
 
-  const editableFields = ['name', 'language'];
+  const submitUserNameChange = (): void => {
+    putRequestJson(
+      errorCallback,
+      console.log,
+      '/api/users',
+      {
+        userId: store.session.user.id,
+        name: newName,
+      },
+    );
+  };
 
   return (
     <div className="settings">
       <div className="settings_block">
         <h2 className="settings_block_header">Your Profile</h2>
-        {editableFields.map((key: string) => (
-          <div className="settings_block_user" key={key}>
-            <span className="settings_block_user_name">{(session.user as any)[key]}</span>
-            <FontAwesomeIcon
-              className="settings_block_user_button"
-              icon={faPen}
-              onClick={(): void => editUserData(key)} />
-          </div>
-        ))}
+        <div className="settings_block_user">
+          <input
+            type="text"
+            className="settings_block_user_name"
+            onChange={updateNewName}
+            onBlur={submitUserNameChange}
+            value={newName}
+            onClick={(event: ReactChangeEvent): void => event.target.select()}
+          />
+        </div>
       </div>
-
       <div className="settings_block">
         <h2 className="settings_block_header">Contacts</h2>
         {client.contactList

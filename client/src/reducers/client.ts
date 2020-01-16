@@ -25,6 +25,7 @@ const clientReducer = (client = initialState, action: any): Client => {
       return {
         ...client,
         contactList: action.contactList,
+        connectedUsers: action.connectedUsers,
       };
     case 'SET CHATPARTNER':
       return {

@@ -9,11 +9,12 @@ import { UserData } from '../types/applicationWide';
 import Contact from './Contact';
 
 const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
-  const getOnlineStatus = (userId: string): string => (
-    store.client.connectedUsers.includes(userId)
+  const getOnlineStatus = (userId: string): string => {
+    console.log(store.client.connectedUsers, userId);
+    return store.client.connectedUsers.includes(userId)
       ? 'online '
-      : ''
-  );
+      : '';
+  };
 
   return (
     <div className="contacts">

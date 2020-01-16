@@ -125,6 +125,22 @@ var Repository = /** @class */ (function () {
             _this.saveParcelToUserMessages(parcel, parcel.senderId, parcel.receiverId);
             _this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
         };
+        this.updateUser = function (callback, userId, fields) {
+            _this.user.findById(userId, function (error, user) { return __awaiter(_this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (error)
+                                return [2 /*return*/, logging_1.logger.error(error)];
+                            return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: fields }, logging_1.logger.error)];
+                        case 1:
+                            _a.sent();
+                            callback();
+                            return [2 /*return*/];
+                    }
+                });
+            }); });
+        };
         this.addUserToContactList = function (userId, userToAdd, callback) { return __awaiter(_this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {

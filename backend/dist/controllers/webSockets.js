@@ -15,6 +15,7 @@ var onOpen = function (webSocket, webSocketId) {
     parcelService_1.parcelService.deliverContactListParcel(userId);
     parcelService_1.parcelService.deliverMessageHistoryParcel(userId);
     parcelService_1.parcelService.deliver(blueprints_1.connectedUserParcel(userId));
+    parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(userId);
 };
 var onMessage = function (data) {
     logging_1.logger.info('message received');
@@ -24,6 +25,7 @@ var onMessage = function (data) {
 var onClose = function (socketId) {
     logging_1.logger.info("connection closed on websocket " + socketId);
     webSocketService_1.webSocketService.removeWebSocket(socketId);
+    parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(webSocketService_1.webSocketService.getUserId(socketId));
 };
 var setupEventListeners = function (webSocket, req) {
     onOpen(webSocket, req.params.id);

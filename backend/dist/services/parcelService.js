@@ -18,6 +18,11 @@ var ParcelService = /** @class */ (function () {
             _this.repository.getUserMessages(userId, function (messages) { return (_this.deliver(blueprints_1.messageHistoryParcel(userId, messages))); });
         };
         this.deliverContactListParcel = function (userId) { return _this.repository.getUserContacts(userId, function (contacts) { return _this.repository.getUsersById(contacts, function (users) { return _this.deliver(blueprints_1.contactListParcel(userId, users.map(login_1.toCredentials))); }); }); };
+        this.broadcastContactListUpdateToUserContacts = function (userId) {
+            repository_1.repository.getUserContacts(userId, function (contacts) {
+                contacts.forEach(function (contact) { return _this.deliverContactListParcel(contact); });
+            });
+        };
         this.broadCast = function (parcel) {
             _this.webSocketService
                 .getAllWebSockets()
