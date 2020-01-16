@@ -2,9 +2,13 @@ import * as mongoose from 'mongoose';
 
 import { logger } from '../logging';
 import { User, UserMongoose } from '../schemas/user';
-import { DirectMessageParcel, Messages, UserData } from '../types/applicationWide';
+import { DirectMessageParcel, Messages } from '../types/applicationWide';
 
-const updateDirectMessages = (messages: Messages, parcel: DirectMessageParcel, senderId: string = parcel.senderId): Messages => {
+const updateDirectMessages = (
+  messages: Messages,
+  parcel: DirectMessageParcel,
+  senderId: string = parcel.senderId,
+): Messages => {
   const newMessages = messages[senderId]
     ? [...messages[senderId], parcel]
     : [parcel];
@@ -76,18 +80,19 @@ class Repository {
   };
 
   updateUser = (callback: Function, userId: string, fields: Record<string, any>): void => {
-    this.user.findById(userId, async (error: Error, user) => {
-      if (error) return logger.error(error);
-      await this.user.updateOne(
-        { _id: userId },
-        { $set: fields },
-        (err: Error, _: any) => callback(err, user),
-      );
-    });
+    this.user.findById(userId, async (error: Error, user): Promise<void | typeof logger> => (
+      (error)
+        ? logger.error(error)
+        : this.user.updateOne(
+          { _id: userId },
+          { $set: fields },
+          (err: Error) => callback(err, user),
+        )
+    ));
   };
 
   addUserToContactList = async (userId: string, userToAdd: string, callback: Function): Promise<void> => {
-    this.user.findById(userId, async (error: Error, user) => {
+    this.user.findById(userId, async (error: Error, user): Promise<void | typeof logger> => {
       if (error) return logger.error(error);
       if (!user.contacts.includes(userToAdd)) {
         await this.user.updateOne(
@@ -101,12 +106,12 @@ class Repository {
           logger.error,
         );
       }
-      callback();
+      return callback();
     });
   };
 
   removeUserFromContactList = async (userId: string, userToRemove: string, callback: Function): Promise<void> => {
-    this.user.findById(userId, async (error: Error, user) => {
+    this.user.findById(userId, async (error: Error, user): Promise<void | typeof logger> => {
       if (error) return logger.error(error);
       await this.user.updateOne(
         { _id: userId },
@@ -118,7 +123,7 @@ class Repository {
         { $set: { inContactListOf: user.inContactListOf.filter((contact: string) => contact !== userId) } },
         logger.error,
       );
-      callback();
+      return callback();
     });
   };
 

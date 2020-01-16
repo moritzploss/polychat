@@ -1,6 +1,7 @@
 import { webSocketService } from '../services/webSocketService';
 
-import { UserData, MessageHistoryParcel, Messages, Parcel, ConnectedUsersParcel, ContactListParcel, DirectMessageParcel 
+import {
+  UserData, MessageHistoryParcel, Messages, Parcel, ConnectedUsersParcel, ContactListParcel, DirectMessageParcel,
 } from '../types/applicationWide';
 
 const getParcel = (type: string, receiverId = 'all', senderId = 'system'): Parcel => ({

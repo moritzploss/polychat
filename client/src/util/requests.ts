@@ -8,7 +8,13 @@ interface Args {
   type: HttpRequestType;
 }
 
-const requestWithJsonBody = async({ errCallback, successCallback = (): void => { }, url, body, type }: Args): Promise<void> => {
+const requestWithJsonBody = async ({
+  errCallback,
+  successCallback = (): void => { },
+  url,
+  body,
+  type,
+}: Args): Promise<void> => {
   const res = await fetch(url, {
     method: type,
     headers: {

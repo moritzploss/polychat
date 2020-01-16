@@ -128,15 +128,9 @@ var Repository = /** @class */ (function () {
         this.updateUser = function (callback, userId, fields) {
             _this.user.findById(userId, function (error, user) { return __awaiter(_this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            if (error)
-                                return [2 /*return*/, logging_1.logger.error(error)];
-                            return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: fields }, function (err, _) { return callback(err, user); })];
-                        case 1:
-                            _a.sent();
-                            return [2 /*return*/];
-                    }
+                    return [2 /*return*/, ((error)
+                            ? logging_1.logger.error(error)
+                            : this.user.updateOne({ _id: userId }, { $set: fields }, function (err) { return callback(err, user); }))];
                 });
             }); });
         };
@@ -157,9 +151,7 @@ var Repository = /** @class */ (function () {
                             case 2:
                                 _a.sent();
                                 _a.label = 3;
-                            case 3:
-                                callback();
-                                return [2 /*return*/];
+                            case 3: return [2 /*return*/, callback()];
                         }
                     });
                 }); });
@@ -181,8 +173,7 @@ var Repository = /** @class */ (function () {
                                 return [4 /*yield*/, this.user.updateOne({ _id: userToRemove }, { $set: { inContactListOf: user.inContactListOf.filter(function (contact) { return contact !== userId; }) } }, logging_1.logger.error)];
                             case 2:
                                 _a.sent();
-                                callback();
-                                return [2 /*return*/];
+                                return [2 /*return*/, callback()];
                         }
                     });
                 }); });

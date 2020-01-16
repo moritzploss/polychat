@@ -1,6 +1,8 @@
 import { authenticateRequest } from '../controllers/authentication';
 import { validateSession, destroySession } from '../controllers/session';
-import { findUsers, addUserToContactList, removeUserFromContactList, updateUserData } from '../controllers/users';
+import {
+  findUsers, addUserToContactList, removeUserFromContactList, updateUserData,
+} from '../controllers/users';
 
 import express = require('express');
 

@@ -47,4 +47,9 @@ const removeUserFromContactList = (req: Request, res: Response): void => {
   });
 };
 
-export { findUsers, addUserToContactList, removeUserFromContactList, updateUserData };
+export {
+  findUsers,
+  addUserToContactList,
+  removeUserFromContactList,
+  updateUserData,
+};

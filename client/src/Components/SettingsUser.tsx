@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 
-import { ReduxProps, ReactChangeEvent} from '../types/client';
+import { ReduxProps, ReactChangeEvent } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { reducerActions } from '../reducers/rootActions';
 import { requestWithJsonBody } from '../util/requests';

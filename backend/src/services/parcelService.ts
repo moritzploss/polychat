@@ -2,7 +2,7 @@ import * as ws from 'ws';
 import * as mongoose from 'mongoose';
 
 import { WebSocketData } from '../types/backend';
-import { Parcel, DirectMessageParcel } from '../types/applicationWide';
+import { Parcel, DirectMessageParcel, Messages } from '../types/applicationWide';
 
 import { logger } from '../logging';
 import { webSocketService, WebSocketService } from './webSocketService';
@@ -28,7 +28,7 @@ class ParcelService {
   }
 
   deliverMessageHistoryParcel = (userId: string): void => {
-    this.repository.getUserMessages(userId, (messages: Record<string, any>) => (
+    this.repository.getUserMessages(userId, (messages: Messages) => (
       this.deliver(messageHistoryParcel(userId, messages))
     ));
   };
