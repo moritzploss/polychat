@@ -1,4 +1,8 @@
+import { sessionService } from 'redux-react-session';
+import { errorCallback } from './errors';
+
 import { HttpRequestType } from '../types/applicationWide';
+import { UserData } from '../types/types';
 
 interface Args {
   errCallback: Function;
@@ -29,4 +33,16 @@ const requestWithJsonBody = async ({
     : successCallback(resBody);
 };
 
-export { requestWithJsonBody };
+const submitUserProfileChange = (userId: string, changes: UserData): Promise<void> => requestWithJsonBody({
+  errCallback: errorCallback,
+  successCallback: sessionService.saveUser,
+  url: '/api/users',
+  type: 'PUT',
+  body: {
+    ...changes,
+    userId,
+  },
+});
+
+
+export { requestWithJsonBody, submitUserProfileChange };

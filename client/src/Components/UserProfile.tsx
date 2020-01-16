@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
@@ -7,6 +8,7 @@ import { connect } from 'react-redux';
 import { reducerActions } from '../reducers/rootActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
+import { getAvatarPath } from '../util/stringFormatting';
 
 const UserProfile = ({ store, actions }: ReduxProps): JSX.Element => {
   const { session } = store;
@@ -16,7 +18,8 @@ const UserProfile = ({ store, actions }: ReduxProps): JSX.Element => {
       <img
         alt="user avatar"
         className="userprofile_img"
-        src={`${process.env.PUBLIC_URL}/avatars/${session.user.avatar}`}
+        onClick={actions.goToAvatarSelection}
+        src={getAvatarPath(session.user.avatar)}
       />
       <span
         className="userprofile_name"

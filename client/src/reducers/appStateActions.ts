@@ -18,6 +18,10 @@ const appStateActions = {
   goToGDPR: (): { type: string } => ({
     type: 'GO TO GDPR',
   }),
+
+  goToAvatarSelection: (): { type: string } => ({
+    type: 'GO TO AVATAR SELECTION',
+  }),
 };
 
 export { appStateActions };

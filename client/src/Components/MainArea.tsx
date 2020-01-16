@@ -14,18 +14,19 @@ import GDPR from './GDPR';
 import MessageBoard from './MessageBoard';
 import MessageEditor from './MessageEditor';
 import Welcome from './Welcome';
+import SelectAvatar from './SelectAvatar';
 
 const MainArea = ({ actions, store }: ReduxProps): JSX.Element => {
   const { appState, client } = store;
 
-  const gdpr = (
+  const wrap = (element: JSX.Element): JSX.Element => (
     <>
       <FontAwesomeIcon
         className="home_main_home-button"
         icon={faHome}
         onClick={actions.goToHome}
       />
-      <GDPR />
+      {element}
     </>
   );
 
@@ -45,7 +46,9 @@ const MainArea = ({ actions, store }: ReduxProps): JSX.Element => {
   const getMessageAreaContents = (): JSX.Element => {
     switch (appState.currentState) {
       case (appStates.gdpr):
-        return gdpr;
+        return wrap(<GDPR />);
+      case (appStates.selectAvatar):
+        return wrap(<SelectAvatar />);
       default:
         return !client.chatPartner.id
           ? <Welcome />

@@ -17,7 +17,6 @@ class ParcelService {
 
   receive = (data: string): void => {
     const parcel = JSON.parse(data);
-    console.log(parcel);
     switch (parcel.type) {
       case 'DIRECT MESSAGE':
         return this.actions.addDirectMessage(parcel);

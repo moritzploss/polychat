@@ -1,6 +1,6 @@
 import { UserData } from '../types/applicationWide';
 
-const getAvatarPath = (avatarUrl: string): string => (
+const getAvatarPath = (avatarUrl = ''): string => (
   avatarUrl.startsWith('http')
     ? avatarUrl
     : `${process.env.PUBLIC_URL}/avatars/${avatarUrl}`

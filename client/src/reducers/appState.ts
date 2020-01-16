@@ -6,6 +6,7 @@ const appStates = {
   userSearch: 'USER SEARCH',
   settings: 'SETTINGS',
   gdpr: 'GDPR',
+  selectAvatar: 'AVATAR SELECT',
 };
 
 const initialState = {
@@ -35,6 +36,11 @@ const appStateReducer = (appState = initialState, action: any): AppState => {
       return {
         ...appState,
         currentState: appStates.gdpr,
+      };
+    case 'GO TO AVATAR SELECTION':
+      return {
+        ...appState,
+        currentState: appStates.selectAvatar,
       };
     default:
       return appState;
