@@ -9,6 +9,11 @@
   &_name {
     display: block;
     margin-bottom: -5px;
+    cursor: pointer;
+  }
+
+  &_name:hover {
+    color: $highlight;
   }
 
   &_language {
