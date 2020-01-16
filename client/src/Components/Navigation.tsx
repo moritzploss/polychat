@@ -1,43 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faSearch, faCog } from '@fortawesome/free-solid-svg-icons';
 
 import { reducerActions } from '../reducers/rootActions';
+import { appStates } from '../reducers/appState';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 
-const Navigation = ({ actions }: ReduxProps): JSX.Element => {
-  const [active, setActive] = useState(0);
-
+const Navigation = ({ actions, store }: ReduxProps): JSX.Element => {
   const navItems = [
     {
       icon: faHome,
       onClick: actions.goToHome,
+      isActive: store.appState.currentState === appStates.home,
     },
     {
       icon: faSearch,
       onClick: actions.goToUserSearch,
+      isActive: store.appState.currentState === appStates.userSearch,
     },
     {
       icon: faCog,
       onClick: actions.goToSettings,
+      isActive: store.appState.currentState === appStates.settings,
     },
   ];
-
-  const onClick = (index: number, clickHandler: Function): void => {
-    setActive(index);
-    clickHandler();
-  };
 
   return (
     <nav className="navigation">
       {navItems.map((item, index) => (
         <FontAwesomeIcon
-          className={`navigation_item${active === index ? '_active' : ''}`}
+          className={`navigation_item${item.isActive ? '_active' : ''}`}
           key={Math.random()}
           icon={item.icon}
-          onClick={(): void => onClick(index, item.onClick)}
+          onClick={item.onClick}
         />
       ))}
     </nav>
