@@ -91,7 +91,7 @@ const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
           <FontAwesomeIcon
             className="settings_block_user_button"
             icon={faArrowRight}
-            onClick={actions.logOut}
+            onClick={resetApp}
           />
         </div>
       </div>
