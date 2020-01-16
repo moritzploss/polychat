@@ -9,21 +9,23 @@ import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 
 const Navigation = ({ actions, store }: ReduxProps): JSX.Element => {
+  const { currentState } = store.appState;
+
   const navItems = [
     {
       icon: faHome,
       onClick: actions.goToHome,
-      isActive: store.appState.currentState === appStates.home,
+      isActive: currentState === appStates.home,
     },
     {
       icon: faSearch,
       onClick: actions.goToUserSearch,
-      isActive: store.appState.currentState === appStates.userSearch,
+      isActive: currentState === appStates.userSearch,
     },
     {
       icon: faCog,
       onClick: actions.goToSettings,
-      isActive: store.appState.currentState === appStates.settings,
+      isActive: (currentState === appStates.settings) || (currentState === appStates.gdpr),
     },
   ];
 

@@ -41,26 +41,30 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
     actions.addParcelService(webSocket, actions);
   }
 
+  const contactList = (
+    <ContactList
+      contactList={client.contactList}
+      clickHandler={(user: UserData): void => {
+        actions.setChatPartner(user);
+        actions.goToHome();
+      }}
+    />
+  );
+
   const getSideBarContents = (): JSX.Element => {
     switch (appState.currentState) {
       case (appStates.settings):
         return <Settings />;
+      case (appStates.gdpr):
+        return <Settings />;
       case (appStates.userSearch):
         return <ContactSearch />;
       default:
-        return (
-          <ContactList
-            contactList={client.contactList}
-            clickHandler={(user: UserData): void => {
-              actions.setChatPartner(user);
-              actions.goToHome();
-            }}
-          />
-        );
+        return contactList;
     }
   };
 
-  const sideBar = (
+  const sideBarWrapped = (
     <div className="home_sidebar">
       <UserProfile />
       {getSideBarContents()}
@@ -68,51 +72,55 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
     </div>
   );
 
+  const gdpr = (
+    <>
+      <FontAwesomeIcon
+        className="home_main_home-button"
+        icon={faHome}
+        onClick={actions.goToHome}
+      />
+      <GDPR />
+    </>
+  );
+
+  const messageArea = (
+    <>
+      <FontAwesomeIcon
+        className="home_main_home-button"
+        icon={faHome}
+        onClick={actions.resetChatPartner}
+      />
+      <ChatPartnerProfile />
+      <MessageBoard />
+      <MessageEditor />
+    </>
+  );
+
   const getMessageAreaContents = (): JSX.Element => {
     switch (appState.currentState) {
       case (appStates.gdpr):
-        return (
-          <>
-            <FontAwesomeIcon
-              className="home_main_home-button"
-              icon={faHome}
-              onClick={actions.goToHome}
-            />
-            <GDPR />
-          </>
-        );
+        return gdpr;
       default:
         return !client.chatPartner.id
           ? <Welcome />
-          : (
-            <>
-              <FontAwesomeIcon
-                className="home_main_home-button"
-                icon={faHome}
-                onClick={actions.resetChatPartner}
-              />
-              <ChatPartnerProfile />
-              <MessageBoard />
-              <MessageEditor />
-            </>
-          );
+          : messageArea;
     }
   };
 
-  const messageArea = (
+  const messageAreaWrapped = (
     <div className="home_main">
       {getMessageAreaContents()}
     </div>
   );
 
   const viewMobile = client.chatPartner.id || (appState.currentState === appStates.gdpr)
-    ? <>{messageArea}</>
-    : <>{sideBar}</>;
+    ? <>{messageAreaWrapped}</>
+    : <>{sideBarWrapped}</>;
 
   const viewDesktop = (
     <>
-      {sideBar}
-      {messageArea}
+      {sideBarWrapped}
+      {messageAreaWrapped}
     </>
   );
 
