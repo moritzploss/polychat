@@ -1,9 +1,10 @@
 .userprofile {
   padding: 20px 0;
+  text-align: center;
+
   border-style: solid;
   border-width: 0px 0px 1px 0px;
   border-color: $lightGrey;
-  text-align: center;
 
   &_name {
     display: block;

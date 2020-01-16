@@ -1,10 +1,11 @@
 .navigation {
+  height: $toolbarHeight;
+  min-height: $toolbarHeight;
+
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  height: $toolbarHeight;
   align-items: center;
-  min-height: $toolbarHeight;
 
   border-style: solid;
   border-width: 1px 0 0 0;
@@ -27,5 +28,4 @@
   svg {
     cursor: pointer;
   }
-
 }

@@ -12,9 +12,22 @@ import { UserData } from '../types/applicationWide';
 import { postRequestJson } from '../http/requests';
 import { errorCallback } from '../util/errors';
 
+// const logout = async (removeParcelService: Function): Promise<void> => {
+//   const res = await fetch('/api/destroy-session');
+//   if (res.status === 200) {
+//     await sessionService.deleteUser();
+//     await sessionService.deleteSession();
+//     removeParcelService();
+//   }
+// };
 
 const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
   const { session, client } = store;
+
+  // const resetApp = (): void => {
+  //   actions.removeParcelService();
+  //   actions.logOut();
+  // };
 
   const removeFromUserContacts = (user: UserData): void => {
     const successCallback = (): void => {

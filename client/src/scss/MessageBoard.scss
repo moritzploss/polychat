@@ -1,8 +1,8 @@
 .messageboard {
-  flex: 1 1 auto;
   overflow-y: auto;
-  height: 0;
   text-align: left;
+  height: 0;
+  flex: 1 1 auto;
 
   &_list {
     list-style: none;
@@ -41,5 +41,4 @@
       }
     }
   }
-
 }

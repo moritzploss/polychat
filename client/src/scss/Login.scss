@@ -18,18 +18,20 @@
     max-width: 300px;
 
     &_input input  {
-      margin-bottom: 20px;
-      padding: 10px 10px 3px 2px;
       display: flex;
       flex-direction: column;
-      text-align: left;
-      border-style: solid;
-      border-width: 0px 0px 1px;
-      border-color: $primary;
+
+      margin-bottom: 20px;
+      padding: 10px 10px 3px 2px;
       filter: none;
       outline: none;
       font-size: $fontMedium;
       width: 180px;
+      text-align: left;
+
+      border-style: solid;
+      border-width: 0px 0px 1px;
+      border-color: $primary;
     }
 
     label {

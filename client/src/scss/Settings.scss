@@ -11,10 +11,11 @@
     &_header {
       font-size: $fontSmall;
       color: $darkGrey;
+      margin: 20px 0px 5px;
+
       border-style: solid;
       border-color: $lightGrey;
       border-width: 0px 0px 1px 0px;
-      margin: 20px 0px 5px;
     }
   
     &_user {
@@ -34,8 +35,6 @@
       }
   
       &_button {
-
-
         path {
           fill: $mediumGrey;
           cursor: pointer;
@@ -47,6 +46,4 @@
       }
     }
   }
-
-  
 }
