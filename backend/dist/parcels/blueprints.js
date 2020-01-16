@@ -16,7 +16,7 @@ var getParcel = function (type, receiverId, senderId) {
     if (receiverId === void 0) { receiverId = 'all'; }
     if (senderId === void 0) { senderId = 'system'; }
     return ({
-        timeStamp: new Date().toLocaleString(),
+        timeStamp: new Date().toISOString(),
         type: type,
         receiverId: receiverId,
         senderId: senderId,

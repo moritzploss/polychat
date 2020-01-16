@@ -4,7 +4,7 @@ import { UserData, MessageHistoryParcel, Messages, Parcel, ConnectedUsersParcel,
 } from '../types/applicationWide';
 
 const getParcel = (type: string, receiverId = 'all', senderId = 'system'): Parcel => ({
-  timeStamp: new Date().toLocaleString(),
+  timeStamp: new Date().toISOString(),
   type,
   receiverId,
   senderId,
