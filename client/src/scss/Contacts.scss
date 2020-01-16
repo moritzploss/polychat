@@ -1,7 +1,8 @@
 .online {
   img {
-    border: 2px solid $highlight;
+    border: 3px solid $highlight;
   }
+  order: -1;
 }
 
 .contacts {
@@ -9,6 +10,8 @@
 
   &_list {
     list-style: none;
+    display: flex;
+    flex-direction: column;
 
     &_item {
       border-style: solid;
@@ -32,7 +35,7 @@
         width: 28px;
         margin-right: 10px;
         border-radius: 50%;
-        border: 2px solid $mediumLightGrey;
+        border: 3px solid $mediumLightGrey;
       }
 
       button {
