@@ -31,7 +31,7 @@ const Navigation = ({ actions, store }: ReduxProps): JSX.Element => {
 
   return (
     <nav className="navigation">
-      {navItems.map((item, index) => (
+      {navItems.map((item) => (
         <FontAwesomeIcon
           className={`navigation_item${item.isActive ? '_active' : ''}`}
           key={Math.random()}
