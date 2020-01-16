@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faPen, faArrowRight, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
 
 import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
@@ -22,10 +22,10 @@ import { errorCallback } from '../util/errors';
 const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
   const { session, client } = store;
 
-  // const resetApp = (): void => {
-  //   actions.removeParcelService();
-  //   actions.logOut();
-  // };
+  const resetApp = (): void => {
+    actions.removeParcelService();
+    actions.logOut();
+  };
 
   const removeFromUserContacts = (user: UserData): void => {
     const successCallback = (): void => {
@@ -59,6 +59,7 @@ const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
           </div>
         ))}
       </div>
+
       <div className="settings_block">
         <h2 className="settings_block_header">Contacts</h2>
         {client.contactList
@@ -74,9 +75,24 @@ const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
             </div>
           ))}
       </div>
+
       <div className="settings_block">
-        <div className="settings_block_logout">
-          <button type="button">Log Out</button>
+        <h2 className="settings_block_header">More</h2>
+        <div className="settings_block_user">
+          <span className="settings_block_user_name">GDPR</span>
+          <FontAwesomeIcon
+            className="settings_block_user_button"
+            icon={faBalanceScale}
+            onClick={actions.goToGDPR}
+          />
+        </div>
+        <div className="settings_block_user">
+          <span className="settings_block_user_name">Logout</span>
+          <FontAwesomeIcon
+            className="settings_block_user_button"
+            icon={faArrowRight}
+            onClick={actions.logOut}
+          />
         </div>
       </div>
     </div>

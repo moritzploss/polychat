@@ -5,6 +5,7 @@ const appStates = {
   home: 'HOME',
   userSearch: 'USER SEARCH',
   settings: 'SETTINGS',
+  gdpr: 'GDPR',
 };
 
 const initialState = {
@@ -29,6 +30,11 @@ const appStateReducer = (appState = initialState, action: any): AppState => {
       return {
         ...appState,
         currentState: appStates.settings,
+      };
+    case 'GO TO GDPR':
+      return {
+        ...appState,
+        currentState: appStates.gdpr,
       };
     default:
       return appState;

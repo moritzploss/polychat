@@ -14,6 +14,10 @@ const appStateActions = {
   goToSettings: (): { type: string } => ({
     type: 'GO TO SETTINGS',
   }),
+
+  goToGDPR: (): { type: string } => ({
+    type: 'GO TO GDPR',
+  }),
 };
 
 export { appStateActions };

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useLayoutEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
@@ -13,12 +14,14 @@ import { appStates } from '../reducers/appState';
 import ChatPartnerProfile from './ChatPartnerProfile';
 import ContactList from './ContactList';
 import ContactSearch from './ContactSearch';
+import GDPR from './GDPR';
 import MessageBoard from './MessageBoard';
 import MessageEditor from './MessageEditor';
 import Navigation from './Navigation';
 import Settings from './Settings';
 import UserProfile from './UserProfile';
 import Welcome from './Welcome';
+import { UserData } from '../types/applicationWide';
 
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
 
@@ -48,7 +51,10 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
         return (
           <ContactList
             contactList={client.contactList}
-            clickHandler={actions.setChatPartner}
+            clickHandler={(user: UserData): void => {
+              actions.setChatPartner(user);
+              actions.goToHome();
+            }}
           />
         );
     }
@@ -62,28 +68,44 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
     </div>
   );
 
-  const messageAreaContents = !client.chatPartner.id
-    ? <Welcome />
-    : (
-      <>
-        <FontAwesomeIcon
-          className="home_main_home-button"
-          icon={faHome}
-          onClick={actions.resetChatPartner}
-        />
-        <ChatPartnerProfile />
-        <MessageBoard />
-        <MessageEditor />
-      </>
-    );
+  const getMessageAreaContents = (): JSX.Element => {
+    switch (appState.currentState) {
+      case (appStates.gdpr):
+        return (
+          <>
+            <FontAwesomeIcon
+              className="home_main_home-button"
+              icon={faHome}
+              onClick={actions.goToHome}
+            />
+            <GDPR />
+          </>
+        );
+      default:
+        return !client.chatPartner.id
+          ? <Welcome />
+          : (
+            <>
+              <FontAwesomeIcon
+                className="home_main_home-button"
+                icon={faHome}
+                onClick={actions.resetChatPartner}
+              />
+              <ChatPartnerProfile />
+              <MessageBoard />
+              <MessageEditor />
+            </>
+          );
+    }
+  };
 
   const messageArea = (
     <div className="home_main">
-      {messageAreaContents}
+      {getMessageAreaContents()}
     </div>
   );
 
-  const viewMobile = client.chatPartner.id
+  const viewMobile = client.chatPartner.id || (appState.currentState === appStates.gdpr)
     ? <>{messageArea}</>
     : <>{sideBar}</>;
 
