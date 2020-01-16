@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { reducerActions } from '../reducers/rootActions';
-import { postRequestJson } from '../http/requests';
+import { requestWithJsonBody } from '../util/requests';
 import { errorCallback } from '../util/errors';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps, ReactChangeEvent } from '../types/client';
@@ -17,22 +17,27 @@ const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
   const updateSearchResult = (event: ReactChangeEvent): void | Promise<void> => {
     event.persist();
     setQuery(event.target.value);
-    return (event.target.value === '')
-      ? setSearchResult([])
-      : postRequestJson(
-        errorCallback,
-        (body: Record<string, any>) => setSearchResult(body.result),
-        '/api/users',
-        { query: event.target.value },
-      );
-  };
-
-  const addUserToContacts = (user: UserData): void => {
-    postRequestJson(errorCallback, () => { }, '/api/users/add', {
-      userId: store.session.user.id,
-      userToAdd: user.id,
+    if (event.target.value === '') {
+      return setSearchResult([]);
+    }
+    return requestWithJsonBody({
+      errCallback: errorCallback,
+      successCallback: ({ result }: any) => setSearchResult(result),
+      url: '/api/users',
+      body: { query: event.target.value },
+      type: 'POST',
     });
   };
+
+  const addUserToContacts = (user: UserData): Promise<void> => requestWithJsonBody({
+    errCallback: errorCallback,
+    url: '/api/contactlist',
+    type: 'POST',
+    body: {
+      userId: store.session.user.id,
+      userToAdd: user.id,
+    },
+  });
 
   const onContactClick = (event: Event, user: UserData): void => {
     addUserToContacts(user);

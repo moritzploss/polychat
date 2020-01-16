@@ -7,7 +7,7 @@ import { ReduxProps, ReactChangeEvent } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { reducerActions } from '../reducers/rootActions';
 import { UserData } from '../types/applicationWide';
-import { putRequestJson, deleteRequestJson } from '../http/requests';
+import { requestWithJsonBody } from '../util/requests';
 import { errorCallback } from '../util/errors';
 
 // const logout = async (removeParcelService: Function): Promise<void> => {
@@ -35,9 +35,15 @@ const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
         actions.resetChatPartner();
       }
     };
-    deleteRequestJson(errorCallback, successCallback, '/api/users', {
-      userId: store.session.user.id,
-      userToAdd: user.id,
+    requestWithJsonBody({
+      errCallback: errorCallback,
+      successCallback,
+      url: '/api/contactlist',
+      type: 'DELETE',
+      body: {
+        userId: store.session.user.id,
+        userToRemove: user.id,
+      },
     });
   };
 
@@ -46,15 +52,15 @@ const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
   };
 
   const submitUserNameChange = (): void => {
-    putRequestJson(
-      errorCallback,
-      console.log,
-      '/api/users',
-      {
+    requestWithJsonBody({
+      errCallback: errorCallback,
+      url: '/api/users',
+      type: 'PUT',
+      body: {
         userId: store.session.user.id,
         name: newName,
       },
-    );
+    });
   };
 
   return (

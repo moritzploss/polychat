@@ -36,8 +36,8 @@ var addUserToContactList = function (req, res) {
 };
 exports.addUserToContactList = addUserToContactList;
 var removeUserFromContactList = function (req, res) {
-    var _a = req.body, userId = _a.userId, userToAdd = _a.userToAdd;
-    repository_1.repository.removeUserFromContactList(userId, userToAdd, function () {
+    var _a = req.body, userId = _a.userId, userToRemove = _a.userToRemove;
+    repository_1.repository.removeUserFromContactList(userId, userToRemove, function () {
         parcelService_1.parcelService.deliverContactListParcel(userId);
         res.json({});
     });

@@ -30,3 +30,5 @@ export interface UserData {
   id: string;
   avatar: string;
 }
+
+export type HttpRequestType = 'GET' | 'POST' | 'PUT' | 'DELETE';

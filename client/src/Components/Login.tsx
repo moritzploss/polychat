@@ -7,7 +7,7 @@ import { UserData } from '../types/applicationWide';
 import { mapStateToProps } from '../reducers/util';
 import { errorCallback } from '../util/errors';
 import { appStateActions } from '../reducers/appStateActions';
-import { postRequestJson } from '../http/requests';
+import { requestWithJsonBody } from '../util/requests';
 
 import LabeledInputField from './LabeledInputField';
 
@@ -31,12 +31,13 @@ const Login = ({ goToHome }: AppStateActions): JSX.Element => {
 
   const attemptLogin = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
     event.preventDefault();
-    postRequestJson(
-      errorCallback,
-      loginSuccessCallback,
-      '/api/login',
-      credentials,
-    );
+    requestWithJsonBody({
+      errCallback: errorCallback,
+      successCallback: loginSuccessCallback,
+      url: '/api/login',
+      type: 'POST',
+      body: credentials,
+    });
   };
 
   return (

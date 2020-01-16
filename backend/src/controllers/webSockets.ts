@@ -32,7 +32,9 @@ const onMessage = (data: string): void => {
 const onClose = (socketId: string): void => {
   logger.info(`connection closed on websocket ${socketId}`);
   webSocketService.removeWebSocket(socketId);
-  parcelService.broadcastContactListUpdateToUserContacts(webSocketService.getUserId(socketId));
+  parcelService.broadcastContactListUpdateToUserContacts(
+    webSocketService.getUserId(socketId),
+  );
 };
 
 const setupEventListeners = (webSocket: ws, req: Request): void => {

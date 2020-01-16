@@ -12,12 +12,10 @@ apiRouter.get('/validate-session', validateSession);
 
 apiRouter.get('/destroy-session', destroySession);
 
-apiRouter.post('/users/add', addUserToContactList);
-
-apiRouter.delete('/users', removeUserFromContactList);
+apiRouter.post('/contactlist', addUserToContactList);
+apiRouter.delete('/contactlist', removeUserFromContactList);
 
 apiRouter.put('/users', updateUser);
-
 apiRouter.post('/users', findUsers);
 
 export { apiRouter };
