@@ -3,7 +3,7 @@ import React, { useLayoutEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSearch, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 
 import { reducerActions } from '../reducers/rootActions';
 import { ReduxProps } from '../types/client';
@@ -25,12 +25,10 @@ const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
 
 const Home = ({ store, actions }: ReduxProps): JSX.Element => {
   const { session, parcelService, client, appState } = store;
-  const [size, setSize] = useState([0, 0]);
+  const [windowWith, setWindowWith] = useState(0);
 
   useLayoutEffect(() => {
-    const updateSize = (): void => {
-      setSize([window.innerWidth, window.innerHeight]);
-    };
+    const updateSize = (): void => setWindowWith(window.innerWidth);
     window.addEventListener('resize', updateSize);
     updateSize();
     return (): void => window.removeEventListener('resize', updateSize);
@@ -52,19 +50,6 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
     }
   };
 
-  const getMainContents = (): JSX.Element => {
-    return !client.chatPartner.id
-      ? <Welcome />
-      : (
-        <>
-          <FontAwesomeIcon className="home_main_home-button" icon={faHome} onClick={actions.resetChatPartner} />
-          <ChatPartnerProfile />
-          <MessageBoard />
-          <MessageEditor />
-        </>
-      );
-  };
-
   const sideBar = (
     <div className="home_sidebar">
       <UserProfile />
@@ -73,28 +58,43 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
     </div>
   );
 
-  const mainView = (
-    <div className="home_main">
-      {getMainContents()}
-    </div>
-  );
-
-  const pageViewMobile = client.chatPartner.id
-    ? <>{mainView}</>
-    : <>{sideBar}</>;
-
-  const getView = size[0] < 600
-    ? <>{pageViewMobile}</>
+  const messageAreaContents = !client.chatPartner.id
+    ? <Welcome />
     : (
       <>
-        {sideBar}
-        {mainView}
+        <FontAwesomeIcon
+          className="home_main_home-button"
+          icon={faHome}
+          onClick={actions.resetChatPartner}
+        />
+        <ChatPartnerProfile />
+        <MessageBoard />
+        <MessageEditor />
       </>
     );
 
+  const messageArea = (
+    <div className="home_main">
+      {messageAreaContents}
+    </div>
+  );
+
+  const viewMobile = client.chatPartner.id
+    ? <>{messageArea}</>
+    : <>{sideBar}</>;
+
+  const viewDesktop = (
+    <>
+      {sideBar}
+      {messageArea}
+    </>
+  );
+
   return (
     <div className="home">
-      {getView}
+      {windowWith < 600
+        ? <>{viewMobile}</>
+        : <>{viewDesktop}</>}
     </div>
   );
 };

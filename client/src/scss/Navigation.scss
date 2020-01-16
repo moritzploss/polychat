@@ -10,15 +10,22 @@
   border-width: 1px 0 0 0;
   border-color: $lightGrey;
 
-  svg {
-    cursor: pointer;
-  }
-
   path {
-    fill: $mediumGrey;
+    fill: $mediumLightGrey;
   }
 
   path:hover {
     fill: $highlight;
   }
+
+  &_item {
+    &_active > path {
+        fill: $darkGrey;
+    }
+  }
+
+  svg {
+    cursor: pointer;
+  }
+
 }
