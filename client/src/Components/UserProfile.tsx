@@ -7,6 +7,7 @@ import { ReduxProps } from '../types/client';
 
 const UserProfile = ({ store }: ReduxProps): JSX.Element => {
   const { session } = store;
+
   return (
     <div className="userprofile">
       <img

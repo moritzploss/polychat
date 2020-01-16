@@ -4,14 +4,20 @@ import { connect } from 'react-redux';
 import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
+import { getAvatarPath } from '../util/stringFormatting';
 
 const ChatPartnerProfile = ({ store }: ReduxProps): JSX.Element => {
-  const { client } = store;
+  const { chatPartner } = store.client;
+
   return (
     <div className="chatpartnerprofile">
-      <img alt="chatpartner avatar" className="chatpartnerprofile_img" src={`${process.env.PUBLIC_URL}/avatars/${client.chatPartner.avatar}`} />
-      <span className="chatpartnerprofile_name">{client.chatPartner.name}</span>
-      <span className="chatpartnerprofile_language">{client.chatPartner.language}</span>
+      <img
+        alt="chatpartner avatar"
+        className="chatpartnerprofile_img"
+        src={getAvatarPath(chatPartner.avatar)}
+      />
+      <span className="chatpartnerprofile_name">{chatPartner.name}</span>
+      <span className="chatpartnerprofile_language">{chatPartner.language}</span>
     </div>
   );
 };

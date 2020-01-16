@@ -10,7 +10,9 @@ import Contact from './Contact';
 
 const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
   const getOnlineStatus = (userId: string): string => (
-    store.client.connectedUsers.includes(userId) ? 'online ' : ''
+    store.client.connectedUsers.includes(userId)
+      ? 'online '
+      : ''
   );
 
   return (

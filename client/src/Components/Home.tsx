@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useLayoutEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
@@ -11,14 +10,14 @@ import { mapStateToProps, mergeProps } from '../reducers/util';
 import { openNewWebSocket } from '../websockets/websockets';
 import { appStates } from '../reducers/appState';
 
-import Navigation from './Navigation';
+import ChatPartnerProfile from './ChatPartnerProfile';
 import ContactList from './ContactList';
+import ContactSearch from './ContactSearch';
 import MessageBoard from './MessageBoard';
 import MessageEditor from './MessageEditor';
-import ContactSearch from './ContactSearch';
-import UserProfile from './UserProfile';
-import ChatPartnerProfile from './ChatPartnerProfile';
+import Navigation from './Navigation';
 import Settings from './Settings';
+import UserProfile from './UserProfile';
 import Welcome from './Welcome';
 
 const generateWebSocketId = (userId: string): string => `${userId}--${uuid()}`;
@@ -46,7 +45,12 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
       case (appStates.userSearch):
         return <ContactSearch />;
       default:
-        return <ContactList contactList={client.contactList} clickHandler={actions.setChatPartner} />;
+        return (
+          <ContactList
+            contactList={client.contactList}
+            clickHandler={actions.setChatPartner}
+          />
+        );
     }
   };
 

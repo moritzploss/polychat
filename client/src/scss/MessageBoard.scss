@@ -20,25 +20,25 @@
         color: $mediumGrey;
         display: block;
       }
-
-      &_right {
-        float: right;
-        clear: both;
-        margin-right: 5px;
-        margin-left: 20%;
-        background: $lightGrey;
-        color: black;
-      }
-
-      &_left {
-        float: left;
-        clear: both;
-        margin-left: 5px;
-        margin-right: 20%;
-        background: $mainLight;
-        color: black;
-        cursor: pointer;
-      }
     }
   }
+}
+
+.right {
+  float: right;
+  clear: both;
+  margin-right: 5px;
+  margin-left: 20%;
+  background: $lightGrey;
+  color: black;
+}
+
+.left {
+  float: left;
+  clear: both;
+  margin-left: 5px;
+  margin-right: 20%;
+  background: $mainLight;
+  color: black;
+  cursor: pointer;
 }
