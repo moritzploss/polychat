@@ -25,5 +25,8 @@
     border-radius: 50%;
     width: 48px;
     cursor: pointer;
+    border-width: 4px;
+    border-style: solid;
+    border-color: $lightGrey;
   }
 }

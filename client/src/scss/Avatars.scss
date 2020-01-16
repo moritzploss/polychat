@@ -1,6 +1,5 @@
 .avatars {
-
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,11 +7,16 @@
 
   &_grid {
     width: 80%;
-    max-width: 500px;
+    max-width: 900px;
     display: grid;
     grid-column-gap: 50px;
     grid-row-gap: 50px;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto auto auto;
+    margin-bottom: 45px;
+
+    @media only screen and (max-width: 950px) {
+      grid-template-columns: auto auto auto;
+    }
 
     @media only screen and (max-width: 750px) {
       grid-template-columns: auto auto;
@@ -36,6 +40,12 @@
   &_header {
     color: $darkGrey;
     margin-top: 50px;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
+  }
+
+  &_description {
+    color: $mediumGrey;
+    font-size: $fontSmall;
+    margin-bottom: 45px;
   }
 }

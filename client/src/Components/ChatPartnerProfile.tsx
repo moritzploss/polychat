@@ -9,11 +9,17 @@ import { getAvatarPath } from '../util/stringFormatting';
 const ChatPartnerProfile = ({ store }: ReduxProps): JSX.Element => {
   const { chatPartner } = store.client;
 
+  const getOnlineStatus = (userId: string): string => (
+    store.client.connectedUsers.includes(userId)
+      ? 'online '
+      : ''
+  );
+
   return (
     <div className="chatpartnerprofile">
       <img
         alt="chatpartner avatar"
-        className="chatpartnerprofile_img"
+        className={`${getOnlineStatus(chatPartner.id)}chatpartnerprofile_img`}
         src={getAvatarPath(chatPartner.avatar)}
       />
       <span className="chatpartnerprofile_name">{chatPartner.name}</span>

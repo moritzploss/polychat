@@ -15,5 +15,8 @@
   &_img {
     border-radius: 50%;
     width: 96px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: $lightGrey;
   }
 }

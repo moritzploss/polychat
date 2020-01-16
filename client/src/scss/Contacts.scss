@@ -1,7 +1,8 @@
 .online {
   img {
-    border: 3px solid $highlight;
+    border-color: $highlight;
   }
+  border-color: $highlight;
   order: -1;
 }
 
