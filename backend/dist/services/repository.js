@@ -132,10 +132,9 @@ var Repository = /** @class */ (function () {
                         case 0:
                             if (error)
                                 return [2 /*return*/, logging_1.logger.error(error)];
-                            return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: fields }, logging_1.logger.error)];
+                            return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: fields }, function (err, _) { return callback(err, user); })];
                         case 1:
                             _a.sent();
-                            callback();
                             return [2 /*return*/];
                     }
                 });

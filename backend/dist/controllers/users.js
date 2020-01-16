@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -14,12 +25,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var repository_1 = require("../services/repository");
 var parcelService_1 = require("../services/parcelService");
 var login_1 = require("./login");
-var updateUser = function (req, res) {
+var logging_1 = require("../logging");
+var updateUserData = function (req, res) {
     var _a = req.body, userId = _a.userId, fieldsToUpdate = __rest(_a, ["userId"]);
-    repository_1.repository.updateUser(function () { return res.json({}); }, userId, fieldsToUpdate);
-    parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(userId);
+    var callback = function (error, user) {
+        if (error) {
+            logging_1.logger.error(error);
+            return res.status(500).json({ error: 'an error occured' });
+        }
+        parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(userId);
+        return res.json(login_1.toCredentials(__assign(__assign({}, login_1.toCredentials(user)), fieldsToUpdate)));
+    };
+    repository_1.repository.updateUser(callback, userId, fieldsToUpdate);
 };
-exports.updateUser = updateUser;
+exports.updateUserData = updateUserData;
 var findUsers = function (req, res) {
     var query = req.body.query;
     repository_1.repository.findUsersByName(query, function (error, data) { return ((error)

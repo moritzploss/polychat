@@ -11,5 +11,5 @@ apiRouter.get('/validate-session', session_1.validateSession);
 apiRouter.get('/destroy-session', session_1.destroySession);
 apiRouter.post('/contactlist', users_1.addUserToContactList);
 apiRouter.delete('/contactlist', users_1.removeUserFromContactList);
-apiRouter.put('/users', users_1.updateUser);
+apiRouter.put('/users', users_1.updateUserData);
 apiRouter.post('/users', users_1.findUsers);

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faArrowRight, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
+import { sessionService } from 'redux-react-session';
 
 import { ReduxProps, ReactChangeEvent } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
@@ -54,6 +55,7 @@ const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
   const submitUserNameChange = (): void => {
     requestWithJsonBody({
       errCallback: errorCallback,
+      successCallback: sessionService.saveUser,
       url: '/api/users',
       type: 'PUT',
       body: {
@@ -61,6 +63,12 @@ const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
         name: newName,
       },
     });
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === 'Enter') {
+      submitUserNameChange();
+    }
   };
 
   return (
@@ -73,6 +81,7 @@ const Settings = ({ store, actions }: ReduxProps): JSX.Element => {
             className="settings_block_user_name"
             onChange={updateNewName}
             onBlur={submitUserNameChange}
+            onKeyDown={handleKeyDown}
             value={newName}
             onClick={(event: ReactChangeEvent): void => event.target.select()}
           />

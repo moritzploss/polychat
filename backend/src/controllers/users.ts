@@ -2,15 +2,24 @@ import { Request, Response } from 'express-serve-static-core';
 import { repository } from '../services/repository';
 import { parcelService } from '../services/parcelService';
 import { toCredentials } from './login';
+import { logger } from '../logging';
 
-const updateUser = (req: Request, res: Response): void => {
+const updateUserData = (req: Request, res: Response): void => {
   const { userId, ...fieldsToUpdate } = req.body;
-  repository.updateUser(
-    () => res.json({}),
-    userId,
-    fieldsToUpdate,
-  );
-  parcelService.broadcastContactListUpdateToUserContacts(userId);
+
+  const callback = (error: Error, user: any): Response<JSON> => {
+    if (error) {
+      logger.error(error);
+      return res.status(500).json({ error: 'an error occured' });
+    }
+    parcelService.broadcastContactListUpdateToUserContacts(userId);
+    return res.json(toCredentials({
+      ...toCredentials(user),
+      ...fieldsToUpdate,
+    }));
+  };
+
+  repository.updateUser(callback, userId, fieldsToUpdate);
 };
 
 const findUsers = (req: Request, res: Response): void => {
@@ -38,4 +47,4 @@ const removeUserFromContactList = (req: Request, res: Response): void => {
   });
 };
 
-export { findUsers, addUserToContactList, removeUserFromContactList, updateUser };
+export { findUsers, addUserToContactList, removeUserFromContactList, updateUserData };

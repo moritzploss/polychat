@@ -81,9 +81,8 @@ class Repository {
       await this.user.updateOne(
         { _id: userId },
         { $set: fields },
-        logger.error,
+        (err: Error, _: any) => callback(err, user),
       );
-      callback();
     });
   };
 
