@@ -1,10 +1,24 @@
 import { MongooseDocument } from 'mongoose';
 import * as ws from 'ws';
+import { Messages } from './applicationWide';
 
 export type UserDocument = MongooseDocument & {
   password: string;
   email: string;
 };
+
+export interface MongooseUser {
+  _id: string;
+  email: string;
+  password: string;
+  name: string;
+  language: string;
+  avatar: string;
+  contacts: string[];
+  inContactListOf: string[];
+  createdAt: Date;
+  messages: Messages;
+}
 
 export interface UserData {
   email: string;

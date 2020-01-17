@@ -180,46 +180,43 @@ var Repository = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
-        this.findUsersByName = function (userName, callback) {
-            var regex = RegExp(userName);
-            _this.user.find({ name: { $regex: regex, $options: 'i' } }, function (error, data) {
-                callback(error, data);
+        this.findUsersByName = function (userName) { return __awaiter(_this, void 0, void 0, function () {
+            var regex, users;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        regex = RegExp(userName);
+                        return [4 /*yield*/, this.user.find({ name: { $regex: regex, $options: 'i' } })];
+                    case 1:
+                        users = _a.sent();
+                        return [2 /*return*/, users || []];
+                }
             });
-        };
-        this.getUserMessages = function (userId) { return __awaiter(_this, void 0, void 0, function () {
-            var messages;
+        }); };
+        this.getUserFieldData = function (userId, field) { return __awaiter(_this, void 0, void 0, function () {
+            var data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.user.findById(userId)];
                     case 1:
-                        messages = (_a.sent()).messages;
-                        return [2 /*return*/, messages];
+                        data = _a.sent();
+                        return [2 /*return*/, data[field]];
                 }
+            });
+        }); };
+        this.getUserMessages = function (userId) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, (this.getUserFieldData(userId, 'messages'))];
             });
         }); };
         this.getUserContacts = function (userId) { return __awaiter(_this, void 0, void 0, function () {
-            var contacts;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.user.findById(userId)];
-                    case 1:
-                        contacts = (_a.sent()).contacts;
-                        return [2 /*return*/, contacts];
-                }
+                return [2 /*return*/, (this.getUserFieldData(userId, 'contacts'))];
             });
         }); };
-        this.getUserFieldData = function (userId, field, callback) {
-            _this.user.findById(userId, function (error, data) { return callback(error ? [] : data[field]); });
-        };
         this.getUserLanguage = function (userId) { return __awaiter(_this, void 0, void 0, function () {
-            var language;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.user.findById(userId)];
-                    case 1:
-                        language = (_a.sent()).language;
-                        return [2 /*return*/, language];
-                }
+                return [2 /*return*/, (this.getUserFieldData(userId, 'language'))];
             });
         }); };
         this.getUsersById = function (userIds) { return __awaiter(_this, void 0, void 0, function () {

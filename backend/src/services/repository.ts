@@ -3,6 +3,7 @@ import * as mongoose from 'mongoose';
 import { logger } from '../logging';
 import { User, UserMongoose } from '../schemas/user';
 import { DirectMessageParcel, Messages } from '../types/applicationWide';
+import { MongooseUser } from '../types/backend';
 
 const updateDirectMessages = (
   messages: Messages,
@@ -127,33 +128,30 @@ class Repository {
     });
   };
 
-  findUsersByName = (userName: string, callback: Function): void => {
+  findUsersByName = async (userName: string): Promise<any> => {
     const regex = RegExp(userName);
-    this.user.find({ name: { $regex: regex, $options: 'i' } }, (error: Error, data) => {
-      callback(error, data);
-    });
+    const users = await this.user.find({ name: { $regex: regex, $options: 'i' } });
+    return users || [];
   };
 
-  getUserMessages = async (userId: string): Promise<Messages> => {
-    const { messages } = await this.user.findById(userId);
-    return messages;
+  getUserFieldData = async (userId: string, field: string): Promise<any> => {
+    const data = await this.user.findById(userId);
+    return data[field];
   };
 
-  getUserContacts = async (userId: string): Promise<string[]> => {
-    const { contacts } = await this.user.findById(userId);
-    return contacts;
-  };
+  getUserMessages = async (userId: string): Promise<Messages> => (
+    this.getUserFieldData(userId, 'messages')
+  );
 
-  getUserFieldData = (userId: string, field: string, callback: Function): void => {
-    this.user.findById(userId, (error: Error, data) => callback(error ? [] : data[field]));
-  };
+  getUserContacts = async (userId: string): Promise<string[]> => (
+    this.getUserFieldData(userId, 'contacts')
+  );
 
-  getUserLanguage = async (userId: string): Promise<string> => {
-    const { language } = await this.user.findById(userId);
-    return language;
-  };
+  getUserLanguage = async (userId: string): Promise<string> => (
+    this.getUserFieldData(userId, 'language')
+  );
 
-  getUsersById = async (userIds: string[]): Promise<any> => {
+  getUsersById = async (userIds: string[]): Promise<MongooseUser[]> => {
     const users = await this.user.find({
       _id: { $in: userIds.map((id) => mongoose.Types.ObjectId(id)) },
     });

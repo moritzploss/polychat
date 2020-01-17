@@ -1,8 +1,7 @@
 import * as ws from 'ws';
-import * as mongoose from 'mongoose';
 
 import { WebSocketData } from '../types/backend';
-import { Parcel, DirectMessageParcel, Messages } from '../types/applicationWide';
+import { Parcel, DirectMessageParcel } from '../types/applicationWide';
 
 import { logger } from '../logging';
 import { webSocketService, WebSocketService } from './webSocketService';

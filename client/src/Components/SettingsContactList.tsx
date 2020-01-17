@@ -39,7 +39,7 @@ const SettingsContactList = ({ store, actions }: ReduxProps): JSX.Element => {
         .filter((contact): boolean => contact.id !== user.id)
         .map((contact: UserData) => (
           <div className="settings_block_user" key={contact.id}>
-            <span className="settings_block_user_name">{contact.name}</span>
+            <span className="settings_block_user_prop">{contact.name}</span>
             <FontAwesomeIcon
               className="settings_block_user_button"
               icon={faTimesCircle}

@@ -16,7 +16,7 @@ const SettingsMore = ({ actions }: ReduxProps): JSX.Element => (
   <div className="settings_block">
     <h2 className="settings_block_header">More</h2>
     <div className="settings_block_user">
-      <span className="settings_block_user_name">GDPR</span>
+      <span className="settings_block_user_prop">GDPR</span>
       <FontAwesomeIcon
         className="settings_block_user_button"
         icon={faBalanceScale}
@@ -24,7 +24,7 @@ const SettingsMore = ({ actions }: ReduxProps): JSX.Element => (
       />
     </div>
     <div className="settings_block_user">
-      <span className="settings_block_user_name">Logout</span>
+      <span className="settings_block_user_prop">Logout</span>
       <FontAwesomeIcon
         className="settings_block_user_button"
         icon={faArrowRight}

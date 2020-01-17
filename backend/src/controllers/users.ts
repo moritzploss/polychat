@@ -5,14 +5,15 @@ import { repository } from '../services/repository';
 import { parcelService } from '../services/parcelService';
 import { toCredentials } from './login';
 import { logger } from '../logging';
+import { MongooseUser } from '../types/backend';
 
-const findUsers = (req: Request, res: Response): void => {
+const findUsers = async (req: Request, res: Response): Promise<Response<JSON>> => {
   const { query } = req.body;
-  repository.findUsersByName(query, (error: Error, data) => (
-    (error)
-      ? res.json({ result: [] })
-      : res.json({ result: data.map(toCredentials) })
-  ));
+  const users = await repository.findUsersByName(query);
+  const result = R.isEmpty(users)
+    ? []
+    : users.map(toCredentials);
+  return res.json({ result });
 };
 
 const addUserToContactList = (req: Request, res: Response): void => {
@@ -31,14 +32,14 @@ const removeUserFromContactList = (req: Request, res: Response): void => {
   });
 };
 
-const updateUserData = (req: Request, res: Response): Response<any> | void => {
+const updateUserData = (req: Request, res: Response): Response<JSON> | void => {
   const { userId, ...fieldsToUpdate } = req.body;
 
   if (R.isEmpty(toCredentials(fieldsToUpdate))) {
     return res.status(400).json({ error: 'no valid fields found' });
   }
 
-  const callback = (error: Error, user: any): Response<JSON> => {
+  const callback = (error: Error, user: MongooseUser): Response<JSON> => {
     if (error) {
       logger.error(error);
       return res.status(500).json({ error: 'an error occured' });
