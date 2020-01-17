@@ -1,11 +1,17 @@
 import { Request, Response } from 'express-serve-static-core';
+import * as R from 'ramda';
 import { repository } from '../services/repository';
+
 import { parcelService } from '../services/parcelService';
 import { toCredentials } from './login';
 import { logger } from '../logging';
 
-const updateUserData = (req: Request, res: Response): void => {
+const updateUserData = (req: Request, res: Response): Response<any> | void => {
   const { userId, ...fieldsToUpdate } = req.body;
+
+  if (R.isEmpty(toCredentials(fieldsToUpdate))) {
+    return res.json({ error: 'no valid fields found' });
+  }
 
   const callback = (error: Error, user: any): Response<JSON> => {
     if (error) {
@@ -19,7 +25,7 @@ const updateUserData = (req: Request, res: Response): void => {
     }));
   };
 
-  repository.updateUser(callback, userId, fieldsToUpdate);
+  return repository.updateUser(callback, userId, fieldsToUpdate);
 };
 
 const findUsers = (req: Request, res: Response): void => {

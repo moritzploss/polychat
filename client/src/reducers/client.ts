@@ -1,5 +1,4 @@
 import { Client } from '../types/client';
-import ContactList from '../Components/ContactList';
 import { UserData } from '../types/types';
 
 const chatPartner = {
