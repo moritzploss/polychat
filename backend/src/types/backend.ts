@@ -7,6 +7,11 @@ export type UserDocument = MongooseDocument & {
   email: string;
 };
 
+export interface Logger {
+  error: Function;
+  info: Function;
+}
+
 export interface MongooseUser {
   _id: string;
   email: string;

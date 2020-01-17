@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { reducerActions } from '../reducers/rootActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
@@ -19,12 +19,12 @@ import SelectAvatar from './SelectAvatar';
 const MainArea = ({ actions, store }: ReduxProps): JSX.Element => {
   const { appState, client } = store;
 
-  const wrap = (element: JSX.Element): JSX.Element => (
+  const withHomeButton = (element: JSX.Element, onClick = actions.goToHome): JSX.Element => (
     <>
       <FontAwesomeIcon
         className="home_main_home-button"
-        icon={faHome}
-        onClick={actions.goToHome}
+        icon={faArrowCircleLeft}
+        onClick={onClick}
       />
       {element}
     </>
@@ -32,11 +32,6 @@ const MainArea = ({ actions, store }: ReduxProps): JSX.Element => {
 
   const messageArea = (
     <>
-      <FontAwesomeIcon
-        className="home_main_home-button"
-        icon={faHome}
-        onClick={actions.resetChatPartner}
-      />
       <ChatPartnerProfile />
       <MessageBoard />
       <MessageEditor />
@@ -46,13 +41,13 @@ const MainArea = ({ actions, store }: ReduxProps): JSX.Element => {
   const getMessageAreaContents = (): JSX.Element => {
     switch (appState.currentState) {
       case (appStates.gdpr):
-        return wrap(<GDPR />);
+        return withHomeButton(<GDPR />);
       case (appStates.selectAvatar):
-        return wrap(<SelectAvatar />);
+        return withHomeButton(<SelectAvatar />);
       default:
         return !client.chatPartner.id
           ? <Welcome />
-          : messageArea;
+          : withHomeButton(messageArea, actions.resetChatPartner);
     }
   };
 

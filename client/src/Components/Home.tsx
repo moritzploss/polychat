@@ -56,7 +56,9 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
     }
   };
 
-  const viewMobile = client.chatPartner.id || (appState.currentState === appStates.gdpr) || (appState.currentState === appStates.selectAvatar)
+  const viewMobile = client.chatPartner.id
+    || (appState.currentState === appStates.gdpr)
+    || (appState.currentState === appStates.selectAvatar)
     ? <MainArea />
     : <SideBar content={getSideBarContents()} />;
 

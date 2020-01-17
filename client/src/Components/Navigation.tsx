@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSearch, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSearch, faCog } from '@fortawesome/free-solid-svg-icons';
 
 import { reducerActions } from '../reducers/rootActions';
 import { appStates } from '../reducers/appState';
@@ -13,7 +13,7 @@ const Navigation = ({ actions, store }: ReduxProps): JSX.Element => {
 
   const navItems = [
     {
-      icon: faHome,
+      icon: faUser,
       onClick: actions.goToHome,
       isActive: currentState === appStates.home,
     },

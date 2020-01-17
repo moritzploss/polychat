@@ -7,13 +7,16 @@ const uuid = require('uuid/v4');
 const { ParcelService } = require('../../dist/services/parcelService');
 const { WebSocketService } = require('../../dist/services/webSockets');
 
+const { mockRepository } = require('../mocks/mockRepository').default;
+const { mockTranslationService } = require('../mocks/mockTranslationService');
+
 const userId = uuid();
 let parcelService;
 let webSocketService;
 
 beforeEach(() => {
   webSocketService = new WebSocketService();
-  parcelService = new ParcelService(webSocketService);
+  parcelService = new ParcelService(webSocketService, mockRepository, mockTranslationService);
 });
 
 describe('the ParcelService deliver function', () => {
