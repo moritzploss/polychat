@@ -8,7 +8,7 @@ The project was originally developed using JavaScript (Express) and React. This 
 
 ## What it looks like
 
-<img width="500px" src"./screenshots/1.png" />
+<img width="500px" src="./screenshots/1.png" />
 
 ## Get Started
 
