@@ -10,5 +10,4 @@ const formatUserName = (user: UserData, sessionUser: UserData): string => (
   `${user.name}${sessionUser.id === user.id ? ' (you)' : ''}`
 );
 
-
 export { getAvatarPath, formatUserName };

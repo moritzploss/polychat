@@ -1,6 +1,6 @@
 import { sessionService } from 'redux-react-session';
 
-const validateSession = async (session: any): Promise<boolean> => {
+const validateSession = async (): Promise<boolean> => {
   const res = await fetch('/api/validate-session', {
     credentials: 'include',
   });
