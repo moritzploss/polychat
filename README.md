@@ -8,7 +8,7 @@ The project was originally developed using JavaScript (Express) and React. This 
 
 ## What it looks like
 
-<div style="display: flex; justify-content: center"><img width="500px" src="./screenshots/1.png" /></div>
+<img width="500px" src="./screenshots/1.png" />
 
 ## Get Started
 
