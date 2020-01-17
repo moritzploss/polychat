@@ -3,6 +3,7 @@
   text-align: left;
   height: 0;
   flex: 1 1 auto;
+  scroll-behavior: smooth;
 
   &_list {
     list-style: none;
