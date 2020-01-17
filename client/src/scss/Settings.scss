@@ -1,6 +1,7 @@
 .settings {
   flex: 1;
   padding: 0px 15px;
+  overflow-y: auto;
 
   &_block {
     &_logout {

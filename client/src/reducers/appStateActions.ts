@@ -3,10 +3,6 @@ const appStateActions = {
     type: 'GO TO HOME',
   }),
 
-  logOut: (): { type: string } => ({
-    type: 'LOG OUT',
-  }),
-
   goToUserSearch: (): { type: string } => ({
     type: 'GO TO USER SEARCH',
   }),

@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
+import { sessionService } from 'redux-react-session';
 
 import { ReduxProps, ReducerActions } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { reducerActions } from '../reducers/rootActions';
 
 const resetApp = (actions: ReducerActions): void => {
-  actions.removeParcelService();
+  sessionService.deleteSession();
+  sessionService.deleteUser();
   actions.logOut();
 };
 

@@ -15,6 +15,13 @@ const rootReducer = combineReducers({
   parcelService: parcelServiceReducer,
 });
 
+const appReducer = (state: any, action: any) => {
+  if (action.type === 'USER LOGOUT') {
+    state = undefined;
+  }
+  return rootReducer(state, action);
+};
+
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
@@ -23,7 +30,7 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, composeEnhancers());
+const store = createStore(appReducer, composeEnhancers());
 initiateSessionService(store);
 
 export { store };
