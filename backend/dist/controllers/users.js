@@ -27,22 +27,6 @@ var repository_1 = require("../services/repository");
 var parcelService_1 = require("../services/parcelService");
 var login_1 = require("./login");
 var logging_1 = require("../logging");
-var updateUserData = function (req, res) {
-    var _a = req.body, userId = _a.userId, fieldsToUpdate = __rest(_a, ["userId"]);
-    if (R.isEmpty(login_1.toCredentials(fieldsToUpdate))) {
-        return res.json({ error: 'no valid fields found' });
-    }
-    var callback = function (error, user) {
-        if (error) {
-            logging_1.logger.error(error);
-            return res.status(500).json({ error: 'an error occured' });
-        }
-        parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(userId);
-        return res.json(login_1.toCredentials(__assign(__assign({}, login_1.toCredentials(user)), fieldsToUpdate)));
-    };
-    return repository_1.repository.updateUser(callback, userId, fieldsToUpdate);
-};
-exports.updateUserData = updateUserData;
 var findUsers = function (req, res) {
     var query = req.body.query;
     repository_1.repository.findUsersByName(query, function (error, data) { return ((error)
@@ -66,3 +50,19 @@ var removeUserFromContactList = function (req, res) {
     });
 };
 exports.removeUserFromContactList = removeUserFromContactList;
+var updateUserData = function (req, res) {
+    var _a = req.body, userId = _a.userId, fieldsToUpdate = __rest(_a, ["userId"]);
+    if (R.isEmpty(login_1.toCredentials(fieldsToUpdate))) {
+        return res.status(400).json({ error: 'no valid fields found' });
+    }
+    var callback = function (error, user) {
+        if (error) {
+            logging_1.logger.error(error);
+            return res.status(500).json({ error: 'an error occured' });
+        }
+        parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(userId);
+        return res.json(login_1.toCredentials(__assign(__assign({}, login_1.toCredentials(user)), fieldsToUpdate)));
+    };
+    return repository_1.repository.updateUser(callback, userId, fieldsToUpdate);
+};
+exports.updateUserData = updateUserData;
