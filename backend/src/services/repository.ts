@@ -138,8 +138,9 @@ class Repository {
     this.user.findById(userId, (error: Error, data) => callback(error ? {} : data.messages));
   };
 
-  getUserContacts = (userId: string, callback: Function): void => {
-    this.user.findById(userId, (error: Error, data) => callback(error ? [] : data.contacts));
+  getUserContacts = async (userId: string): Promise<string[]> => {
+    const { contacts } = await this.user.findById(userId);
+    return contacts;
   };
 
   getUserFieldData = (userId: string, field: string, callback: Function): void => {

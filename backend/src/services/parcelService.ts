@@ -37,24 +37,17 @@ class ParcelService {
     ));
   };
 
-  deliverContactListParcel = (userId: string): void => this.repository.getUserContacts(
-    userId, (contacts: string[]) => this.repository.getUsersById(
-      contacts, (users: mongoose.Document[]) => this.deliver(
-        contactListParcel(userId, users.map(toCredentials)),
-      ),
-    ),
-  );
-
-  broadcastContactListUpdateToUserContacts = (userId: string): void => {
-    repository.getUserContacts(userId, (contacts: string[]) => {
-      contacts.forEach((contact: string) => this.deliverContactListParcel(contact));
-    });
+  deliverContactListParcel = async (userId: string): Promise<void> => {
+    const contacts = await this.repository.getUserContacts(userId);
+    this.repository.getUsersById(
+      contacts,
+      (users: mongoose.Document[]) => this.deliver(contactListParcel(userId, users.map(toCredentials))),
+    );
   };
 
-  broadCast = (parcel: Parcel): void => {
-    this.webSocketService
-      .getAllWebSockets()
-      .forEach(({ webSocket }: { webSocket: ws}) => webSocket.send(JSON.stringify(parcel)));
+  broadcastContactListUpdateToUserContacts = async (userId: string): Promise<void> => {
+    const contacts = await repository.getUserContacts(userId);
+    contacts.forEach((contact: string) => this.deliverContactListParcel(contact));
   };
 
   deliver = (parcel: Parcel): void => {
@@ -71,10 +64,7 @@ class ParcelService {
       directMsgParcel.message,
       targetLanguage,
     );
-    return {
-      ...directMsgParcel,
-      translatedMessage,
-    };
+    return { ...directMsgParcel, translatedMessage };
   };
 
   receive = async (parcel: Parcel): Promise<void> => {

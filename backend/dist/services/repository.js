@@ -189,9 +189,17 @@ var Repository = /** @class */ (function () {
         this.getUserMessages = function (userId, callback) {
             _this.user.findById(userId, function (error, data) { return callback(error ? {} : data.messages); });
         };
-        this.getUserContacts = function (userId, callback) {
-            _this.user.findById(userId, function (error, data) { return callback(error ? [] : data.contacts); });
-        };
+        this.getUserContacts = function (userId) { return __awaiter(_this, void 0, void 0, function () {
+            var contacts;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.user.findById(userId)];
+                    case 1:
+                        contacts = (_a.sent()).contacts;
+                        return [2 /*return*/, contacts];
+                }
+            });
+        }); };
         this.getUserFieldData = function (userId, field, callback) {
             _this.user.findById(userId, function (error, data) { return callback(error ? [] : data[field]); });
         };

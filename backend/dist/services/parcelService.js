@@ -65,20 +65,32 @@ var ParcelService = /** @class */ (function () {
         this.deliverMessageHistoryParcel = function (userId) {
             _this.repository.getUserMessages(userId, function (messages) { return (_this.deliver(blueprints_1.messageHistoryParcel(userId, messages))); });
         };
-        this.deliverContactListParcel = function (userId) { return _this.repository.getUserContacts(userId, function (contacts) { return _this.repository.getUsersById(contacts, function (users) { return _this.deliver(blueprints_1.contactListParcel(userId, users.map(login_1.toCredentials))); }); }); };
-        this.broadcastContactListUpdateToUserContacts = function (userId) {
-            repository_1.repository.getUserContacts(userId, function (contacts) {
-                contacts.forEach(function (contact) { return _this.deliverContactListParcel(contact); });
+        this.deliverContactListParcel = function (userId) { return __awaiter(_this, void 0, void 0, function () {
+            var contacts;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.repository.getUserContacts(userId)];
+                    case 1:
+                        contacts = _a.sent();
+                        this.repository.getUsersById(contacts, function (users) { return _this.deliver(blueprints_1.contactListParcel(userId, users.map(login_1.toCredentials))); });
+                        return [2 /*return*/];
+                }
             });
-        };
-        this.broadCast = function (parcel) {
-            _this.webSocketService
-                .getAllWebSockets()
-                .forEach(function (_a) {
-                var webSocket = _a.webSocket;
-                return webSocket.send(JSON.stringify(parcel));
+        }); };
+        this.broadcastContactListUpdateToUserContacts = function (userId) { return __awaiter(_this, void 0, void 0, function () {
+            var contacts;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, repository_1.repository.getUserContacts(userId)];
+                    case 1:
+                        contacts = _a.sent();
+                        contacts.forEach(function (contact) { return _this.deliverContactListParcel(contact); });
+                        return [2 /*return*/];
+                }
             });
-        };
+        }); };
         this.deliver = function (parcel) {
             _this.webSocketService
                 .getWebSocketsByUserId(parcel.receiverId)
