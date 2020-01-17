@@ -7,6 +7,7 @@ export interface Parcel {
 
 export interface DirectMessageParcel extends Parcel {
   message: string;
+  translatedMessage?: string;
 }
 
 export interface MessageHistoryParcel extends Parcel {
@@ -30,3 +31,5 @@ export interface UserData {
   id: string;
   avatar: string;
 }
+
+export type HttpRequestType = 'GET' | 'POST' | 'PUT' | 'DELETE';

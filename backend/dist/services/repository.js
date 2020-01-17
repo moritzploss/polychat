@@ -90,10 +90,10 @@ var Repository = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         testUser = new user_1.User({
-                            email: 'test@test.com',
+                            email: 'Moritz@french.com',
                             password: process.env.TEST_USER_PASSWORD,
-                            name: 'Random User',
-                            language: 'swedish',
+                            name: 'Moritz',
+                            language: 'fr',
                             messages: {
                                 test: [1, 2, 3],
                             },
@@ -186,11 +186,25 @@ var Repository = /** @class */ (function () {
                 callback(error, data);
             });
         };
-        this.getUserMessages = function (userId, callback) {
-            _this.user.findById(userId, function (error, data) { return callback(error ? {} : data.messages); });
+        this.getUserFieldData = function (userId, field, callback) {
+            _this.user.findById(userId, function (error, data) { return callback(error ? [] : data[field]); });
         };
         this.getUserContacts = function (userId, callback) {
-            _this.user.findById(userId, function (error, data) { return callback(error ? [] : data.contacts); });
+            _this.getUserFieldData(userId, 'contacts', callback);
+        };
+        this.getUserLanguage = function (userId) { return __awaiter(_this, void 0, void 0, function () {
+            var language;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.user.findById(userId)];
+                    case 1:
+                        language = (_a.sent()).language;
+                        return [2 /*return*/, language];
+                }
+            });
+        }); };
+        this.getUserMessages = function (userId, callback) {
+            _this.user.findById(userId, function (error, data) { return callback(error ? {} : data.messages); });
         };
         this.getUsersById = function (userIds, callback) {
             _this.user.find({

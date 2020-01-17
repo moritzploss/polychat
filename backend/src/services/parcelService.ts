@@ -9,6 +9,7 @@ import { webSocketService, WebSocketService } from './webSocketService';
 import { repository, Repository } from './repository';
 import { toCredentials } from '../controllers/login';
 import { contactListParcel, messageHistoryParcel } from '../parcels/blueprints';
+import { TranslationService, translationService } from './translationService';
 
 const logUnknownParcel = (parcel: Parcel): void => {
   logger.info({
@@ -22,9 +23,12 @@ class ParcelService {
 
   repository: Repository;
 
-  constructor(wsService: WebSocketService, repositoryService: Repository) {
+  translationService: TranslationService;
+
+  constructor(wsService: WebSocketService, repositoryService: Repository, translateService: TranslationService) {
     this.webSocketService = wsService;
     this.repository = repositoryService;
+    this.translationService = translateService;
   }
 
   deliverMessageHistoryParcel = (userId: string): void => {
@@ -60,17 +64,32 @@ class ParcelService {
       .forEach((webSocket: ws) => webSocket.send(JSON.stringify(parcel)));
   };
 
-  receive = (parcel: Parcel): void => {
+  translateDirectMessageParcel = async (parcel: DirectMessageParcel): Promise<DirectMessageParcel> => {
+    const directMsgParcel = parcel as DirectMessageParcel;
+    const targetLanguage = await repository.getUserLanguage(parcel.receiverId);
+    const translatedMessage = await this.translationService.translateString(
+      directMsgParcel.message,
+      targetLanguage,
+    );
+    return {
+      ...directMsgParcel,
+      translatedMessage,
+    };
+  };
+
+  receive = async (parcel: Parcel): Promise<void> => {
     switch (parcel.type) {
       case 'DIRECT MESSAGE':
-        this.repository.saveDirectMessage(parcel as DirectMessageParcel);
-        return this.deliver(parcel);
+        // eslint-disable-next-line no-case-declarations
+        const parcelTranslated = await this.translateDirectMessageParcel(parcel as DirectMessageParcel);
+        this.repository.saveDirectMessage(parcelTranslated);
+        return this.deliver(parcelTranslated);
       default:
         return logUnknownParcel(parcel);
     }
   };
 }
 
-const parcelService = new ParcelService(webSocketService, repository);
+const parcelService = new ParcelService(webSocketService, repository, translationService);
 
 export { ParcelService, parcelService };

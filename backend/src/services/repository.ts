@@ -44,10 +44,10 @@ class Repository {
 
   addTestUser = async (): Promise<void> => {
     const testUser = new User({
-      email: 'test@test.com',
+      email: 'Moritz@french.com',
       password: process.env.TEST_USER_PASSWORD,
-      name: 'Random User',
-      language: 'swedish',
+      name: 'Moritz',
+      language: 'fr',
       messages: {
         test: [1, 2, 3],
       },
@@ -134,12 +134,21 @@ class Repository {
     });
   };
 
-  getUserMessages = (userId: string, callback: Function): void => {
-    this.user.findById(userId, (error: Error, data) => callback(error ? {} : data.messages));
+  getUserFieldData = (userId: string, field: string, callback: Function): void => {
+    this.user.findById(userId, (error: Error, data) => callback(error ? [] : data[field]));
   };
 
   getUserContacts = (userId: string, callback: Function): void => {
-    this.user.findById(userId, (error: Error, data) => callback(error ? [] : data.contacts));
+    this.getUserFieldData(userId, 'contacts', callback);
+  };
+
+  getUserLanguage = async (userId: string): Promise<string> => {
+    const { language } = await this.user.findById(userId);
+    return language;
+  };
+
+  getUserMessages = (userId: string, callback: Function): void => {
+    this.user.findById(userId, (error: Error, data) => callback(error ? {} : data.messages));
   };
 
   getUsersById = (userIds: string[], callback: Function): void => {

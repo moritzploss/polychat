@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
@@ -12,6 +14,17 @@ const formatTimeStamp = (timeStamp: string): string => {
   return (messageDate === new Date().toDateString())
     ? messageTime.toLocaleTimeString('sv-SV')
     : messageDate;
+};
+
+const toggleLanguage = (id: number, translated = '', original: string): void => {
+  const element = document.getElementById(String(id));
+  if (element) {
+    if (element.innerText === translated) {
+      element.innerText = original;
+    } else if (element.innerText === original) {
+      element.innerText = translated;
+    }
+  }
 };
 
 const MessageBoard = ({ store }: ReduxProps): JSX.Element => {
@@ -32,15 +45,26 @@ const MessageBoard = ({ store }: ReduxProps): JSX.Element => {
       : 'left'
   );
 
+  const isOwnMessage = (senderId: string): boolean => senderId === store.session.user.id;
+
   return (
     <div className="messageboard" ref={messageArea}>
       <ul className="messageboard_list">
-        {messageList.map((parcel: DirectMessageParcel) => (
+        {messageList.map((parcel: DirectMessageParcel, index: number) => (
           <li
             className={`messageboard_list_item ${getPosition(parcel.senderId)}`}
             key={parcel.timeStamp}
           >
-            <span>{parcel.message}</span>
+            {isOwnMessage(parcel.senderId)
+              ? <span>{parcel.message}</span>
+              : (
+                <span
+                  id={String(index)}
+                  onClick={(): void => toggleLanguage(index, parcel.translatedMessage, parcel.message)}
+                >
+                  {parcel.translatedMessage}
+                </span>
+              )}
             <span className="messageboard_list_item_time">{formatTimeStamp(parcel.timeStamp)}</span>
           </li>
         ))}
