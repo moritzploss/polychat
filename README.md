@@ -6,6 +6,10 @@ PolyChat is a chat application that supports real time translation of video and 
 
 The project was originally developed using JavaScript (Express) and React. This version aims to improve and expand the original design and was built with TypeScript, React, Redux and MongoDB.
 
+## What it looks like
+
+<img width="500px" src"./screenshots/1.png">
+
 ## Get Started
 
 See the `README` files in the `client` and `backend` directory for more info.
