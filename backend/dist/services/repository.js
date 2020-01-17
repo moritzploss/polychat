@@ -90,10 +90,10 @@ var Repository = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         testUser = new user_1.User({
-                            email: 'test@test.com',
+                            email: 'moritz@spanish.com',
                             password: process.env.TEST_USER_PASSWORD,
-                            name: 'Random User',
-                            language: 'swedish',
+                            name: 'Moritz',
+                            language: 'es',
                             messages: {
                                 test: [1, 2, 3],
                             },

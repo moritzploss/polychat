@@ -18,6 +18,7 @@ const SelectAvatar = ({ store }: ReduxProps): JSX.Element => {
         src={path}
         onClick={(): void => submitAvatarChange(store.session.user.id, index + 1)}
         key={index}
+        selected={store.session.user.avatar === avatarName}
       />
     );
   };

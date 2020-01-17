@@ -13,6 +13,7 @@ const Avatar = ({ ownProps }: ReduxProps): JSX.Element => {
       alt="avatar"
       src={ownProps.src}
       onClick={ownProps.onClick}
+      className={ownProps.selected ? 'avatars_grid_selected' : ''}
     />
   );
 };

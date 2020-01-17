@@ -45,10 +45,10 @@ class Repository {
 
   addTestUser = async (): Promise<void> => {
     const testUser = new User({
-      email: 'test@test.com',
+      email: 'moritz@spanish.com',
       password: process.env.TEST_USER_PASSWORD,
-      name: 'Random User',
-      language: 'swedish',
+      name: 'Moritz',
+      language: 'es',
       messages: {
         test: [1, 2, 3],
       },

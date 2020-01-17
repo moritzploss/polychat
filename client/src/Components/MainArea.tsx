@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 
-import { clientActions } from '../reducers/clientActions';
+import { reducerActions } from '../reducers/rootActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 import { appStates } from '../reducers/appState';
@@ -63,4 +63,4 @@ const MainArea = ({ actions, store }: ReduxProps): JSX.Element => {
   );
 };
 
-export default connect(mapStateToProps, clientActions, mergeProps)(MainArea);
+export default connect(mapStateToProps, reducerActions, mergeProps)(MainArea);

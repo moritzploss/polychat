@@ -30,6 +30,7 @@ const UserProfile = ({ store, actions }: ReduxProps): JSX.Element => {
       </span>
       <span
         className="userprofile_language"
+        onClick={actions.goToSettings}
       >
         {ISO6391.getName(session.user.language)}
       </span>

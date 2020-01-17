@@ -35,6 +35,10 @@
     img:hover {
       border-color: $highlight;
     }
+
+    &_selected {
+      background: $highlight;
+    }
   }
 
   &_header {
