@@ -51,6 +51,7 @@
         "max-len": [
             2,
             120
-        ]
+        ],
+        "react/prop-types": [1, { "ignore": ["store"] }]
     }
 }

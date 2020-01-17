@@ -5,29 +5,18 @@ import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 import { getAvatarPath } from '../util/stringFormatting';
-import { submitUserProfileChange } from '../util/requests';
+import { submitAvatarChange } from '../util/requests';
+import { generateAvatarNames } from '../util/avatars';
 
 import Avatar from './Avatar';
 
 const SelectAvatar = ({ store }: ReduxProps): JSX.Element => {
-  const generateAvatarNames = (): string[] => {
-    const avatarNames = [];
-    for (let i = 1; i < 70; i += 1) {
-      avatarNames.push(`avatar-${i}.svg`);
-    }
-    return avatarNames;
-  };
-
-  const submitAvatarChange = (avatarId: number): void => {
-    submitUserProfileChange(store.session.user.id, { avatar: `avatar-${avatarId}.svg` });
-  };
-
   const getAvatar = (avatarName: string, index: number): JSX.Element => {
     const path = getAvatarPath(avatarName);
     return (
       <Avatar
         src={path}
-        onClick={(): void => submitAvatarChange(index + 1)}
+        onClick={(): void => submitAvatarChange(store.session.user.id, index + 1)}
         key={index}
       />
     );

@@ -44,5 +44,8 @@ const submitUserProfileChange = (userId: string, changes: UserData): Promise<voi
   },
 });
 
+const submitAvatarChange = (userId: string, avatarId: number): void => {
+  submitUserProfileChange(userId, { avatar: `avatar-${avatarId}.svg` });
+};
 
-export { requestWithJsonBody, submitUserProfileChange };
+export { requestWithJsonBody, submitUserProfileChange, submitAvatarChange };
