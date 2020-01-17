@@ -1,8 +1,8 @@
 .online {
+  border-color: $theGreen;
   img {
-    border-color: $highlight;
+    border-color: $theGreen;
   }
-  border-color: $highlight;
   order: -1;
 }
 
@@ -36,7 +36,7 @@
         width: 28px;
         margin-right: 10px;
         border-radius: 50%;
-        border: 3px solid $mediumLightGrey;
+        border: 3px solid $lightGrey;
       }
 
       button {

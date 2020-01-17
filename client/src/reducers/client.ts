@@ -1,4 +1,6 @@
 import { Client } from '../types/client';
+import ContactList from '../Components/ContactList';
+import { UserData } from '../types/types';
 
 const chatPartner = {
   id: '',
@@ -36,6 +38,13 @@ const clientReducer = (client = initialState, action: any): Client => {
       return {
         ...client,
         chatPartner,
+      };
+    case 'RELOAD CHATPARTNER':
+      return {
+        ...client,
+        chatPartner: client.contactList
+          .find((user: UserData) => user.id === client.chatPartner.id)
+          || chatPartner,
       };
     default:
       return client;

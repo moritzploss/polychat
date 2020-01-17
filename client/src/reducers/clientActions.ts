@@ -20,6 +20,10 @@ const clientActions = {
   resetChatPartner: (): { type: string } => ({
     type: 'RESET CHATPARTNER',
   }),
+
+  reloadChatPartner: (): { type: string } => ({
+    type: 'RELOAD CHATPARTNER',
+  }),
 };
 
 export { clientActions };

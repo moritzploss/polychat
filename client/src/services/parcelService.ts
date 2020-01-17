@@ -23,9 +23,11 @@ class ParcelService {
       case 'REPLACE MESSAGE HISTORY':
         return this.actions.replaceMessageHistory(parcel);
       case 'UPDATE CONTACTLIST':
-        return this.actions.updateContactList(parcel);
+        this.actions.updateContactList(parcel);
+        return this.actions.reloadChatPartner();
       case 'UPDATE CONNECTED USERS':
-        return this.actions.updateConnectedUsers(parcel);
+        this.actions.updateConnectedUsers(parcel);
+        return this.actions.reloadChatPartner();
       default:
         return console.log(parcel);
     }
