@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import ISO6391 from 'iso-639-1';
 
 import { reducerActions } from '../reducers/rootActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
@@ -30,7 +31,7 @@ const UserProfile = ({ store, actions }: ReduxProps): JSX.Element => {
       <span
         className="userprofile_language"
       >
-        {session.user.language}
+        {ISO6391.getName(session.user.language)}
       </span>
     </div>
   );

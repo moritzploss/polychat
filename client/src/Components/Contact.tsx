@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ISO6391 from 'iso-639-1';
 
 import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
@@ -23,7 +24,7 @@ const Contact = ({ ownProps, store }: ReduxProps): JSX.Element => {
         />
         <div className={`${className}_details`}>
           <span className={`${className}_details_name`}>{formatUserName(user, store.session.user)}</span>
-          <span className={`${className}_details_language`}>{user.language}</span>
+          <span className={`${className}_details_language`}>{ISO6391.getName(user.language)}</span>
         </div>
       </button>
     </li>

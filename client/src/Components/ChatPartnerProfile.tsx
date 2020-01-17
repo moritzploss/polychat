@@ -5,6 +5,7 @@ import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 import { getAvatarPath } from '../util/stringFormatting';
+import ISO6391 from 'iso-639-1';
 
 const ChatPartnerProfile = ({ store }: ReduxProps): JSX.Element => {
   const { chatPartner } = store.client;
@@ -23,7 +24,7 @@ const ChatPartnerProfile = ({ store }: ReduxProps): JSX.Element => {
         src={getAvatarPath(chatPartner.avatar)}
       />
       <span className="chatpartnerprofile_name">{chatPartner.name}</span>
-      <span className="chatpartnerprofile_language">{chatPartner.language}</span>
+      <span className="chatpartnerprofile_language">{ISO6391.getName(chatPartner.language)}</span>
     </div>
   );
 };

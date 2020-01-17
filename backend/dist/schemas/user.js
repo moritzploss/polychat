@@ -20,7 +20,7 @@ var schema = ts_mongoose_1.createSchema({
     }),
     avatar: ts_mongoose_1.Type.string({
         required: true,
-        default: "avatar-" + Math.floor(Math.random() * 6) + ".svg",
+        default: "avatar-" + Math.ceil(Math.random() * 70) + ".svg",
     }),
     contacts: ts_mongoose_1.Type.array().of(ts_mongoose_1.Type.string()),
     inContactListOf: ts_mongoose_1.Type.array().of(ts_mongoose_1.Type.string()),

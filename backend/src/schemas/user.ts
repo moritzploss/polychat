@@ -22,7 +22,7 @@ const schema = createSchema({
   }),
   avatar: Type.string({
     required: true,
-    default: `avatar-${Math.floor(Math.random() * 6)}.svg`,
+    default: `avatar-${Math.ceil(Math.random() * 70)}.svg`,
   }),
   contacts: Type.array().of(Type.string()),
   inContactListOf: Type.array().of(Type.string()),
