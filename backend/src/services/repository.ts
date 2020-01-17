@@ -134,8 +134,9 @@ class Repository {
     });
   };
 
-  getUserMessages = (userId: string, callback: Function): void => {
-    this.user.findById(userId, (error: Error, data) => callback(error ? {} : data.messages));
+  getUserMessages = async (userId: string): Promise<Messages> => {
+    const { messages } = await this.user.findById(userId);
+    return messages;
   };
 
   getUserContacts = async (userId: string): Promise<string[]> => {
@@ -152,10 +153,11 @@ class Repository {
     return language;
   };
 
-  getUsersById = (userIds: string[], callback: Function): void => {
-    this.user.find({
+  getUsersById = async (userIds: string[]): Promise<any> => {
+    const users = await this.user.find({
       _id: { $in: userIds.map((id) => mongoose.Types.ObjectId(id)) },
-    }, (error: Error, users: mongoose.Document) => callback(error ? [] : users));
+    });
+    return users;
   };
 }
 

@@ -62,18 +62,29 @@ var logUnknownParcel = function (parcel) {
 var ParcelService = /** @class */ (function () {
     function ParcelService(wsService, repositoryService, translateService) {
         var _this = this;
-        this.deliverMessageHistoryParcel = function (userId) {
-            _this.repository.getUserMessages(userId, function (messages) { return (_this.deliver(blueprints_1.messageHistoryParcel(userId, messages))); });
-        };
+        this.deliverMessageHistoryParcel = function (userId) { return __awaiter(_this, void 0, void 0, function () {
+            var messages;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.repository.getUserMessages(userId)];
+                    case 1:
+                        messages = _a.sent();
+                        this.deliver(blueprints_1.messageHistoryParcel(userId, messages));
+                        return [2 /*return*/];
+                }
+            });
+        }); };
         this.deliverContactListParcel = function (userId) { return __awaiter(_this, void 0, void 0, function () {
-            var contacts;
-            var _this = this;
+            var contacts, users;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.repository.getUserContacts(userId)];
                     case 1:
                         contacts = _a.sent();
-                        this.repository.getUsersById(contacts, function (users) { return _this.deliver(blueprints_1.contactListParcel(userId, users.map(login_1.toCredentials))); });
+                        return [4 /*yield*/, this.repository.getUsersById(contacts)];
+                    case 2:
+                        users = _a.sent();
+                        this.deliver(blueprints_1.contactListParcel(userId, users.map(login_1.toCredentials)));
                         return [2 /*return*/];
                 }
             });

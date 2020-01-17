@@ -31,18 +31,15 @@ class ParcelService {
     this.translationService = translateService;
   }
 
-  deliverMessageHistoryParcel = (userId: string): void => {
-    this.repository.getUserMessages(userId, (messages: Messages) => (
-      this.deliver(messageHistoryParcel(userId, messages))
-    ));
+  deliverMessageHistoryParcel = async (userId: string): Promise<void> => {
+    const messages = await this.repository.getUserMessages(userId);
+    this.deliver(messageHistoryParcel(userId, messages));
   };
 
   deliverContactListParcel = async (userId: string): Promise<void> => {
     const contacts = await this.repository.getUserContacts(userId);
-    this.repository.getUsersById(
-      contacts,
-      (users: mongoose.Document[]) => this.deliver(contactListParcel(userId, users.map(toCredentials))),
-    );
+    const users = await this.repository.getUsersById(contacts);
+    this.deliver(contactListParcel(userId, users.map(toCredentials)));
   };
 
   broadcastContactListUpdateToUserContacts = async (userId: string): Promise<void> => {

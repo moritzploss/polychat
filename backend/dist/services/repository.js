@@ -186,9 +186,17 @@ var Repository = /** @class */ (function () {
                 callback(error, data);
             });
         };
-        this.getUserMessages = function (userId, callback) {
-            _this.user.findById(userId, function (error, data) { return callback(error ? {} : data.messages); });
-        };
+        this.getUserMessages = function (userId) { return __awaiter(_this, void 0, void 0, function () {
+            var messages;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.user.findById(userId)];
+                    case 1:
+                        messages = (_a.sent()).messages;
+                        return [2 /*return*/, messages];
+                }
+            });
+        }); };
         this.getUserContacts = function (userId) { return __awaiter(_this, void 0, void 0, function () {
             var contacts;
             return __generator(this, function (_a) {
@@ -214,11 +222,19 @@ var Repository = /** @class */ (function () {
                 }
             });
         }); };
-        this.getUsersById = function (userIds, callback) {
-            _this.user.find({
-                _id: { $in: userIds.map(function (id) { return mongoose.Types.ObjectId(id); }) },
-            }, function (error, users) { return callback(error ? [] : users); });
-        };
+        this.getUsersById = function (userIds) { return __awaiter(_this, void 0, void 0, function () {
+            var users;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.user.find({
+                            _id: { $in: userIds.map(function (id) { return mongoose.Types.ObjectId(id); }) },
+                        })];
+                    case 1:
+                        users = _a.sent();
+                        return [2 /*return*/, users];
+                }
+            });
+        }); };
         this.user = user;
     }
     return Repository;
