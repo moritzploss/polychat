@@ -39,8 +39,8 @@ const submitUserProfileChange = (userId: string, changes: UserData): Promise<voi
   url: '/api/users',
   type: 'PUT',
   body: {
-    ...changes,
     userId,
+    ...changes,
   },
 });
 

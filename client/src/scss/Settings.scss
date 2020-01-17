@@ -17,7 +17,7 @@
       border-color: $lightGrey;
       border-width: 0px 0px 1px 0px;
     }
-  
+
     &_user {
       display: flex;
       flex-direction: row;
@@ -27,6 +27,19 @@
         color: $mediumGrey;
         font-size: $fontSmall;
         margin-bottom: 4px;
+      }
+
+      &_language {
+        width: 100px;
+        border: none;
+        color: $mediumGrey;
+        font-size: $fontSmall;
+        margin: 0 0 4px -5px;
+        padding: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
       }
 
       svg {

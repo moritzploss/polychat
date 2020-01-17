@@ -1,29 +1,25 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { sessionService } from 'redux-react-session';
 
-import { ReduxProps, ReactChangeEvent } from '../types/client';
+import { ReduxProps, ReactChangeEvent, LanguageInfo } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { reducerActions } from '../reducers/rootActions';
-import { requestWithJsonBody } from '../util/requests';
-import { errorCallback } from '../util/errors';
+import { submitUserProfileChange } from '../util/requests';
 import { onEnter } from '../util/events';
+import { supportedLanguages } from '../languages/supported';
 
 const SettingsUser = ({ store }: ReduxProps): JSX.Element => {
   const { user } = store.session;
 
   const [newUserName, setNewUserName] = useState(user.name);
 
-  const submitUserNameChange = (): Promise<void> => requestWithJsonBody({
-    errCallback: errorCallback,
-    successCallback: sessionService.saveUser,
-    url: '/api/users',
-    type: 'PUT',
-    body: {
-      userId: user.id,
-      name: newUserName,
-    },
-  });
+  const submitUserNameChange = (): void => {
+    submitUserProfileChange(user.id, { name: newUserName });
+  };
+
+  const updateLanguage = (event: ReactChangeEvent): void => {
+    submitUserProfileChange(user.id, { language: event.target.value });
+  };
 
   return (
     <div className="settings_block">
@@ -38,6 +34,22 @@ const SettingsUser = ({ store }: ReduxProps): JSX.Element => {
           onChange={(event: ReactChangeEvent): void => setNewUserName(event.target.value)}
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => onEnter(event, submitUserNameChange)}
         />
+      </div>
+      <div className="settings_block_user">
+        <select
+          className="settings_block_user_language"
+          onChange={updateLanguage}
+          value={user.language}
+        >
+          {supportedLanguages.map((lang: LanguageInfo) => (
+            <option
+              key={lang.code}
+              value={lang.code}
+            >
+              {lang.name}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

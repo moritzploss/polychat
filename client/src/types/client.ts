@@ -14,6 +14,11 @@ export type AppStateActions = typeof appStateActions;
 
 export type ReducerActions = typeof reducerActions;
 
+export interface LanguageInfo {
+  code: string;
+  name: string;
+}
+
 export interface AppState {
   currentState: string;
 }

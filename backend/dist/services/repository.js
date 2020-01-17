@@ -90,10 +90,10 @@ var Repository = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         testUser = new user_1.User({
-                            email: 'Moritz@french.com',
+                            email: 'test@test.com',
                             password: process.env.TEST_USER_PASSWORD,
-                            name: 'Moritz',
-                            language: 'fr',
+                            name: 'Random User',
+                            language: 'swedish',
                             messages: {
                                 test: [1, 2, 3],
                             },
@@ -186,11 +186,14 @@ var Repository = /** @class */ (function () {
                 callback(error, data);
             });
         };
-        this.getUserFieldData = function (userId, field, callback) {
-            _this.user.findById(userId, function (error, data) { return callback(error ? [] : data[field]); });
+        this.getUserMessages = function (userId, callback) {
+            _this.user.findById(userId, function (error, data) { return callback(error ? {} : data.messages); });
         };
         this.getUserContacts = function (userId, callback) {
-            _this.getUserFieldData(userId, 'contacts', callback);
+            _this.user.findById(userId, function (error, data) { return callback(error ? [] : data.contacts); });
+        };
+        this.getUserFieldData = function (userId, field, callback) {
+            _this.user.findById(userId, function (error, data) { return callback(error ? [] : data[field]); });
         };
         this.getUserLanguage = function (userId) { return __awaiter(_this, void 0, void 0, function () {
             var language;
@@ -203,9 +206,6 @@ var Repository = /** @class */ (function () {
                 }
             });
         }); };
-        this.getUserMessages = function (userId, callback) {
-            _this.user.findById(userId, function (error, data) { return callback(error ? {} : data.messages); });
-        };
         this.getUsersById = function (userIds, callback) {
             _this.user.find({
                 _id: { $in: userIds.map(function (id) { return mongoose.Types.ObjectId(id); }) },

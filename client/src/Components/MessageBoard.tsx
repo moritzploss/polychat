@@ -7,14 +7,7 @@ import { clientActions } from '../reducers/clientActions';
 import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { DirectMessageParcel } from '../types/applicationWide';
-
-const formatTimeStamp = (timeStamp: string): string => {
-  const messageTime = new Date(timeStamp);
-  const messageDate = messageTime.toDateString();
-  return (messageDate === new Date().toDateString())
-    ? messageTime.toLocaleTimeString('sv-SV')
-    : messageDate;
-};
+import { formatTimeStamp } from '../util/time';
 
 const toggleLanguage = (id: number, translated = '', original: string): void => {
   const element = document.getElementById(String(id));
@@ -38,14 +31,13 @@ const MessageBoard = ({ store }: ReduxProps): JSX.Element => {
     }
   }, [messageArea]);
 
+  const isOwnMessage = (senderId: string): boolean => senderId === store.session.user.id;
 
   const getPosition = (senderId: string): string => (
-    senderId === store.session.user.id
+    isOwnMessage(senderId)
       ? 'right'
       : 'left'
   );
-
-  const isOwnMessage = (senderId: string): boolean => senderId === store.session.user.id;
 
   return (
     <div className="messageboard" ref={messageArea}>
