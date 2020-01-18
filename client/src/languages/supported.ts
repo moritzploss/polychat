@@ -12,6 +12,14 @@ const supported = [
   'fi',
   'pt',
   'nl',
+  'no',
+  'da',
+  'bg',
+  'cs',
+  'eo',
+  'el',
+  'ga',
+  'tr',
 ];
 
 const supportedLanguages = supported
