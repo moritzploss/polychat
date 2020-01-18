@@ -52,6 +52,9 @@
             2,
             120
         ],
-        "react/prop-types": [1, { "ignore": ["store"] }]
+        "react/prop-types": [1, { "ignore": ["store"] }],
+        "jsx-a11y/no-autofocus": [ 0, {
+            "ignoreNonDOM": true
+        }]
     }
 }

@@ -58,6 +58,7 @@ const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
           value={query}
           onChange={updateSearchResult}
           placeholder="&#x1f50e; Search for Users"
+          autoFocus
         />
       </form>
       <ContactSearchList
