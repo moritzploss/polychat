@@ -7,7 +7,7 @@ const uuid = require('uuid/v4');
 const { ParcelService } = require('../../dist/services/parcelService');
 const { WebSocketService } = require('../../dist/services/webSockets');
 
-const { mockRepository } = require('../mocks/mockRepository').default;
+const { mockRepository } = require('../mocks/mockRepository');
 const { mockTranslationService } = require('../mocks/mockTranslationService');
 
 const userId = uuid();

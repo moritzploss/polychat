@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { mockUser } from './mockUser';
+const { mockUser } = require('./mockUser');
 
 const mockRepository = {
   user: mockUser,
@@ -18,6 +19,6 @@ const mockRepository = {
   getUsersById: () => { },
 };
 
-export default {
+module.exports = {
   mockRepository,
 };
