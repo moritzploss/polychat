@@ -1,3 +1,4 @@
+import uuid from 'uuid/v4';
 import { webSocketService } from '../services/webSocketService';
 
 import {
@@ -14,6 +15,8 @@ const getParcel = (type: string, receiverId = 'all', senderId = 'system'): Parce
 const directMessageParcel = (userId: string, message: string): DirectMessageParcel => ({
   ...getParcel('DIRECT MESSAGE', userId),
   message,
+  read: false,
+  id: uuid(),
 });
 
 const messageHistoryParcel = (userId: string, messages: Messages): MessageHistoryParcel => ({

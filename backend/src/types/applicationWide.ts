@@ -7,6 +7,8 @@ export interface Parcel {
 
 export interface DirectMessageParcel extends Parcel {
   message: string;
+  read: boolean;
+  id: string;
   translatedMessage?: string;
 }
 

@@ -15,6 +15,11 @@ const messageActions = {
     type: 'REPLACE MESSAGE HISTORY',
     messages: parcel.messages ? parcel.messages : [],
   }),
+
+  readAllMessages: (userId: string): { type: string; userId: string } => ({
+    type: 'READ ALL MESSAGES',
+    userId,
+  }),
 };
 
 export { messageActions };

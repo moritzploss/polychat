@@ -8,7 +8,7 @@ import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps, ReactChangeEvent } from '../types/client';
 import { UserData } from '../types/applicationWide';
 
-import ContactList from './ContactList';
+import ContactSearchList from './ContactSearchList';
 
 const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
   const [query, setQuery] = useState('');
@@ -60,7 +60,7 @@ const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
           placeholder="&#x1f50e; Search for Users"
         />
       </form>
-      <ContactList
+      <ContactSearchList
         contactList={searchResult}
         clickHandler={onContactClick}
       />

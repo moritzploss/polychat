@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { reducerActions } from '../reducers/rootActions';
-import { UserData } from '../types/applicationWide';
+import { UserData, Messages, DirectMessageParcel } from '../types/applicationWide';
 
-import Contact from './Contact';
+import ContactMain from './ContactMain';
 
 const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
   const getOnlineStatus = (userId: string): string => (
@@ -15,15 +15,28 @@ const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
       : ''
   );
 
+  const hasUnreadMessages = (messages: Messages, contact: string): boolean => (
+    Boolean(messages[contact].find((message: DirectMessageParcel) => !message.read))
+  );
+
+  const getReadStatusClass = (contactId: string): string => {
+    if (store.messages[contactId]) {
+      return hasUnreadMessages(store.messages, contactId)
+        ? 'unread '
+        : '';
+    }
+    return '';
+  };
+
   return (
     <div className="contacts">
       <ul className="contacts_list">
         {ownProps.contactList.map((user: UserData) => (
-          <Contact
+          <ContactMain
             user={user}
             key={user.id}
-            onClick={(event: Event): void => ownProps.clickHandler(event, user)}
-            className={`${getOnlineStatus(user.id)}contacts_list_item`}
+            onClick={(): void => ownProps.clickHandler(user)}
+            className={`${getReadStatusClass(user.id)}${getOnlineStatus(user.id)}contacts_list_item`}
           />
         ))}
       </ul>

@@ -1,4 +1,5 @@
 import { authenticateRequest } from '../controllers/authentication';
+import { setReadStatus } from '../controllers/messages';
 import { validateSession, destroySession } from '../controllers/session';
 import {
   findUsers, addUserToContactList, removeUserFromContactList, updateUserData,
@@ -13,6 +14,8 @@ apiRouter.post('/login', authenticateRequest);
 apiRouter.get('/validate-session', validateSession);
 
 apiRouter.get('/destroy-session', destroySession);
+
+apiRouter.put('/direct-message', setReadStatus);
 
 apiRouter.post('/contactlist', addUserToContactList);
 apiRouter.delete('/contactlist', removeUserFromContactList);

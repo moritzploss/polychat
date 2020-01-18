@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var authentication_1 = require("../controllers/authentication");
+var messages_1 = require("../controllers/messages");
 var session_1 = require("../controllers/session");
 var users_1 = require("../controllers/users");
 var express = require("express");
@@ -9,6 +10,7 @@ exports.apiRouter = apiRouter;
 apiRouter.post('/login', authentication_1.authenticateRequest);
 apiRouter.get('/validate-session', session_1.validateSession);
 apiRouter.get('/destroy-session', session_1.destroySession);
+apiRouter.put('/direct-message', messages_1.setReadStatus);
 apiRouter.post('/contactlist', users_1.addUserToContactList);
 apiRouter.delete('/contactlist', users_1.removeUserFromContactList);
 apiRouter.put('/users', users_1.updateUserData);

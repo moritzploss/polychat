@@ -1,6 +1,13 @@
 .chatpartnerprofile {
-  padding: 45px 0;
+  padding: 30px 0 25px;
   text-align: center;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: $lightGrey;
+
+  @media only screen and (max-width: $mediaQueryBreakPoint) {
+    padding: 15px 0 15px;
+  }
 
   &_name {
     display: block;
@@ -18,5 +25,11 @@
     border-width: 5px;
     border-style: solid;
     border-color: $lightGrey;
+
+    @media only screen and (max-width: $mediaQueryBreakPoint) {
+      width: 56px;
+      border-width: 3px;
+
+    }
   }
 }

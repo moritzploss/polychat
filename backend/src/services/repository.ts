@@ -92,6 +92,27 @@ class Repository {
     ));
   };
 
+  updateMessageStatus = async (senderId: string, receiverId: string, messageId: string): Promise<void> => {
+    const { messages } = await this.user.findById(receiverId);
+    const senderMessages = messages[senderId]
+      .splice()
+      .map((message: DirectMessageParcel) => ({
+        ...message,
+        read: (messageId === message.id || message.read),
+      }));
+
+    const newMessages = {
+      ...messages,
+      [senderId]: senderMessages,
+    };
+
+    this.user.updateOne(
+      { _id: receiverId },
+      { $set: { messages: newMessages } },
+      (err: Error) => logger.error(err),
+    );
+  };
+
   addUserToContactList = async (userId: string, userToAdd: string, callback: Function): Promise<void> => {
     this.user.findById(userId, async (error: Error, user): Promise<void | typeof logger> => {
       if (error) return logger.error(error);

@@ -11,6 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var v4_1 = require("uuid/v4");
 var webSocketService_1 = require("../services/webSocketService");
 var getParcel = function (type, receiverId, senderId) {
     if (receiverId === void 0) { receiverId = 'all'; }
@@ -23,7 +24,7 @@ var getParcel = function (type, receiverId, senderId) {
     });
 };
 exports.getParcel = getParcel;
-var directMessageParcel = function (userId, message) { return (__assign(__assign({}, getParcel('DIRECT MESSAGE', userId)), { message: message })); };
+var directMessageParcel = function (userId, message) { return (__assign(__assign({}, getParcel('DIRECT MESSAGE', userId)), { message: message, read: false, id: v4_1.default() })); };
 exports.directMessageParcel = directMessageParcel;
 var messageHistoryParcel = function (userId, messages) { return (__assign(__assign({}, getParcel('REPLACE MESSAGE HISTORY', userId)), { messages: messages })); };
 exports.messageHistoryParcel = messageHistoryParcel;

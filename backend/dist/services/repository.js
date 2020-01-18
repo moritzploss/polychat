@@ -134,6 +134,23 @@ var Repository = /** @class */ (function () {
                 });
             }); });
         };
+        this.updateMessageStatus = function (senderId, receiverId, messageId) { return __awaiter(_this, void 0, void 0, function () {
+            var messages, senderMessages, newMessages;
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.user.findById(receiverId)];
+                    case 1:
+                        messages = (_b.sent()).messages;
+                        senderMessages = messages[senderId]
+                            .splice()
+                            .map(function (message) { return (__assign(__assign({}, message), { read: (messageId === message.id || message.read) })); });
+                        newMessages = __assign(__assign({}, messages), (_a = {}, _a[senderId] = senderMessages, _a));
+                        this.user.updateOne({ _id: receiverId }, { $set: { messages: newMessages } }, function (err) { return logging_1.logger.error(err); });
+                        return [2 /*return*/];
+                }
+            });
+        }); };
         this.addUserToContactList = function (userId, userToAdd, callback) { return __awaiter(_this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {

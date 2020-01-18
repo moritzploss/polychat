@@ -1,7 +1,8 @@
-import { Parcel } from '../types/applicationWide';
+/* eslint-disable no-case-declarations */
+import { Parcel, DirectMessageParcel } from '../types/applicationWide';
 import { addDirectMessage } from '../services/messageService';
 
-const initialState = {};
+const initialState: Record<string, DirectMessageParcel[]> = {};
 
 const messageReducer = (messages = initialState, action: any): Record<string, Parcel[]> => {
   switch (action.type) {
@@ -11,6 +12,16 @@ const messageReducer = (messages = initialState, action: any): Record<string, Pa
       return addDirectMessage(messages, action.parcel, action.parcel.receiverId);
     case 'REPLACE MESSAGE HISTORY':
       return action.messages;
+    case 'READ ALL MESSAGES':
+      const userMessages = (messages[action.userId] || [])
+        .map((parcel: DirectMessageParcel) => ({
+          ...parcel,
+          read: true,
+        }));
+      return {
+        ...messages,
+        [action.userId]: userMessages,
+      };
     default:
       return messages;
   }

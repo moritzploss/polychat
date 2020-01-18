@@ -7,7 +7,7 @@ import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 import { getAvatarPath, formatUserName } from '../util/stringFormatting';
 
-const Contact = ({ ownProps, store }: ReduxProps): JSX.Element => {
+const ContactMain = ({ ownProps, store }: ReduxProps): JSX.Element => {
   const { user, onClick, className } = ownProps;
 
   return (
@@ -31,4 +31,4 @@ const Contact = ({ ownProps, store }: ReduxProps): JSX.Element => {
   );
 };
 
-export default connect(mapStateToProps, clientActions, mergeProps)(Contact);
+export default connect(mapStateToProps, clientActions, mergeProps)(ContactMain);

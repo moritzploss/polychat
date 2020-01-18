@@ -39,6 +39,7 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
       clickHandler={(user: UserData): void => {
         actions.setChatPartner(user);
         actions.goToHome();
+        actions.readAllMessages(user.id);
       }}
     />
   );
