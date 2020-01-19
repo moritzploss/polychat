@@ -24,7 +24,10 @@ const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
       errCallback: errorCallback,
       successCallback: ({ result }: any) => setSearchResult(result),
       url: '/api/users',
-      body: { query: event.target.value },
+      body: {
+        query: event.target.value,
+        field: 'name',
+      },
       type: 'POST',
     });
   };

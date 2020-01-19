@@ -64,14 +64,14 @@ var parcelService_1 = require("../services/parcelService");
 var login_1 = require("./login");
 var logging_1 = require("../logging");
 var findUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, users, result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, query, field, users, result;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                query = req.body.query;
-                return [4 /*yield*/, repository_1.repository.findUsersByName(query)];
+                _a = req.body, query = _a.query, field = _a.field;
+                return [4 /*yield*/, repository_1.repository.findUsersBy(field, query)];
             case 1:
-                users = _a.sent();
+                users = _b.sent();
                 result = R.isEmpty(users)
                     ? []
                     : users.map(login_1.toCredentials);

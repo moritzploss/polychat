@@ -8,8 +8,8 @@ import { logger } from '../logging';
 import { MongooseUser } from '../types/backend';
 
 const findUsers = async (req: Request, res: Response): Promise<Response<JSON>> => {
-  const { query } = req.body;
-  const users = await repository.findUsersByName(query);
+  const { query, field } = req.body;
+  const users = await repository.findUsersBy(field, query);
   const result = R.isEmpty(users)
     ? []
     : users.map(toCredentials);
