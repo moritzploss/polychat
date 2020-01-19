@@ -6,21 +6,9 @@
   order: -1;
 }
 
-li.unread {
-  border-style: solid;
-  border-left-width: 5px;
-  border-left-color: $highlight;
-}
-
 .contacts {
   flex: 1;
   overflow-y: auto;
-
-  li {
-    border-style: solid;
-    border-left-width: 5px;
-    border-left-color: none;
-  }
 
   &_list {
     list-style: none;
@@ -32,6 +20,15 @@ li.unread {
       border-width: 0px 0px 1px 0px;
       border-color: $lightGrey;
       padding: 0px 10px 6px 10px;
+      position: relative;
+
+      &_read-status {
+        background: $highlight;
+        border-radius: 50%;
+        position: absolute;
+        right: 25px;
+        top: 45%;
+      }
 
       &_details {
         &_name {

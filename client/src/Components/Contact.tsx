@@ -7,7 +7,7 @@ import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 import { getAvatarPath, formatUserName } from '../util/stringFormatting';
 
-const ContactMain = ({ ownProps, store }: ReduxProps): JSX.Element => {
+const Contact = ({ ownProps, store }: ReduxProps): JSX.Element => {
   const { user, onClick, className } = ownProps;
 
   return (
@@ -26,9 +26,10 @@ const ContactMain = ({ ownProps, store }: ReduxProps): JSX.Element => {
           <span className={`${className}_details_name`}>{formatUserName(user, store.session.user)}</span>
           <span className={`${className}_details_language`}>{ISO6391.getName(user.language)}</span>
         </div>
+        {ownProps.unread ? <svg className={`${className}_read-status`} height="10px" width="10px" /> : ''}
       </button>
     </li>
   );
 };
 
-export default connect(mapStateToProps, clientActions, mergeProps)(ContactMain);
+export default connect(mapStateToProps, clientActions, mergeProps)(Contact);

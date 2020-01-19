@@ -7,7 +7,7 @@ import { hasUnreadMessages } from '../util/messages';
 import { reducerActions } from '../reducers/rootActions';
 import { UserData } from '../types/applicationWide';
 
-import ContactMain from './ContactMain';
+import Contact from './Contact';
 
 const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
   const getOnlineStatusClass = (userId: string): string => (
@@ -22,19 +22,16 @@ const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
       : ''
   );
 
-  const getClassPrefix = (chatPartnerId: string, userId: string): string => (
-    `${getReadStatusClass(chatPartnerId, userId)}${getOnlineStatusClass(chatPartnerId)}`
-  );
-
   return (
     <div className="contacts">
       <ul className="contacts_list">
         {ownProps.contactList.map((user: UserData) => (
-          <ContactMain
+          <Contact
             user={user}
             key={user.id}
             onClick={(): void => ownProps.clickHandler(user)}
-            className={`${getClassPrefix(user.id, store.session.user.id)}contacts_list_item`}
+            unread={getReadStatusClass(user.id, store.session.user.id)}
+            className={`${getOnlineStatusClass(user.id)}contacts_list_item`}
           />
         ))}
       </ul>

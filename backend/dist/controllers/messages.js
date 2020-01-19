@@ -43,8 +43,11 @@ var setReadStatus = function (req, res) { return __awaiter(void 0, void 0, void 
         switch (_b.label) {
             case 0:
                 _a = req.body, senderId = _a.senderId, receiverId = _a.receiverId;
-                return [4 /*yield*/, repository_1.repository.updateMessageStatus(senderId, receiverId)];
+                return [4 /*yield*/, repository_1.repository.setMessagesToRead(senderId, receiverId)];
             case 1:
+                _b.sent();
+                return [4 /*yield*/, repository_1.repository.setMessagesToRead(receiverId, senderId)];
+            case 2:
                 _b.sent();
                 return [2 /*return*/, res.json({})];
         }

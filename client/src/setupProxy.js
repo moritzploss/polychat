@@ -11,23 +11,5 @@ module.exports = (app) => {
     proxy('/api', {
       target: 'http://localhost:8080',
     }),
-    proxy('/api/login', {
-      target: 'http://localhost:8080',
-    }),
-    proxy('/api/users', {
-      target: 'http://localhost:8080',
-    }),
-    proxy('/api/contactlist', {
-      target: 'http://localhost:8080',
-    }),
-    proxy('/api/register', {
-      target: 'http://localhost:8080',
-    }),
-    proxy('/api/validate-session', {
-      target: 'http://localhost:8080',
-    }),
-    proxy('/api/destroy-session', {
-      target: 'http://localhost:8080',
-    }),
   );
 };

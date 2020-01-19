@@ -92,9 +92,8 @@ class Repository {
     ));
   };
 
-  updateMessageStatus = async (senderId: string, receiverId: string): Promise<void> => {
+  setMessagesToRead = async (senderId: string, receiverId: string): Promise<void> => {
     const { messages: receiverMessages } = await this.user.findById(receiverId);
-    const { messages: senderMessages } = await this.user.findById(senderId);
 
     const newMessages = receiverMessages[senderId]
       .slice()
@@ -108,21 +107,9 @@ class Repository {
       [senderId]: newMessages,
     };
 
-    const newMessagesSender = {
-      ...senderMessages,
-      [receiverId]: newMessages,
-    };
-
-    this.user.updateOne(
+    return this.user.updateOne(
       { _id: receiverId },
       { $set: { messages: newMessagesReceiver } },
-      (err: Error) => logger.error(err),
-    );
-
-    this.user.updateOne(
-      { _id: senderId },
-      { $set: { messages: newMessagesSender } },
-      (err: Error) => logger.error(err),
     );
   };
 

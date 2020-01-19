@@ -134,25 +134,19 @@ var Repository = /** @class */ (function () {
                 });
             }); });
         };
-        this.updateMessageStatus = function (senderId, receiverId) { return __awaiter(_this, void 0, void 0, function () {
-            var receiverMessages, senderMessages, newMessages, newMessagesReceiver, newMessagesSender;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+        this.setMessagesToRead = function (senderId, receiverId) { return __awaiter(_this, void 0, void 0, function () {
+            var receiverMessages, newMessages, newMessagesReceiver;
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0: return [4 /*yield*/, this.user.findById(receiverId)];
                     case 1:
-                        receiverMessages = (_c.sent()).messages;
-                        return [4 /*yield*/, this.user.findById(senderId)];
-                    case 2:
-                        senderMessages = (_c.sent()).messages;
+                        receiverMessages = (_b.sent()).messages;
                         newMessages = receiverMessages[senderId]
                             .slice()
                             .map(function (message) { return (__assign(__assign({}, message), { read: true })); });
                         newMessagesReceiver = __assign(__assign({}, receiverMessages), (_a = {}, _a[senderId] = newMessages, _a));
-                        newMessagesSender = __assign(__assign({}, senderMessages), (_b = {}, _b[receiverId] = newMessages, _b));
-                        this.user.updateOne({ _id: receiverId }, { $set: { messages: newMessagesReceiver } }, function (err) { return logging_1.logger.error(err); });
-                        this.user.updateOne({ _id: senderId }, { $set: { messages: newMessagesSender } }, function (err) { return logging_1.logger.error(err); });
-                        return [2 /*return*/];
+                        return [2 /*return*/, this.user.updateOne({ _id: receiverId }, { $set: { messages: newMessagesReceiver } })];
                 }
             });
         }); };
