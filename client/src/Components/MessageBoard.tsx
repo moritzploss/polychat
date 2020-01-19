@@ -3,11 +3,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { clientActions } from '../reducers/clientActions';
+import { reducerActions } from '../reducers/rootActions';
 import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { DirectMessageParcel } from '../types/applicationWide';
 import { formatTimeStamp } from '../util/time';
+import { hasUnreadMessages, readAllMessagesOnServer } from '../util/messages';
 
 const toggleLanguage = (id: number, translated = '', original: string): void => {
   const element = document.getElementById(String(id));
@@ -20,16 +21,27 @@ const toggleLanguage = (id: number, translated = '', original: string): void => 
   }
 };
 
-const MessageBoard = ({ store }: ReduxProps): JSX.Element => {
+const MessageBoard = ({ store, actions }: ReduxProps): JSX.Element => {
   const { messages } = store;
   const messageArea: React.RefObject<HTMLDivElement> = React.createRef();
   const messageList = messages[store.client.chatPartner.id] || [];
+
+  const userId = store.session.user.id;
+  const chatPartnerId = store.client.chatPartner.id;
 
   useEffect(() => {
     if (messageArea.current) {
       messageArea.current.scrollTop = messageArea.current.scrollHeight;
     }
-  }, [messageArea]);
+
+    if (hasUnreadMessages(messages, chatPartnerId, userId)) {
+      readAllMessagesOnServer(
+        () => actions.readAllMessages(chatPartnerId),
+        chatPartnerId,
+        userId,
+      );
+    }
+  }, [messageArea, messages, chatPartnerId, userId, actions]);
 
   const isOwnMessage = (senderId: string): boolean => senderId === store.session.user.id;
 
@@ -65,4 +77,4 @@ const MessageBoard = ({ store }: ReduxProps): JSX.Element => {
   );
 };
 
-export default connect(mapStateToProps, clientActions, mergeProps)(MessageBoard);
+export default connect(mapStateToProps, reducerActions, mergeProps)(MessageBoard);

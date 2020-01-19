@@ -3,30 +3,28 @@ import { connect } from 'react-redux';
 
 import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
+import { hasUnreadMessages } from '../util/messages';
 import { reducerActions } from '../reducers/rootActions';
-import { UserData, Messages, DirectMessageParcel } from '../types/applicationWide';
+import { UserData } from '../types/applicationWide';
 
 import ContactMain from './ContactMain';
 
 const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
-  const getOnlineStatus = (userId: string): string => (
+  const getOnlineStatusClass = (userId: string): string => (
     store.client.connectedUsers.includes(userId)
       ? 'online '
       : ''
   );
 
-  const hasUnreadMessages = (messages: Messages, contact: string): boolean => (
-    Boolean(messages[contact].find((message: DirectMessageParcel) => !message.read))
+  const getReadStatusClass = (chatPartnerId: string, userId: string): string => (
+    hasUnreadMessages(store.messages, chatPartnerId, userId)
+      ? 'unread '
+      : ''
   );
 
-  const getReadStatusClass = (contactId: string): string => {
-    if (store.messages[contactId]) {
-      return hasUnreadMessages(store.messages, contactId)
-        ? 'unread '
-        : '';
-    }
-    return '';
-  };
+  const getClassPrefix = (chatPartnerId: string, userId: string): string => (
+    `${getReadStatusClass(chatPartnerId, userId)}${getOnlineStatusClass(chatPartnerId)}`
+  );
 
   return (
     <div className="contacts">
@@ -36,7 +34,7 @@ const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
             user={user}
             key={user.id}
             onClick={(): void => ownProps.clickHandler(user)}
-            className={`${getReadStatusClass(user.id)}${getOnlineStatus(user.id)}contacts_list_item`}
+            className={`${getClassPrefix(user.id, store.session.user.id)}contacts_list_item`}
           />
         ))}
       </ul>

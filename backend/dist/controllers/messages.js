@@ -38,12 +38,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var repository_1 = require("../services/repository");
 var setReadStatus = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, senderId, receiverId, messageId;
+    var _a, senderId, receiverId;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, senderId = _a.senderId, receiverId = _a.receiverId, messageId = _a.messageId;
-                return [4 /*yield*/, repository_1.repository.updateMessageStatus(senderId, receiverId, messageId)];
+                _a = req.body, senderId = _a.senderId, receiverId = _a.receiverId;
+                return [4 /*yield*/, repository_1.repository.updateMessageStatus(senderId, receiverId)];
             case 1:
                 _b.sent();
                 return [2 /*return*/, res.json({})];
