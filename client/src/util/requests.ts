@@ -63,15 +63,14 @@ const requestWithJsonBodyAsync = async (url: string, method: HttpRequestType, bo
   if (method !== 'GET') {
     options.body = JSON.stringify(body);
   }
-
   const res = await fetch(url, options);
-
   return res.json();
 };
 
 const getRequest = async (url: string, searchParams: Record<string, string>): Promise<any> => {
   const params = new URLSearchParams(searchParams).toString();
-  const res = await fetch(`${url}?${params}`);
+  const urlWithParams = `${url}?${params}`;
+  const res = await fetch(urlWithParams, { credentials: 'include' });
   return res.json();
 };
 

@@ -10,7 +10,7 @@ import { UserData } from '../types/applicationWide';
 import { appStates } from '../reducers/appState';
 
 import ContactList from './ContactList';
-import ContactListWaiting from './ContactListWaiting';
+// import ContactListWaiting from './ContactListWaiting';
 import ContactSearch from './ContactSearch';
 import MainArea from './MainArea';
 import Settings from './Settings';
