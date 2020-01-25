@@ -46,59 +46,60 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var R = require("ramda");
 var repository_1 = require("../services/repository");
 var parcelService_1 = require("../services/parcelService");
 var login_1 = require("./login");
 var logging_1 = require("../logging");
-var findUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, query, field, users, result;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, query = _a.query, field = _a.field;
-                return [4 /*yield*/, repository_1.repository.findUsersBy(field, query)];
+var mongo_1 = require("../util/mongo");
+var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, repository_1.repository.findUserById(req.params.id)];
             case 1:
-                users = _b.sent();
-                result = R.isEmpty(users)
-                    ? []
-                    : users.map(login_1.toCredentials);
-                return [2 /*return*/, res.json({ result: result })];
+                user = _a.sent();
+                return [2 /*return*/, res.json(login_1.toCredentials(user))];
         }
     });
 }); };
-exports.findUsers = findUsers;
-var addUserToContactList = function (req, res) {
+exports.getUser = getUser;
+var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var mongoQuery, users, userData;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                mongoQuery = mongo_1.queryParamsToMongoRegexQuery(req.query);
+                return [4 /*yield*/, repository_1.repository.findUsersBy(mongoQuery)];
+            case 1:
+                users = _a.sent();
+                userData = R.isEmpty(users)
+                    ? []
+                    : users.map(login_1.toCredentials);
+                return [2 /*return*/, res.json(userData)];
+        }
+    });
+}); };
+exports.getUsers = getUsers;
+var addContact = function (req, res) {
     var _a = req.body, userId = _a.userId, userToAdd = _a.userToAdd;
     repository_1.repository.addUserToContactList(userId, userToAdd, function () {
         parcelService_1.parcelService.deliverContactListParcel(userId);
         res.json({});
     });
 };
-exports.addUserToContactList = addUserToContactList;
-var removeUserFromContactList = function (req, res) {
+exports.addContact = addContact;
+var removeContact = function (req, res) {
     var _a = req.body, userId = _a.userId, userToRemove = _a.userToRemove;
     repository_1.repository.removeUserFromContactList(userId, userToRemove, function () {
         parcelService_1.parcelService.deliverContactListParcel(userId);
         res.json({});
     });
 };
-exports.removeUserFromContactList = removeUserFromContactList;
-var updateUserData = function (req, res) {
-    var _a = req.body, userId = _a.userId, fieldsToUpdate = __rest(_a, ["userId"]);
-    if (R.isEmpty(login_1.toCredentials(fieldsToUpdate))) {
+exports.removeContact = removeContact;
+var updateUser = function (req, res) {
+    if (R.isEmpty(login_1.toCredentials(req.body))) {
         return res.status(400).json({ error: 'no valid fields found' });
     }
     var callback = function (error, user) {
@@ -106,9 +107,9 @@ var updateUserData = function (req, res) {
             logging_1.logger.error(error);
             return res.status(500).json({ error: 'an error occured' });
         }
-        parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(userId);
-        return res.json(login_1.toCredentials(__assign(__assign({}, login_1.toCredentials(user)), fieldsToUpdate)));
+        parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(req.params.id);
+        return res.json(login_1.toCredentials(__assign(__assign({}, login_1.toCredentials(user)), req.body)));
     };
-    return repository_1.repository.updateUser(callback, userId, fieldsToUpdate);
+    return repository_1.repository.updateUser(callback, req.params.id, req.body);
 };
-exports.updateUserData = updateUserData;
+exports.updateUser = updateUser;

@@ -2,6 +2,13 @@ import { MongooseDocument } from 'mongoose';
 import * as ws from 'ws';
 import { Messages } from './applicationWide';
 
+interface MongoRegex {
+  $regex: RegExp;
+  $options: string;
+}
+
+export type MongoRegexQuery = Record<string, MongoRegex>;
+
 export type UserDocument = MongooseDocument & {
   password: string;
   email: string;

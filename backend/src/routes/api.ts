@@ -2,7 +2,7 @@ import { authenticateRequest } from '../controllers/authentication';
 import { setReadStatus } from '../controllers/messages';
 import { validateSession, destroySession } from '../controllers/session';
 import {
-  findUsers, addUserToContactList, removeUserFromContactList, updateUserData,
+  getUsers, addContact, removeContact, updateUser, getUser,
 } from '../controllers/users';
 
 import express = require('express');
@@ -17,10 +17,11 @@ apiRouter.get('/destroy-session', destroySession);
 
 apiRouter.put('/direct-message', setReadStatus);
 
-apiRouter.post('/contactlist', addUserToContactList);
-apiRouter.delete('/contactlist', removeUserFromContactList);
+apiRouter.post('/contactlist', addContact);
+apiRouter.delete('/contactlist', removeContact);
 
-apiRouter.put('/users', updateUserData);
-apiRouter.post('/users', findUsers);
+apiRouter.get('/users', getUsers);
+apiRouter.get('/users/:id', getUser);
+apiRouter.put('/users/:id', updateUser);
 
 export { apiRouter };

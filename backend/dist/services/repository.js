@@ -196,14 +196,24 @@ var Repository = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
-        this.findUsersBy = function (field, regex) { return __awaiter(_this, void 0, void 0, function () {
-            var users;
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.user.find((_a = {}, _a[field] = { $regex: RegExp(regex), $options: 'i' }, _a))];
+        this.findUserById = function (id) { return __awaiter(_this, void 0, void 0, function () {
+            var user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.user.findById(id)];
                     case 1:
-                        users = _b.sent();
+                        user = _a.sent();
+                        return [2 /*return*/, user];
+                }
+            });
+        }); };
+        this.findUsersBy = function (query) { return __awaiter(_this, void 0, void 0, function () {
+            var users;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.user.find(query)];
+                    case 1:
+                        users = _a.sent();
                         return [2 /*return*/, users || []];
                 }
             });

@@ -149,8 +149,13 @@ class Repository {
     });
   };
 
-  findUsersBy = async (field: string, regex: string): Promise<any> => {
-    const users = await this.user.find({ [field]: { $regex: RegExp(regex), $options: 'i' } });
+  findUserById = async (id: string): Promise<any> => {
+    const user = await this.user.findById(id);
+    return user;
+  };
+
+  findUsersBy = async (query: any): Promise<any> => {
+    const users = await this.user.find(query);
     return users || [];
   };
 

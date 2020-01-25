@@ -6,17 +6,23 @@ import { parcelService } from '../services/parcelService';
 import { toCredentials } from './login';
 import { logger } from '../logging';
 import { MongooseUser } from '../types/backend';
+import { queryParamsToMongoRegexQuery } from '../util/mongo';
 
-const findUsers = async (req: Request, res: Response): Promise<Response<JSON>> => {
-  const { query, field } = req.body;
-  const users = await repository.findUsersBy(field, query);
-  const result = R.isEmpty(users)
-    ? []
-    : users.map(toCredentials);
-  return res.json({ result });
+const getUser = async (req: Request, res: Response): Promise<Response<JSON>> => {
+  const user = await repository.findUserById(req.params.id);
+  return res.json(toCredentials(user));
 };
 
-const addUserToContactList = (req: Request, res: Response): void => {
+const getUsers = async (req: Request, res: Response): Promise<Response<JSON>> => {
+  const mongoQuery = queryParamsToMongoRegexQuery(req.query);
+  const users = await repository.findUsersBy(mongoQuery);
+  const userData = R.isEmpty(users)
+    ? []
+    : users.map(toCredentials);
+  return res.json(userData);
+};
+
+const addContact = (req: Request, res: Response): void => {
   const { userId, userToAdd } = req.body;
   repository.addUserToContactList(userId, userToAdd, () => {
     parcelService.deliverContactListParcel(userId);
@@ -24,7 +30,7 @@ const addUserToContactList = (req: Request, res: Response): void => {
   });
 };
 
-const removeUserFromContactList = (req: Request, res: Response): void => {
+const removeContact = (req: Request, res: Response): void => {
   const { userId, userToRemove } = req.body;
   repository.removeUserFromContactList(userId, userToRemove, () => {
     parcelService.deliverContactListParcel(userId);
@@ -32,10 +38,8 @@ const removeUserFromContactList = (req: Request, res: Response): void => {
   });
 };
 
-const updateUserData = (req: Request, res: Response): Response<JSON> | void => {
-  const { userId, ...fieldsToUpdate } = req.body;
-
-  if (R.isEmpty(toCredentials(fieldsToUpdate))) {
+const updateUser = (req: Request, res: Response): Response<JSON> | void => {
+  if (R.isEmpty(toCredentials(req.body))) {
     return res.status(400).json({ error: 'no valid fields found' });
   }
 
@@ -44,19 +48,20 @@ const updateUserData = (req: Request, res: Response): Response<JSON> | void => {
       logger.error(error);
       return res.status(500).json({ error: 'an error occured' });
     }
-    parcelService.broadcastContactListUpdateToUserContacts(userId);
+    parcelService.broadcastContactListUpdateToUserContacts(req.params.id);
     return res.json(toCredentials({
       ...toCredentials(user),
-      ...fieldsToUpdate,
+      ...req.body,
     }));
   };
 
-  return repository.updateUser(callback, userId, fieldsToUpdate);
+  return repository.updateUser(callback, req.params.id, req.body);
 };
 
 export {
-  findUsers,
-  addUserToContactList,
-  removeUserFromContactList,
-  updateUserData,
+  getUsers,
+  addContact,
+  removeContact,
+  updateUser,
+  getUser,
 };
