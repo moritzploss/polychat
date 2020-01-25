@@ -36,7 +36,7 @@ const requestWithJsonBody = async ({
 const submitUserProfileChange = (userId: string, changes: UserData): Promise<void> => requestWithJsonBody({
   errCallback: errorCallback,
   successCallback: sessionService.saveUser,
-  url: '/api/users',
+  url: `/api/users/${userId}`,
   type: 'PUT',
   body: {
     userId,
@@ -44,8 +44,39 @@ const submitUserProfileChange = (userId: string, changes: UserData): Promise<voi
   },
 });
 
+type RequestBody = Record<string, any>;
+
+interface RequestOptions {
+  body?: string;
+  method: HttpRequestType;
+  headers: Record<string, string>;
+}
+
+const requestWithJsonBodyAsync = async (url: string, method: HttpRequestType, body: RequestBody = {}): Promise<RequestBody> => {
+  const options: RequestOptions = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  if (method !== 'GET') {
+    options.body = JSON.stringify(body);
+  }
+
+  const res = await fetch(url, options);
+
+  return res.json();
+};
+
+const getRequest = async (url: string, searchParams: Record<string, string>): Promise<any> => {
+  const params = new URLSearchParams(searchParams).toString();
+  const res = await fetch(`${url}?${params}`);
+  return res.json();
+};
+
 const submitAvatarChange = (userId: string, avatarId: number): void => {
   submitUserProfileChange(userId, { avatar: `avatar-${avatarId}.svg` });
 };
 
-export { requestWithJsonBody, submitUserProfileChange, submitAvatarChange };
+export { getRequest, requestWithJsonBody, submitUserProfileChange, submitAvatarChange, requestWithJsonBodyAsync };

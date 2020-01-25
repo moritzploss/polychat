@@ -10,6 +10,7 @@ import { UserData } from '../types/applicationWide';
 import { appStates } from '../reducers/appState';
 
 import ContactList from './ContactList';
+import ContactListWaiting from './ContactListWaiting';
 import ContactSearch from './ContactSearch';
 import MainArea from './MainArea';
 import Settings from './Settings';
@@ -34,13 +35,21 @@ const Home = ({ store, actions }: ReduxProps): JSX.Element => {
   }
 
   const contactList = (
-    <ContactList
-      contactList={client.contactList}
-      clickHandler={(user: UserData): void => {
-        actions.setChatPartner(user);
-        actions.goToHome();
-      }}
-    />
+    <>
+      {/* <ContactListWaiting
+        clickHandler={(user: UserData): void => {
+          actions.setChatPartner(user);
+          actions.goToHome();
+        }}
+      /> */}
+      <ContactList
+        contactList={client.contactList}
+        clickHandler={(user: UserData): void => {
+          actions.setChatPartner(user);
+          actions.goToHome();
+        }}
+      />
+    </>
   );
 
   const getSideBarContents = (): JSX.Element => {

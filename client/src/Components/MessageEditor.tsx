@@ -33,12 +33,14 @@ const MessageEditor = ({ store, actions }: ReduxProps): JSX.Element => {
       <form className="messageeditor_form" onSubmit={sendMessage}>
         <input
           type="text"
+          id="message-input"
           name="message"
           value={message}
           onChange={({ target }): void => setMessage(target.value)}
           className="messageeditor_form_input"
           placeholder="Say something!"
           autoComplete="off"
+          autoFocus
         />
         <FontAwesomeIcon
           className="messageeditor_form_sendmessage"

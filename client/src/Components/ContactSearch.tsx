@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { reducerActions } from '../reducers/rootActions';
-import { requestWithJsonBody } from '../util/requests';
+import { requestWithJsonBody, getRequest } from '../util/requests';
 import { errorCallback } from '../util/errors';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps, ReactChangeEvent } from '../types/client';
@@ -14,22 +14,13 @@ const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState([]);
 
-  const updateSearchResult = (event: ReactChangeEvent): void | Promise<void> => {
-    event.persist();
+  const updateSearchResult = async (event: ReactChangeEvent): Promise<void> => {
     setQuery(event.target.value);
     if (event.target.value === '') {
       return setSearchResult([]);
     }
-    return requestWithJsonBody({
-      errCallback: errorCallback,
-      successCallback: ({ result }: any) => setSearchResult(result),
-      url: '/api/users',
-      body: {
-        query: event.target.value,
-        field: 'name',
-      },
-      type: 'POST',
-    });
+    const userData = await getRequest('/api/users', { name: event.target.value });
+    setSearchResult(userData);
   };
 
   const addUserToContacts = (user: UserData): Promise<void> => requestWithJsonBody({

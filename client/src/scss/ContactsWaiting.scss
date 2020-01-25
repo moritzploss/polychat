@@ -1,0 +1,61 @@
+.contacts_waiting {
+  overflow-y: auto;
+
+  &_list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+
+    &_item {
+      border-style: solid;
+      border-width: 0px 0px 1px 0px;
+      border-color: $lightGrey;
+      padding: 0px 10px 6px 10px;
+      position: relative;
+
+      &_read-status {
+        background: $highlight;
+        border-radius: 50%;
+        position: absolute;
+        right: 25px;
+        top: 45%;
+      }
+
+      &_details {
+        &_name {
+          display: block;
+          color: $darkGrey;
+        }
+        &_language {
+          display: block;
+          font-size: $fontTiny;
+          color: $mediumGrey;
+        }
+      }
+
+      &_avatar {
+        width: 28px;
+        margin-right: 10px;
+        border-radius: 50%;
+        border: 3px solid $lightGrey;
+      }
+
+      button {
+        width: 100%;
+        text-align: left;
+        border: none;
+        padding: 5px 2px;
+        font-size: $fontSmall;
+        background: none;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+    }
+
+    &_item:hover {
+      background: $lightGrey;
+    }
+  }
+}
