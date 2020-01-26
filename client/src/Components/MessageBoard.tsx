@@ -36,7 +36,6 @@ const MessageBoard = ({ store, actions }: ReduxProps): JSX.Element => {
     }
   }, [messageArea]);
 
-
   useEffect(() => {
     const unreadMessages = getUnreadMessages(messages, chatPartnerId, userId);
     if (!R.isEmpty(unreadMessages)) {
@@ -46,7 +45,7 @@ const MessageBoard = ({ store, actions }: ReduxProps): JSX.Element => {
     }
   }, [messages, chatPartnerId, userId, actions]);
 
-  const isOwnMessage = (senderId: string): boolean => senderId === store.session.user.id;
+  const isOwnMessage = (senderId: string): boolean => senderId === userId;
 
   const getPosition = (senderId: string): string => (
     isOwnMessage(senderId)
