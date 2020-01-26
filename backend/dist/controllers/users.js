@@ -57,7 +57,7 @@ var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
     var user;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, repository_1.repository.findUserById(req.params.id)];
+            case 0: return [4 /*yield*/, repository_1.repository.findUserById(req.params.userId)];
             case 1:
                 user = _a.sent();
                 return [2 /*return*/, res.json(login_1.toCredentials(user))];
@@ -106,9 +106,9 @@ var updateUser = function (req, res) {
             logging_1.logger.error(error);
             return res.status(500).json({ error: 'an error occured' });
         }
-        parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(req.params.id);
+        parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(req.params.userId);
         return res.json(login_1.toCredentials(__assign(__assign({}, login_1.toCredentials(user)), req.body)));
     };
-    return repository_1.repository.updateUser(callback, req.params.id, req.body);
+    return repository_1.repository.updateUser(callback, req.params.userId, req.body);
 };
 exports.updateUser = updateUser;

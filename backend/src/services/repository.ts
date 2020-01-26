@@ -85,24 +85,12 @@ class Repository {
     ));
   };
 
-  setMessagesToRead = async (senderId: string, receiverId: string): Promise<void> => {
-    const { messages: receiverMessages } = await this.user.findById(receiverId);
-
-    const newMessages = receiverMessages[senderId]
-      .slice()
-      .map((message: DirectMessageParcel) => ({
-        ...message,
-        read: true,
-      }));
-
-    const newMessagesReceiver = {
-      ...receiverMessages,
-      [senderId]: newMessages,
-    };
-
-    return this.user.updateOne(
-      { _id: receiverId },
-      { $set: { messages: newMessagesReceiver } },
+  markMessageAsRead = async (senderId: string, receiverId: string, messageId: string): Promise<Document & any> => {
+    const targetMessage = `messages.${receiverId}.id`;
+    const targetField = `messages.${receiverId}.$.read`;
+    return this.user.findOneAndUpdate(
+      { _id: senderId, [targetMessage]: messageId },
+      { $set: { [targetField]: true } },
     );
   };
 

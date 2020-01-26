@@ -9,7 +9,7 @@ import { MongooseUser } from '../types/backend';
 import { queryParamsToMongoRegexQuery } from '../util/mongo';
 
 const getUser = async (req: Request, res: Response): Promise<Response<JSON>> => {
-  const user = await repository.findUserById(req.params.id);
+  const user = await repository.findUserById(req.params.userId);
   return res.json(toCredentials(user));
 };
 
@@ -47,14 +47,14 @@ const updateUser = (req: Request, res: Response): Response<JSON> | void => {
       logger.error(error);
       return res.status(500).json({ error: 'an error occured' });
     }
-    parcelService.broadcastContactListUpdateToUserContacts(req.params.id);
+    parcelService.broadcastContactListUpdateToUserContacts(req.params.userId);
     return res.json(toCredentials({
       ...toCredentials(user),
       ...req.body,
     }));
   };
 
-  return repository.updateUser(callback, req.params.id, req.body);
+  return repository.updateUser(callback, req.params.userId, req.body);
 };
 
 export {

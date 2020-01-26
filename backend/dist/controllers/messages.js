@@ -37,24 +37,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var repository_1 = require("../services/repository");
+var logging_1 = require("../logging");
 var setReadStatus = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, senderId, receiverId, error_1;
+    var _a, userId, contactId, messageId, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, senderId = _a.senderId, receiverId = _a.receiverId;
+                _a = req.params, userId = _a.userId, contactId = _a.contactId, messageId = _a.messageId;
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 4, , 5]);
-                return [4 /*yield*/, repository_1.repository.setMessagesToRead(senderId, receiverId)];
+                // TODO: allow for general update operations
+                return [4 /*yield*/, repository_1.repository.markMessageAsRead(userId, contactId, messageId)];
             case 2:
+                // TODO: allow for general update operations
                 _b.sent();
-                return [4 /*yield*/, repository_1.repository.setMessagesToRead(receiverId, senderId)];
+                return [4 /*yield*/, repository_1.repository.markMessageAsRead(contactId, userId, messageId)];
             case 3:
                 _b.sent();
                 return [2 /*return*/, res.json({})];
             case 4:
                 error_1 = _b.sent();
+                logging_1.logger.error(error_1);
                 return [2 /*return*/, res.status(500).json({ error: error_1 })];
             case 5: return [2 /*return*/];
         }

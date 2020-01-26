@@ -129,20 +129,13 @@ var Repository = /** @class */ (function () {
                 });
             }); });
         };
-        this.setMessagesToRead = function (senderId, receiverId) { return __awaiter(_this, void 0, void 0, function () {
-            var receiverMessages, newMessages, newMessagesReceiver;
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.user.findById(receiverId)];
-                    case 1:
-                        receiverMessages = (_b.sent()).messages;
-                        newMessages = receiverMessages[senderId]
-                            .slice()
-                            .map(function (message) { return (__assign(__assign({}, message), { read: true })); });
-                        newMessagesReceiver = __assign(__assign({}, receiverMessages), (_a = {}, _a[senderId] = newMessages, _a));
-                        return [2 /*return*/, this.user.updateOne({ _id: receiverId }, { $set: { messages: newMessagesReceiver } })];
-                }
+        this.markMessageAsRead = function (senderId, receiverId, messageId) { return __awaiter(_this, void 0, void 0, function () {
+            var targetMessage, targetField;
+            var _a, _b;
+            return __generator(this, function (_c) {
+                targetMessage = "messages." + receiverId + ".id";
+                targetField = "messages." + receiverId + ".$.read";
+                return [2 /*return*/, this.user.findOneAndUpdate((_a = { _id: senderId }, _a[targetMessage] = messageId, _a), { $set: (_b = {}, _b[targetField] = true, _b) })];
             });
         }); };
         this.addUserToContactList = function (userId, userToAdd, callback) { return __awaiter(_this, void 0, void 0, function () {

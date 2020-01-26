@@ -15,13 +15,13 @@ apiRouter.get('/validate-session', validateSession);
 
 apiRouter.get('/destroy-session', destroySession);
 
-apiRouter.put('/direct-message', setReadStatus);
+apiRouter.put('/users/:userId/messages/:contactId/:messageId', setReadStatus);
 
 apiRouter.post('/users/:userId/contacts', addContact);
 apiRouter.delete('/users/:userId/contacts/:contactId', removeContact);
 
 apiRouter.get('/users', getUsers);
-apiRouter.get('/users/:id', getUser);
-apiRouter.put('/users/:id', updateUser);
+apiRouter.get('/users/:userId', getUser);
+apiRouter.put('/users/:userId', updateUser);
 
 export { apiRouter };

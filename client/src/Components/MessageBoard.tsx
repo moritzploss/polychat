@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect } from 'react';
+import * as R from 'ramda';
 import { connect } from 'react-redux';
 
 import { reducerActions } from '../reducers/rootActions';
@@ -8,7 +9,7 @@ import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { DirectMessageParcel } from '../types/applicationWide';
 import { formatTimeStamp } from '../util/time';
-import { hasUnreadMessages, readAllMessagesOnServer } from '../util/messages';
+import { getUnreadMessages, updateMessageOnServer } from '../util/messages';
 
 const toggleLanguage = (id: number, translated = '', original: string): void => {
   const element = document.getElementById(String(id));
@@ -33,15 +34,17 @@ const MessageBoard = ({ store, actions }: ReduxProps): JSX.Element => {
     if (messageArea.current) {
       messageArea.current.scrollTop = messageArea.current.scrollHeight;
     }
+  }, [messageArea]);
 
-    if (hasUnreadMessages(messages, chatPartnerId, userId)) {
-      readAllMessagesOnServer(
-        () => actions.readAllMessages(chatPartnerId),
-        chatPartnerId,
-        userId,
-      );
+
+  useEffect(() => {
+    const unread = getUnreadMessages(messages, chatPartnerId, userId);
+    if (!R.isEmpty(unread)) {
+      Promise
+        .all(unread.map((message) => updateMessageOnServer(message, { read: true })))
+        .then(() => actions.readAllMessages(chatPartnerId));
     }
-  }, [messageArea, messages, chatPartnerId, userId, actions]);
+  }, [messages, chatPartnerId, userId, actions]);
 
   const isOwnMessage = (senderId: string): boolean => senderId === store.session.user.id;
 
