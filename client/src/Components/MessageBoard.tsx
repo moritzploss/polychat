@@ -38,10 +38,10 @@ const MessageBoard = ({ store, actions }: ReduxProps): JSX.Element => {
 
 
   useEffect(() => {
-    const unread = getUnreadMessages(messages, chatPartnerId, userId);
-    if (!R.isEmpty(unread)) {
+    const unreadMessages = getUnreadMessages(messages, chatPartnerId, userId);
+    if (!R.isEmpty(unreadMessages)) {
       Promise
-        .all(unread.map((message) => updateMessageOnServer(message, { read: true })))
+        .all(unreadMessages.map((message) => updateMessageOnServer(message, { read: true })))
         .then(() => actions.readAllMessages(chatPartnerId));
     }
   }, [messages, chatPartnerId, userId, actions]);
