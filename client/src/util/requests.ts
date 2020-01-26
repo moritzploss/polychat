@@ -8,7 +8,7 @@ interface Args {
   errCallback: Function;
   successCallback?: Function;
   url: string;
-  body: Record<string, any>;
+  body?: Record<string, any>;
   type: HttpRequestType;
 }
 
@@ -16,7 +16,7 @@ const requestWithJsonBody = async ({
   errCallback,
   successCallback = (): void => { },
   url,
-  body,
+  body = {},
   type,
 }: Args): Promise<void> => {
   const res = await fetch(url, {

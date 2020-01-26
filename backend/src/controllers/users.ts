@@ -23,17 +23,16 @@ const getUsers = async (req: Request, res: Response): Promise<Response<JSON>> =>
 };
 
 const addContact = (req: Request, res: Response): void => {
-  const { userId, userToAdd } = req.body;
-  repository.addUserToContactList(userId, userToAdd, () => {
-    parcelService.deliverContactListParcel(userId);
+  const { contactId } = req.body;
+  repository.addUserToContactList(req.params.userId, contactId, () => {
+    parcelService.deliverContactListParcel(req.params.userId);
     res.json({});
   });
 };
 
 const removeContact = (req: Request, res: Response): void => {
-  const { userId, userToRemove } = req.body;
-  repository.removeUserFromContactList(userId, userToRemove, () => {
-    parcelService.deliverContactListParcel(userId);
+  repository.removeUserFromContactList(req.params.userId, req.params.contactId, () => {
+    parcelService.deliverContactListParcel(req.params.userId);
     res.json({});
   });
 };

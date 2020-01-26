@@ -57,6 +57,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = require("mongoose");
 var logging_1 = require("../logging");
 var user_1 = require("../schemas/user");
+var testUsers_1 = require("../util/testUsers");
 var updateDirectMessages = function (messages, parcel, senderId) {
     var _a;
     if (senderId === void 0) { senderId = parcel.senderId; }
@@ -84,30 +85,24 @@ var Repository = /** @class */ (function () {
             });
         }); };
         this.addTestUser = function () { return __awaiter(_this, void 0, void 0, function () {
-            var testUser;
             var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        testUser = new user_1.User({
-                            email: 'moritz@spanish.com',
-                            password: process.env.TEST_USER_PASSWORD,
-                            name: 'Moritz',
-                            language: 'es',
-                            messages: {
-                                test: [1, 2, 3],
-                            },
-                        });
-                        return [4 /*yield*/, testUser.save(function (error) {
-                                if (error)
-                                    return;
-                                var userId = testUser.id;
-                                _this.addUserToContactList(userId, userId, function () { });
-                            })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
+                testUsers_1.testUsers.forEach(function (user) { return __awaiter(_this, void 0, void 0, function () {
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, user.save(function (error) {
+                                    if (error)
+                                        return;
+                                    _this.addUserToContactList(user.id, user.id, logging_1.logger.error);
+                                })];
+                            case 1:
+                                _a.sent();
+                                return [2 /*return*/];
+                        }
+                    });
+                }); });
+                return [2 /*return*/];
             });
         }); };
         this.saveParcelToUserMessages = function (parcel, senderId, receiverId) {

@@ -25,11 +25,10 @@ const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
 
   const addUserToContacts = (user: UserData): Promise<void> => requestWithJsonBody({
     errCallback: errorCallback,
-    url: '/api/contactlist',
+    url: `/api/users/${store.session.user.id}/contacts`,
     type: 'POST',
     body: {
-      userId: store.session.user.id,
-      userToAdd: user.id,
+      contactId: user.id,
     },
   });
 

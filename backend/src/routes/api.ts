@@ -17,8 +17,8 @@ apiRouter.get('/destroy-session', destroySession);
 
 apiRouter.put('/direct-message', setReadStatus);
 
-apiRouter.post('/contactlist', addContact);
-apiRouter.delete('/contactlist', removeContact);
+apiRouter.post('/users/:userId/contacts', addContact);
+apiRouter.delete('/users/:userId/contacts/:contactId', removeContact);
 
 apiRouter.get('/users', getUsers);
 apiRouter.get('/users/:id', getUser);

@@ -83,17 +83,16 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.getUsers = getUsers;
 var addContact = function (req, res) {
-    var _a = req.body, userId = _a.userId, userToAdd = _a.userToAdd;
-    repository_1.repository.addUserToContactList(userId, userToAdd, function () {
-        parcelService_1.parcelService.deliverContactListParcel(userId);
+    var contactId = req.body.contactId;
+    repository_1.repository.addUserToContactList(req.params.userId, contactId, function () {
+        parcelService_1.parcelService.deliverContactListParcel(req.params.userId);
         res.json({});
     });
 };
 exports.addContact = addContact;
 var removeContact = function (req, res) {
-    var _a = req.body, userId = _a.userId, userToRemove = _a.userToRemove;
-    repository_1.repository.removeUserFromContactList(userId, userToRemove, function () {
-        parcelService_1.parcelService.deliverContactListParcel(userId);
+    repository_1.repository.removeUserFromContactList(req.params.userId, req.params.contactId, function () {
+        parcelService_1.parcelService.deliverContactListParcel(req.params.userId);
         res.json({});
     });
 };

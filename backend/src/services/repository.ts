@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 
 import { logger } from '../logging';
 import { User, UserMongoose } from '../schemas/user';
+import { testUsers } from '../util/testUsers';
 import { DirectMessageParcel, Messages } from '../types/applicationWide';
 import { MongooseUser } from '../types/backend';
 
@@ -44,19 +45,11 @@ class Repository {
   };
 
   addTestUser = async (): Promise<void> => {
-    const testUser = new User({
-      email: 'moritz@spanish.com',
-      password: process.env.TEST_USER_PASSWORD,
-      name: 'Moritz',
-      language: 'es',
-      messages: {
-        test: [1, 2, 3],
-      },
-    });
-    await testUser.save((error: Error) => {
-      if (error) return;
-      const userId = testUser.id;
-      this.addUserToContactList(userId, userId, () => { });
+    testUsers.forEach(async (user: any) => {
+      await user.save((error: Error) => {
+        if (error) return;
+        this.addUserToContactList(user.id, user.id, logger.error);
+      });
     });
   };
 

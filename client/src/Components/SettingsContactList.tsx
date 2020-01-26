@@ -23,12 +23,8 @@ const SettingsContactList = ({ store, actions }: ReduxProps): JSX.Element => {
     requestWithJsonBody({
       errCallback: errorCallback,
       successCallback,
-      url: '/api/contactlist',
+      url: `/api/users/${store.session.user.id}/contacts/${userData.id}`,
       type: 'DELETE',
-      body: {
-        userId: user.id,
-        userToRemove: userData.id,
-      },
     });
   };
 
