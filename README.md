@@ -1,3 +1,5 @@
+![Backend](https://github.com/moritzploss/polychat/workflows/Backend/badge.svg)
+
 # PolyChat 2.0
 
 ## About
