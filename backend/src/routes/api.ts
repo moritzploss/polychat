@@ -1,27 +1,13 @@
-import { authenticateRequest } from '../controllers/authentication';
-import { setReadStatus } from '../controllers/messages';
-import { validateSession, destroySession } from '../controllers/session';
-import {
-  getUsers, addContact, removeContact, updateUser, getUser,
-} from '../controllers/users';
+import * as express from 'express';
 
-import express = require('express');
+import { loginUser } from '../controllers/login';
+import { validateSession, deleteSession } from '../controllers/session';
 
 const apiRouter = express.Router();
 
-apiRouter.post('/login', authenticateRequest);
+apiRouter.post('/login', loginUser);
 
-apiRouter.get('/validate-session', validateSession);
-
-apiRouter.get('/destroy-session', destroySession);
-
-apiRouter.put('/users/:userId/messages/:contactId/:messageId', setReadStatus);
-
-apiRouter.post('/users/:userId/contacts', addContact);
-apiRouter.delete('/users/:userId/contacts/:contactId', removeContact);
-
-apiRouter.get('/users', getUsers);
-apiRouter.get('/users/:userId', getUser);
-apiRouter.put('/users/:userId', updateUser);
+apiRouter.get('/sessions', validateSession); // should be /sessions/:userId
+apiRouter.delete('/sessions/:userId', deleteSession);
 
 export { apiRouter };

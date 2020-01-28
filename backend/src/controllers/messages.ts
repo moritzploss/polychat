@@ -2,7 +2,7 @@ import { Request, Response } from 'express-serve-static-core';
 import { repository } from '../services/repository';
 import { logger } from '../logging';
 
-const setReadStatus = async (req: Request, res: Response): Promise<Response<JSON>> => {
+const updateMessage = async (req: Request, res: Response): Promise<Response<JSON>> => {
   const { userId, contactId, messageId } = req.params;
   try {
     // TODO: allow for general update operations
@@ -16,5 +16,5 @@ const setReadStatus = async (req: Request, res: Response): Promise<Response<JSON
 };
 
 export {
-  setReadStatus,
+  updateMessage,
 };

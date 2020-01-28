@@ -30,7 +30,7 @@ const addContact = (req: Request, res: Response): void => {
   });
 };
 
-const removeContact = (req: Request, res: Response): void => {
+const deleteContact = (req: Request, res: Response): void => {
   repository.removeUserFromContactList(req.params.userId, req.params.contactId, () => {
     parcelService.deliverContactListParcel(req.params.userId);
     res.json({});
@@ -60,7 +60,7 @@ const updateUser = (req: Request, res: Response): Response<JSON> | void => {
 export {
   getUsers,
   addContact,
-  removeContact,
+  deleteContact,
   updateUser,
   getUser,
 };

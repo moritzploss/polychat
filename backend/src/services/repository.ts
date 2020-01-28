@@ -45,7 +45,7 @@ class Repository {
   };
 
   addTestUser = async (): Promise<void> => {
-    testUsers.forEach(async (user: any) => {
+    testUsers.forEach(async (user) => {
       await user.save((error: Error) => {
         if (error) return;
         this.addUserToContactList(user.id, user.id, logger.error);

@@ -5,9 +5,10 @@ import * as morgan from 'morgan';
 import * as expressWs from 'express-ws';
 
 import { loggStream } from './logging';
-import { apiRouter } from './routes/api';
 import { repository } from './services/repository';
 import { sessionConfig } from './sessions/expressSession';
+import { apiRouter } from './routes/api';
+import { userRouter } from './routes/users';
 import { webSocketsRouter } from './routes/webSockets';
 
 const { app } = expressWs(express());
@@ -20,6 +21,7 @@ app.use(morgan('tiny', { stream: loggStream }));
 repository.connectDatabase();
 
 app.use('/api/websockets', webSocketsRouter);
+app.use('/api/users', userRouter);
 app.use('/api', apiRouter);
 
 export default app;

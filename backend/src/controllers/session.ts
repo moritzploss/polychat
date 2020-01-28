@@ -7,7 +7,7 @@ const validateSession = (req: Request, res: Response): void => {
   res.status(status).send();
 };
 
-const destroySession = (req: Request, res: Response): void => (
+const deleteSession = (req: Request, res: Response): void => (
   req.session.destroy((error: Error) => {
     if (error) {
       logger.error(error);
@@ -17,4 +17,4 @@ const destroySession = (req: Request, res: Response): void => (
   })
 );
 
-export { validateSession, destroySession };
+export { validateSession, deleteSession };

@@ -90,13 +90,13 @@ var addContact = function (req, res) {
     });
 };
 exports.addContact = addContact;
-var removeContact = function (req, res) {
+var deleteContact = function (req, res) {
     repository_1.repository.removeUserFromContactList(req.params.userId, req.params.contactId, function () {
         parcelService_1.parcelService.deliverContactListParcel(req.params.userId);
         res.json({});
     });
 };
-exports.removeContact = removeContact;
+exports.deleteContact = deleteContact;
 var updateUser = function (req, res) {
     if (R.isEmpty(login_1.toCredentials(req.body))) {
         return res.status(400).json({ error: 'no valid fields found' });

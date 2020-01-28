@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var repository_1 = require("../services/repository");
 var logging_1 = require("../logging");
-var setReadStatus = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var updateMessage = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, userId, contactId, messageId, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -64,4 +64,4 @@ var setReadStatus = function (req, res) { return __awaiter(void 0, void 0, void 
         }
     });
 }); };
-exports.setReadStatus = setReadStatus;
+exports.updateMessage = updateMessage;

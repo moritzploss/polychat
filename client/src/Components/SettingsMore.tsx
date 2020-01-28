@@ -8,10 +8,18 @@ import { ReduxProps, ReducerActions, Store } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { reducerActions } from '../reducers/rootActions';
 
-const resetApp = (store: Store, actions: ReducerActions): void => {
+const destroySession = async (userId: string): Promise<void> => {
+  await fetch(`api/sessions/${userId}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+};
+
+const resetApp = async (store: Store, actions: ReducerActions): Promise<void> => {
   store.parcelService.webSocket.close();
   sessionService.deleteSession();
   sessionService.deleteUser();
+  await destroySession(store.session.user.id);
   actions.logOut();
 };
 
@@ -31,7 +39,7 @@ const SettingsMore = ({ store, actions }: ReduxProps): JSX.Element => (
       <FontAwesomeIcon
         className="settings_block_user_button"
         icon={faArrowRight}
-        onClick={(): void => resetApp(store, actions)}
+        onClick={(): Promise<void> => resetApp(store, actions)}
       />
     </div>
   </div>
