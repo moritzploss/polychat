@@ -21,6 +21,7 @@ const requestWithJsonBody = async ({
 }: Args): Promise<void> => {
   const res = await fetch(url, {
     method: type,
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },

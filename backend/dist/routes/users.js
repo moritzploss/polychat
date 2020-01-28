@@ -2,12 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var messages_1 = require("../controllers/messages");
+var authorization_1 = require("../controllers/authorization");
 var users_1 = require("../controllers/users");
 var userRouter = express.Router();
 exports.userRouter = userRouter;
 userRouter.get('/', users_1.getUsers);
-userRouter.get('/:userId', users_1.getUser);
-userRouter.put('/:userId', users_1.updateUser);
-userRouter.post('/:userId/contacts', users_1.addContact);
-userRouter.delete('/:userId/contacts/:contactId', users_1.deleteContact);
-userRouter.put('/:userId/messages/:contactId/:messageId', messages_1.updateMessage);
+userRouter.get('/:userId', authorization_1.authorizeOrReject, users_1.getUser);
+userRouter.put('/:userId', authorization_1.authorizeOrReject, users_1.updateUser);
+userRouter.post('/:userId/contacts', authorization_1.authorizeOrReject, users_1.addContact);
+userRouter.delete('/:userId/contacts/:contactId', authorization_1.authorizeOrReject, users_1.deleteContact);
+userRouter.put('/:userId/messages/:contactId/:messageId', authorization_1.authorizeOrReject, messages_1.updateMessage);
