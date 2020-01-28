@@ -6,7 +6,7 @@ import { Parcel, DirectMessageParcel } from '../types/applicationWide';
 import { logger } from '../logging';
 import { webSocketService, WebSocketService } from './webSocketService';
 import { repository, Repository } from './repository';
-import { toCredentials } from '../controllers/login';
+import { toUserData } from '../controllers/login';
 import { contactListParcel, messageHistoryParcel } from '../parcels/blueprints';
 import { TranslationService, translationService } from './translationService';
 
@@ -38,7 +38,7 @@ class ParcelService {
   deliverContactListParcel = async (userId: string): Promise<void> => {
     const contacts = await this.repository.getUserContacts(userId);
     const users = await this.repository.getUsersById(contacts);
-    this.deliver(contactListParcel(userId, users.map(toCredentials)));
+    this.deliver(contactListParcel(userId, users.map(toUserData)));
   };
 
   broadcastContactListUpdateToUserContacts = async (userId: string): Promise<void> => {

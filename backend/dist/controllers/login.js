@@ -37,14 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var user_1 = require("../schemas/user");
-var toCredentials = function (userData) { return ({
+var toUserData = function (userData) { return ({
     name: userData.name,
     language: userData.language,
     email: userData.email,
     id: userData.id,
     avatar: userData.avatar,
 }); };
-exports.toCredentials = toCredentials;
+exports.toUserData = toUserData;
 var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -56,7 +56,7 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                     }
                     req.session.authorized = true;
                     req.session.userId = user.id;
-                    return res.json(toCredentials(user));
+                    return res.json(toUserData(user));
                 })];
             case 1:
                 _a.sent();

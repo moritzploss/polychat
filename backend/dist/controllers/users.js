@@ -60,7 +60,7 @@ var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
             case 0: return [4 /*yield*/, repository_1.repository.findUserById(req.params.userId)];
             case 1:
                 user = _a.sent();
-                return [2 /*return*/, res.json(login_1.toCredentials(user))];
+                return [2 /*return*/, res.json(login_1.toUserData(user))];
         }
     });
 }); };
@@ -76,7 +76,7 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 users = _a.sent();
                 userData = R.isEmpty(users)
                     ? []
-                    : users.map(login_1.toCredentials);
+                    : users.map(login_1.toUserData);
                 return [2 /*return*/, res.json(userData)];
         }
     });
@@ -98,7 +98,7 @@ var deleteContact = function (req, res) {
 };
 exports.deleteContact = deleteContact;
 var updateUser = function (req, res) {
-    if (R.isEmpty(login_1.toCredentials(req.body))) {
+    if (R.isEmpty(login_1.toUserData(req.body))) {
         return res.status(400).json({ error: 'no valid fields found' });
     }
     var callback = function (error, user) {
@@ -107,7 +107,7 @@ var updateUser = function (req, res) {
             return res.status(500).json({ error: 'an error occured' });
         }
         parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(req.params.userId);
-        return res.json(login_1.toCredentials(__assign(__assign({}, login_1.toCredentials(user)), req.body)));
+        return res.json(login_1.toUserData(__assign(__assign({}, login_1.toUserData(user)), req.body)));
     };
     return repository_1.repository.updateUser(callback, req.params.userId, req.body);
 };

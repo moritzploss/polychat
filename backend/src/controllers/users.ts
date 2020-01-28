@@ -3,14 +3,14 @@ import * as R from 'ramda';
 import { repository } from '../services/repository';
 
 import { parcelService } from '../services/parcelService';
-import { toCredentials } from './login';
+import { toUserData } from './login';
 import { logger } from '../logging';
 import { MongooseUser } from '../types/backend';
 import { queryParamsToMongoRegexQuery } from '../util/mongo';
 
 const getUser = async (req: Request, res: Response): Promise<Response<JSON>> => {
   const user = await repository.findUserById(req.params.userId);
-  return res.json(toCredentials(user));
+  return res.json(toUserData(user));
 };
 
 const getUsers = async (req: Request, res: Response): Promise<Response<JSON>> => {
@@ -18,7 +18,7 @@ const getUsers = async (req: Request, res: Response): Promise<Response<JSON>> =>
   const users = await repository.findUsersBy(mongoQuery);
   const userData = R.isEmpty(users)
     ? []
-    : users.map(toCredentials);
+    : users.map(toUserData);
   return res.json(userData);
 };
 
@@ -38,7 +38,7 @@ const deleteContact = (req: Request, res: Response): void => {
 };
 
 const updateUser = (req: Request, res: Response): Response<JSON> | void => {
-  if (R.isEmpty(toCredentials(req.body))) {
+  if (R.isEmpty(toUserData(req.body))) {
     return res.status(400).json({ error: 'no valid fields found' });
   }
 
@@ -48,8 +48,8 @@ const updateUser = (req: Request, res: Response): Response<JSON> | void => {
       return res.status(500).json({ error: 'an error occured' });
     }
     parcelService.broadcastContactListUpdateToUserContacts(req.params.userId);
-    return res.json(toCredentials({
-      ...toCredentials(user),
+    return res.json(toUserData({
+      ...toUserData(user),
       ...req.body,
     }));
   };

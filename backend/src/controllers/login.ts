@@ -3,7 +3,7 @@ import { Request, Response } from 'express-serve-static-core';
 import { UserData } from '../types/applicationWide';
 import { User } from '../schemas/user';
 
-const toCredentials = (userData): UserData => ({
+const toUserData = (userData): UserData => ({
   name: userData.name,
   language: userData.language,
   email: userData.email,
@@ -22,8 +22,8 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
     req.session.authorized = true;
     req.session.userId = user.id;
 
-    return res.json(toCredentials(user));
+    return res.json(toUserData(user));
   });
 };
 
-export { loginUser, toCredentials };
+export { loginUser, toUserData };

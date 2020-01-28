@@ -84,7 +84,7 @@ var ParcelService = /** @class */ (function () {
                         return [4 /*yield*/, this.repository.getUsersById(contacts)];
                     case 2:
                         users = _a.sent();
-                        this.deliver(blueprints_1.contactListParcel(userId, users.map(login_1.toCredentials)));
+                        this.deliver(blueprints_1.contactListParcel(userId, users.map(login_1.toUserData)));
                         return [2 /*return*/];
                 }
             });
