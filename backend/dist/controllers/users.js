@@ -70,13 +70,11 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                mongoQuery = mongo_1.queryParamsToMongoRegexQuery(req.query);
+                mongoQuery = mongo_1.toMongoRegexQuery(req.query);
                 return [4 /*yield*/, repository_1.repository.findUsersBy(mongoQuery)];
             case 1:
                 users = _a.sent();
-                userData = R.isEmpty(users)
-                    ? []
-                    : users.map(login_1.toUserData);
+                userData = users.map(login_1.toUserData);
                 return [2 /*return*/, res.json(userData)];
         }
     });
@@ -98,7 +96,8 @@ var deleteContact = function (req, res) {
 };
 exports.deleteContact = deleteContact;
 var updateUser = function (req, res) {
-    if (R.isEmpty(login_1.toUserData(req.body))) {
+    var validRequestedUpdates = login_1.getUpdatableFields(req.body);
+    if (R.isEmpty(validRequestedUpdates)) {
         return res.status(400).json({ error: 'no valid fields found' });
     }
     var callback = function (error, user) {
@@ -107,7 +106,7 @@ var updateUser = function (req, res) {
             return res.status(500).json({ error: 'an error occured' });
         }
         parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(req.params.userId);
-        return res.json(login_1.toUserData(__assign(__assign({}, login_1.toUserData(user)), req.body)));
+        return res.json(login_1.toUserData(__assign(__assign({}, login_1.toUserData(user)), validRequestedUpdates)));
     };
     return repository_1.repository.updateUser(callback, req.params.userId, req.body);
 };

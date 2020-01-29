@@ -5,7 +5,10 @@
     "rootDir": "src",
     "outDir": "dist",
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "ES5"
   },
   "exclude": [
     "node_modules",

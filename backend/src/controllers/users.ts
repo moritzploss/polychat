@@ -1,12 +1,12 @@
-import { Request, Response } from 'express-serve-static-core';
 import * as R from 'ramda';
+import { Request, Response } from 'express-serve-static-core';
 import { repository } from '../services/repository';
 
 import { parcelService } from '../services/parcelService';
-import { toUserData } from './login';
+import { toUserData, getUpdatableFields } from './login';
 import { logger } from '../logging';
 import { MongooseUser } from '../types/backend';
-import { queryParamsToMongoRegexQuery } from '../util/mongo';
+import { toMongoRegexQuery } from '../util/mongo';
 
 const getUser = async (req: Request, res: Response): Promise<Response<JSON>> => {
   const user = await repository.findUserById(req.params.userId);
@@ -14,11 +14,9 @@ const getUser = async (req: Request, res: Response): Promise<Response<JSON>> => 
 };
 
 const getUsers = async (req: Request, res: Response): Promise<Response<JSON>> => {
-  const mongoQuery = queryParamsToMongoRegexQuery(req.query);
+  const mongoQuery = toMongoRegexQuery(req.query);
   const users = await repository.findUsersBy(mongoQuery);
-  const userData = R.isEmpty(users)
-    ? []
-    : users.map(toUserData);
+  const userData = users.map(toUserData);
   return res.json(userData);
 };
 
@@ -38,7 +36,8 @@ const deleteContact = (req: Request, res: Response): void => {
 };
 
 const updateUser = (req: Request, res: Response): Response<JSON> | void => {
-  if (R.isEmpty(toUserData(req.body))) {
+  const validRequestedUpdates = getUpdatableFields(req.body);
+  if (R.isEmpty(validRequestedUpdates)) {
     return res.status(400).json({ error: 'no valid fields found' });
   }
 
@@ -50,7 +49,7 @@ const updateUser = (req: Request, res: Response): Response<JSON> | void => {
     parcelService.broadcastContactListUpdateToUserContacts(req.params.userId);
     return res.json(toUserData({
       ...toUserData(user),
-      ...req.body,
+      ...validRequestedUpdates,
     }));
   };
 

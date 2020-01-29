@@ -65,6 +65,14 @@ var updateDirectMessages = function (messages, parcel, senderId) {
         ? __spreadArrays(messages[senderId], [parcel]) : [parcel];
     return __assign(__assign({}, messages), (_a = {}, _a[senderId] = newMessages, _a));
 };
+// function test(target: Object,
+//   propertyKey: string,
+//   descriptor: TypedPropertyDescriptor<any>): any {
+//   console.log(target);
+//   console.log(propertyKey);
+//   console.log(descriptor);
+//   return descriptor;
+// }
 var Repository = /** @class */ (function () {
     function Repository(user) {
         var _this = this;

@@ -1,5 +1,5 @@
 import { Client } from '../types/client';
-import { UserData } from '../types/types';
+import { UserData } from '../types/applicationWide';
 
 const chatPartner = {
   id: '',

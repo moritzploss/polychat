@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reducerActions } from '../reducers/rootActions';
 import { httpRequest, getRequest } from '../util/requests';
 import { mapStateToProps, mergeProps } from '../reducers/util';
-import { ReduxProps, ReactChangeEvent } from '../types/client';
+import { ReduxProps, HttpResponse } from '../types/client';
 import { UserData } from '../types/applicationWide';
 
 import ContactSearchList from './ContactSearchList';
@@ -13,16 +13,16 @@ const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult]: [UserData[], Function] = useState([]);
 
-  const updateSearchResult = async (event: ReactChangeEvent): Promise<void> => {
+  const updateSearchResult = async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     setQuery(event.target.value);
     if (event.target.value === '') {
       return setSearchResult([]);
     }
     const userData = await getRequest('/api/users', { name: event.target.value });
-    setSearchResult(userData as UserData[]);
+    return setSearchResult(userData as UserData[]);
   };
 
-  const addUserToContacts = async (user: UserData): Promise<any> => (
+  const addUserToContacts = async (user: UserData): Promise<HttpResponse> => (
     httpRequest(
       `/api/users/${store.session.user.id}/contacts`,
       'POST',
@@ -38,7 +38,7 @@ const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
     }
   };
 
-  const onFormSubmit = (event: ReactChangeEvent): void => event.preventDefault();
+  const onFormSubmit = (event: React.ChangeEvent<HTMLFormElement>): void => event.preventDefault();
 
   return (
     <div className="contactsearch">

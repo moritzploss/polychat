@@ -34,4 +34,12 @@ export interface UserData {
   avatar: string;
 }
 
+export interface PartialUserData {
+  name?: string;
+  language?: string;
+  email?: string;
+  id?: string;
+  avatar?: string;
+}
+
 export type HttpRequestType = 'GET' | 'POST' | 'PUT' | 'DELETE';

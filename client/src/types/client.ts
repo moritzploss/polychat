@@ -3,9 +3,6 @@ import { ParcelService } from '../services/parcelService';
 import { reducerActions } from '../reducers/rootActions';
 import { appStateActions } from '../reducers/appStateActions';
 
-export type ReactChangeEvent = React.ChangeEvent<any>;
-export type ReactMouseEvent = React.MouseEvent<any, MouseEvent>;
-
 export interface Action {
   type: string;
 }
@@ -27,6 +24,10 @@ export interface Client {
   connectedUsers: string[];
   contactList: UserData[];
   chatPartner: UserData;
+}
+
+export interface HttpResponse {
+  error?: string;
 }
 
 export interface Session {

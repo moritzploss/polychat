@@ -4,13 +4,9 @@ import { logger } from '../logging';
 import { User, UserMongoose } from '../schemas/user';
 import { testUsers } from '../util/testUsers';
 import { DirectMessageParcel, Messages } from '../types/applicationWide';
-import { MongooseUser } from '../types/backend';
+import { MongooseUser, UpdatableUserData, MongoRegexQuery } from '../types/backend';
 
-const updateDirectMessages = (
-  messages: Messages,
-  parcel: DirectMessageParcel,
-  senderId: string = parcel.senderId,
-): Messages => {
+const updateDirectMessages = (messages: Messages, parcel: DirectMessageParcel, senderId: string = parcel.senderId): Messages => {
   const newMessages = messages[senderId]
     ? [...messages[senderId], parcel]
     : [parcel];
@@ -19,6 +15,15 @@ const updateDirectMessages = (
     [senderId]: newMessages,
   };
 };
+
+// function test(target: Object,
+//   propertyKey: string,
+//   descriptor: TypedPropertyDescriptor<any>): any {
+//   console.log(target);
+//   console.log(propertyKey);
+//   console.log(descriptor);
+//   return descriptor;
+// }
 
 class Repository {
   user: UserMongoose;
@@ -73,7 +78,7 @@ class Repository {
     this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
   };
 
-  updateUser = (callback: Function, userId: string, fields: Record<string, any>): void => {
+  updateUser = (callback: Function, userId: string, fields: UpdatableUserData): void => {
     this.user.findById(userId, async (error: Error, user): Promise<void | typeof logger> => (
       (error)
         ? logger.error(error)
@@ -135,7 +140,7 @@ class Repository {
     return user;
   };
 
-  findUsersBy = async (query: any): Promise<any> => {
+  findUsersBy = async (query: MongoRegexQuery): Promise<any> => {
     const users = await this.user.find(query);
     return users || [];
   };

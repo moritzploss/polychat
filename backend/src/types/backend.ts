@@ -46,3 +46,9 @@ export interface WebSocketData {
   webSocket: ws;
   webSocketId: string;
 }
+
+export interface UpdatableUserData {
+  name?: string;
+  language?: string;
+  avatar?: string;
+}

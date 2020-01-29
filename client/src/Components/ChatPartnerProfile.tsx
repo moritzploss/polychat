@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ISO6391 from 'iso-639-1';
 
 import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps } from '../types/client';
 import { getAvatarPath } from '../util/stringFormatting';
-import ISO6391 from 'iso-639-1';
 
 const ChatPartnerProfile = ({ store }: ReduxProps): JSX.Element => {
   const { chatPartner } = store.client;

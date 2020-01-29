@@ -16,7 +16,7 @@ var toMongoRegex = function (_a) {
     var fieldName = _a[0], regex = _a[1];
     return ((_b = {}, _b[fieldName] = { $regex: RegExp(regex), $options: 'i' }, _b));
 };
-var queryParamsToMongoRegexQuery = function (queryParams) { return (Object.entries(queryParams)
+var toMongoRegexQuery = function (queryParams) { return (Object.entries(queryParams)
     .map(toMongoRegex)
     .reduce(function (previous, current) { return (__assign(__assign({}, previous), current)); }, {})); };
-exports.queryParamsToMongoRegexQuery = queryParamsToMongoRegexQuery;
+exports.toMongoRegexQuery = toMongoRegexQuery;

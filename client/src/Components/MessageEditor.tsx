@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import { reducerActions } from '../reducers/rootActions';
-import { ReactMouseEvent, ReduxProps } from '../types/client';
+import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { directMessageParcel } from '../parcels/blueprints';
 
@@ -12,7 +12,7 @@ const MessageEditor = ({ store, actions }: ReduxProps): JSX.Element => {
   const [message, setMessage] = useState('');
   const { client, session, parcelService } = store;
 
-  const sendMessage = (event: ReactMouseEvent): void => {
+  const sendMessage = (event: React.MouseEvent<SVGSVGElement, MouseEvent> | React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     if (message) {
       const parcel = directMessageParcel(

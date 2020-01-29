@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { ReduxProps, ReactChangeEvent, LanguageInfo } from '../types/client';
+import { ReduxProps, LanguageInfo } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { reducerActions } from '../reducers/rootActions';
 import { submitUserProfileChange } from '../util/requests';
@@ -17,7 +17,7 @@ const SettingsUser = ({ store }: ReduxProps): JSX.Element => {
     submitUserProfileChange(user.id, { name: newUserName });
   };
 
-  const updateLanguage = (event: ReactChangeEvent): void => {
+  const updateLanguage = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     submitUserProfileChange(user.id, { language: event.target.value });
   };
 
@@ -30,8 +30,8 @@ const SettingsUser = ({ store }: ReduxProps): JSX.Element => {
           type="text"
           value={newUserName}
           onBlur={submitUserNameChange}
-          onClick={(event: ReactChangeEvent): void => event.target.select()}
-          onChange={(event: ReactChangeEvent): void => setNewUserName(event.target.value)}
+          onClick={(event: React.ChangeEvent<any>): void => event.target.select()}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => setNewUserName(event.target.value)}
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => onEnter(event, submitUserNameChange)}
         />
       </div>

@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -45,6 +56,8 @@ var toUserData = function (userData) { return ({
     avatar: userData.avatar,
 }); };
 exports.toUserData = toUserData;
+var getUpdatableFields = function (userData) { return (__assign(__assign(__assign({}, (userData.name) && { name: userData.name }), (userData.avatar) && { avatar: userData.avatar }), (userData.language) && { language: userData.language })); };
+exports.getUpdatableFields = getUpdatableFields;
 var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
