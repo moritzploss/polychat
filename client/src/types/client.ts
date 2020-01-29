@@ -1,4 +1,4 @@
-import { UserData, Messages } from './applicationWide';
+import { UserData, Messages, HttpRequestType } from './applicationWide';
 import { ParcelService } from '../services/parcelService';
 import { reducerActions } from '../reducers/rootActions';
 import { appStateActions } from '../reducers/appStateActions';
@@ -37,6 +37,14 @@ export interface Session {
 }
 
 export type Props = Record<string, any>;
+
+export type RequestBody = Record<string, any>;
+
+export interface RequestOptions {
+  body?: string;
+  method: HttpRequestType;
+  headers: Record<string, string>;
+}
 
 export interface Store {
   appState: AppState;

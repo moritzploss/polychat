@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { reducerActions } from '../reducers/rootActions';
-import { requestWithJsonBody, getRequest } from '../util/requests';
-import { errorCallback } from '../util/errors';
+import { httpRequest, getRequest } from '../util/requests';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { ReduxProps, ReactChangeEvent } from '../types/client';
 import { UserData } from '../types/applicationWide';
@@ -12,7 +11,7 @@ import ContactSearchList from './ContactSearchList';
 
 const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
   const [query, setQuery] = useState('');
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult]: [UserData[], Function] = useState([]);
 
   const updateSearchResult = async (event: ReactChangeEvent): Promise<void> => {
     setQuery(event.target.value);
@@ -20,22 +19,23 @@ const ContactSearch = ({ store, actions }: ReduxProps): JSX.Element => {
       return setSearchResult([]);
     }
     const userData = await getRequest('/api/users', { name: event.target.value });
-    setSearchResult(userData);
+    setSearchResult(userData as UserData[]);
   };
 
-  const addUserToContacts = (user: UserData): Promise<void> => requestWithJsonBody({
-    errCallback: errorCallback,
-    url: `/api/users/${store.session.user.id}/contacts`,
-    type: 'POST',
-    body: {
-      contactId: user.id,
-    },
-  });
+  const addUserToContacts = async (user: UserData): Promise<any> => (
+    httpRequest(
+      `/api/users/${store.session.user.id}/contacts`,
+      'POST',
+      { contactId: user.id },
+    )
+  );
 
-  const onContactClick = (event: Event, user: UserData): void => {
-    addUserToContacts(user);
-    actions.goToHome();
-    actions.setChatPartner(user);
+  const onContactClick = async (event: Event, user: UserData): Promise<void> => {
+    const { error } = await addUserToContacts(user);
+    if (!error) {
+      actions.goToHome();
+      actions.setChatPartner(user);
+    }
   };
 
   const onFormSubmit = (event: ReactChangeEvent): void => event.preventDefault();

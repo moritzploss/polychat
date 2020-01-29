@@ -7,25 +7,20 @@ import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
 import { reducerActions } from '../reducers/rootActions';
 import { UserData } from '../types/applicationWide';
-import { requestWithJsonBody } from '../util/requests';
-import { errorCallback } from '../util/errors';
+import { httpRequest } from '../util/requests';
 
 const SettingsContactList = ({ store, actions }: ReduxProps): JSX.Element => {
   const { chatPartner, contactList } = store.client;
   const { user } = store.session;
 
-  const removeUserFromContactList = (userData: UserData): void => {
-    const successCallback = (): void => {
-      if (chatPartner.id === userData.id) {
-        actions.resetChatPartner();
-      }
-    };
-    requestWithJsonBody({
-      errCallback: errorCallback,
-      successCallback,
-      url: `/api/users/${store.session.user.id}/contacts/${userData.id}`,
-      type: 'DELETE',
-    });
+  const removeUserFromContactList = async (userData: UserData): Promise<void> => {
+    const { error } = await httpRequest(
+      `/api/users/${store.session.user.id}/contacts/${userData.id}`,
+      'DELETE',
+    );
+    if (!error && (chatPartner.id === userData.id)) {
+      actions.resetChatPartner();
+    }
   };
 
   return (
@@ -39,7 +34,7 @@ const SettingsContactList = ({ store, actions }: ReduxProps): JSX.Element => {
             <FontAwesomeIcon
               className="settings_block_user_button"
               icon={faTimesCircle}
-              onClick={(): void => removeUserFromContactList(contact)}
+              onClick={(): Promise<void> => removeUserFromContactList(contact)}
             />
           </div>
         ))}

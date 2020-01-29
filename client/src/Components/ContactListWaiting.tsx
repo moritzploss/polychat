@@ -7,7 +7,7 @@ import { reducerActions } from '../reducers/rootActions';
 import { UserData } from '../types/applicationWide';
 
 import Contact from './Contact';
-import { requestWithJsonBodyAsync } from '../util/requests';
+import { httpRequest } from '../util/requests';
 
 const isInContactList = (userId: string, contactList: UserData[]): boolean => contactList
   .map((user: UserData) => user.id)
@@ -23,7 +23,7 @@ const ContactListWaiting = ({ ownProps, store }: ReduxProps): JSX.Element => {
 
   const getUsersByIdAsync = async (userIds: string[]): Promise<UserData[]> => Promise.all(
     userIds.map(async (userId: string): Promise<UserData> => {
-      const data = await requestWithJsonBodyAsync(`/api/users/${userId}`, 'GET');
+      const data = await httpRequest(`/api/users/${userId}`, 'GET');
       return data as UserData;
     }),
   );

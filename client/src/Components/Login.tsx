@@ -5,9 +5,8 @@ import { sessionService } from 'redux-react-session';
 import { AppStateActions } from '../types/client';
 import { UserData } from '../types/applicationWide';
 import { mapStateToProps } from '../reducers/util';
-import { errorCallback } from '../util/errors';
 import { appStateActions } from '../reducers/appStateActions';
-import { requestWithJsonBody } from '../util/requests';
+import { httpRequest } from '../util/requests';
 
 import LabeledInputField from './LabeledInputField';
 
@@ -23,7 +22,7 @@ const Login = ({ goToHome }: AppStateActions): JSX.Element => {
     }));
   };
 
-  const loginSuccessCallback = (user: UserData): void => {
+  const loginUser = (user: UserData): void => {
     sessionService.saveSession();
     sessionService.saveUser(user);
     goToHome();
@@ -31,13 +30,10 @@ const Login = ({ goToHome }: AppStateActions): JSX.Element => {
 
   const attemptLogin = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
     event.preventDefault();
-    requestWithJsonBody({
-      errCallback: errorCallback,
-      successCallback: loginSuccessCallback,
-      url: '/api/login',
-      type: 'POST',
-      body: credentials,
-    });
+    const { error, ...user } = await httpRequest('/api/login', 'POST', credentials);
+    if (!error) {
+      loginUser(user as UserData);
+    }
   };
 
   return (
