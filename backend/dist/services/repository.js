@@ -65,14 +65,6 @@ var updateDirectMessages = function (messages, parcel, senderId) {
         ? __spreadArrays(messages[senderId], [parcel]) : [parcel];
     return __assign(__assign({}, messages), (_a = {}, _a[senderId] = newMessages, _a));
 };
-// function test(target: Object,
-//   propertyKey: string,
-//   descriptor: TypedPropertyDescriptor<any>): any {
-//   console.log(target);
-//   console.log(propertyKey);
-//   console.log(descriptor);
-//   return descriptor;
-// }
 var Repository = /** @class */ (function () {
     function Repository(user) {
         var _this = this;
@@ -209,8 +201,8 @@ var Repository = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.user.find(query)];
                     case 1:
-                        users = _a.sent();
-                        return [2 /*return*/, users || []];
+                        users = (_a.sent()) || [];
+                        return [2 /*return*/, { users: users }];
                 }
             });
         }); };

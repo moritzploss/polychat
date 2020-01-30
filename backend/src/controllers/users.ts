@@ -8,6 +8,17 @@ import { logger } from '../logging';
 import { MongooseUser } from '../types/backend';
 import { toMongoRegexQuery } from '../util/mongo';
 
+const safely = <T extends (...args: any[]) => any>(func: T): T => (
+  ((async (...args: any[]) => {
+    try {
+      return await func(...args);
+    } catch (error) {
+      logger.error(error);
+      return { error: error.message };
+    }
+  }) as T)
+);
+
 const getUser = async (req: Request, res: Response): Promise<Response<JSON>> => {
   const user = await repository.findUserById(req.params.userId);
   return res.json(toUserData(user));
@@ -15,9 +26,11 @@ const getUser = async (req: Request, res: Response): Promise<Response<JSON>> => 
 
 const getUsers = async (req: Request, res: Response): Promise<Response<JSON>> => {
   const mongoQuery = toMongoRegexQuery(req.query);
-  const users = await repository.findUsersBy(mongoQuery);
-  const userData = users.map(toUserData);
-  return res.json(userData);
+  const { error, users } = await safely(repository.findUsersBy)(mongoQuery);
+  const returnData = error
+    ? { error }
+    : users.map(toUserData);
+  return res.json(returnData);
 };
 
 const addContact = (req: Request, res: Response): void => {

@@ -16,15 +16,6 @@ const updateDirectMessages = (messages: Messages, parcel: DirectMessageParcel, s
   };
 };
 
-// function test(target: Object,
-//   propertyKey: string,
-//   descriptor: TypedPropertyDescriptor<any>): any {
-//   console.log(target);
-//   console.log(propertyKey);
-//   console.log(descriptor);
-//   return descriptor;
-// }
-
 class Repository {
   user: UserMongoose;
 
@@ -141,8 +132,8 @@ class Repository {
   };
 
   findUsersBy = async (query: MongoRegexQuery): Promise<any> => {
-    const users = await this.user.find(query);
-    return users || [];
+    const users = await this.user.find(query) || [];
+    return { users };
   };
 
   getUserFieldData = async (userId: string, field: string): Promise<any> => {
