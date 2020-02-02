@@ -32,6 +32,12 @@ export interface MongooseUser {
   messages: Messages;
 }
 
+export interface SafelyError {
+  error: {
+    message: string;
+  };
+}
+
 export interface UserData {
   email: string;
   password: string;

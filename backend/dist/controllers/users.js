@@ -53,53 +53,29 @@ var parcelService_1 = require("../services/parcelService");
 var login_1 = require("./login");
 var logging_1 = require("../logging");
 var mongo_1 = require("../util/mongo");
-var safely = function (func) { return (function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    return __awaiter(void 0, void 0, void 0, function () {
-        var error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, func.apply(void 0, args)];
-                case 1: return [2 /*return*/, _a.sent()];
-                case 2:
-                    error_1 = _a.sent();
-                    logging_1.logger.error(error_1);
-                    return [2 /*return*/, { error: error_1.message }];
-                case 3: return [2 /*return*/];
-            }
-        });
-    });
-}); };
+var safeAsyncFunctions_1 = require("../util/safeAsyncFunctions");
 var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, repository_1.repository.findUserById(req.params.userId)];
+    var _a, user, error;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, safeAsyncFunctions_1.safely(repository_1.repository.findUserById)(req.params.userId)];
             case 1:
-                user = _a.sent();
-                return [2 /*return*/, res.json(login_1.toUserData(user))];
+                _a = _b.sent(), user = _a.user, error = _a.error;
+                return [2 /*return*/, safeAsyncFunctions_1.dataOrServerError(res, user, error)];
         }
     });
 }); };
 exports.getUser = getUser;
 var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var mongoQuery, _a, error, users, returnData;
+    var mongoQuery, _a, users, error;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 mongoQuery = mongo_1.toMongoRegexQuery(req.query);
-                return [4 /*yield*/, safely(repository_1.repository.findUsersBy)(mongoQuery)];
+                return [4 /*yield*/, safeAsyncFunctions_1.safely(repository_1.repository.findUsersBy)(mongoQuery)];
             case 1:
-                _a = _b.sent(), error = _a.error, users = _a.users;
-                returnData = error
-                    ? { error: error }
-                    : users.map(login_1.toUserData);
-                return [2 /*return*/, res.json(returnData)];
+                _a = _b.sent(), users = _a.users, error = _a.error;
+                return [2 /*return*/, safeAsyncFunctions_1.dataOrServerError(res, users, error)];
         }
     });
 }); };

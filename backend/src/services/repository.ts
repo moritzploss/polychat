@@ -3,8 +3,9 @@ import * as mongoose from 'mongoose';
 import { logger } from '../logging';
 import { User, UserMongoose } from '../schemas/user';
 import { testUsers } from '../util/testUsers';
-import { DirectMessageParcel, Messages } from '../types/applicationWide';
+import { DirectMessageParcel, Messages, UserData } from '../types/applicationWide';
 import { MongooseUser, UpdatableUserData, MongoRegexQuery } from '../types/backend';
+import { toUserData } from '../controllers/login';
 
 const updateDirectMessages = (messages: Messages, parcel: DirectMessageParcel, senderId: string = parcel.senderId): Messages => {
   const newMessages = messages[senderId]
@@ -126,14 +127,14 @@ class Repository {
     });
   };
 
-  findUserById = async (id: string): Promise<any> => {
+  findUserById = async (id: string): Promise<Record<string, UserData>> => {
     const user = await this.user.findById(id);
-    return user;
+    return { user: toUserData(user) };
   };
 
-  findUsersBy = async (query: MongoRegexQuery): Promise<any> => {
+  findUsersBy = async (query: MongoRegexQuery): Promise<Record<string, UserData[]>> => {
     const users = await this.user.find(query) || [];
-    return { users };
+    return { users: users.map(toUserData) };
   };
 
   getUserFieldData = async (userId: string, field: string): Promise<any> => {

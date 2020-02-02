@@ -58,6 +58,7 @@ var mongoose = require("mongoose");
 var logging_1 = require("../logging");
 var user_1 = require("../schemas/user");
 var testUsers_1 = require("../util/testUsers");
+var login_1 = require("../controllers/login");
 var updateDirectMessages = function (messages, parcel, senderId) {
     var _a;
     if (senderId === void 0) { senderId = parcel.senderId; }
@@ -191,7 +192,7 @@ var Repository = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.user.findById(id)];
                     case 1:
                         user = _a.sent();
-                        return [2 /*return*/, user];
+                        return [2 /*return*/, { user: login_1.toUserData(user) }];
                 }
             });
         }); };
@@ -202,7 +203,7 @@ var Repository = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.user.find(query)];
                     case 1:
                         users = (_a.sent()) || [];
-                        return [2 /*return*/, { users: users }];
+                        return [2 /*return*/, { users: users.map(login_1.toUserData) }];
                 }
             });
         }); };
