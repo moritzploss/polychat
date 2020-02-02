@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import { Request, Response } from 'express-serve-static-core';
-import { repository } from '../services/repository';
 
+import { repository } from '../services/repository';
 import { parcelService } from '../services/parcelService';
 import { toUserData, getUpdatableFields } from './login';
 import { logger } from '../logging';
