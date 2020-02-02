@@ -6,8 +6,9 @@ import { testUsers } from '../util/testUsers';
 import { DirectMessageParcel, Messages, UserData } from '../types/applicationWide';
 import { MongooseUser, UpdatableUserData, MongoRegexQuery } from '../types/backend';
 import { toUserData } from '../controllers/login';
+import { safely } from '../util/safeAsyncFunctions';
 
-const updateDirectMessages = (messages: Messages, parcel: DirectMessageParcel, senderId: string = parcel.senderId): Messages => {
+const addParcelToMessages = (messages: Messages, parcel: DirectMessageParcel, senderId: string = parcel.senderId): Messages => {
   const newMessages = messages[senderId]
     ? [...messages[senderId], parcel]
     : [parcel];
@@ -45,7 +46,7 @@ class Repository {
     testUsers.forEach(async (user) => {
       await user.save((error: Error) => {
         if (error) return;
-        this.addUserToContactList(user.id, user.id, logger.error);
+        this.addUserToContactList(user.id, user.id);
       });
     });
   };
@@ -55,7 +56,7 @@ class Repository {
       if (error) return logger.error(error);
       this.user.updateOne(
         { _id: senderId },
-        { $set: { messages: updateDirectMessages(user.messages, parcel, receiverId) } },
+        { $set: { messages: addParcelToMessages(user.messages, parcel, receiverId) } },
         logger.error,
       );
       return logger.info({
@@ -70,16 +71,13 @@ class Repository {
     this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
   };
 
-  updateUser = (callback: Function, userId: string, fields: UpdatableUserData): void => {
-    this.user.findById(userId, async (error: Error, user): Promise<void | typeof logger> => (
-      (error)
-        ? logger.error(error)
-        : this.user.updateOne(
-          { _id: userId },
-          { $set: fields },
-          (err: Error) => callback(err, user),
-        )
-    ));
+  updateUser = async (userId: string, fields: UpdatableUserData): Promise<Record<string, UserData>> => {
+    await this.user.updateOne(
+      { _id: userId },
+      { $set: fields },
+    );
+    const data = await this.user.findById(userId);
+    return { user: toUserData(data) };
   };
 
   markMessageAsRead = async (senderId: string, receiverId: string, messageId: string): Promise<Document & any> => {
@@ -91,40 +89,32 @@ class Repository {
     );
   };
 
-  addUserToContactList = async (userId: string, userToAdd: string, callback: Function): Promise<void> => {
-    this.user.findById(userId, async (error: Error, user): Promise<void | typeof logger> => {
-      if (error) return logger.error(error);
-      if (!user.contacts.includes(userToAdd)) {
-        await this.user.updateOne(
-          { _id: userId },
-          { $set: { contacts: [...user.contacts, userToAdd] } },
-          logger.error,
-        );
-        await this.user.updateOne(
-          { _id: userToAdd },
-          { $set: { inContactListOf: [...user.inContactListOf, userId] } },
-          logger.error,
-        );
-      }
-      return callback();
-    });
-  };
-
-  removeUserFromContactList = async (userId: string, userToRemove: string, callback: Function): Promise<void> => {
-    this.user.findById(userId, async (error: Error, user): Promise<void | typeof logger> => {
-      if (error) return logger.error(error);
+  addUserToContactList = async (userId: string, userIdToAdd: string): Promise<Record<string, UserData>> => {
+    const user = await this.user.findById(userId);
+    if (!user.contacts.includes(userIdToAdd)) {
       await this.user.updateOne(
         { _id: userId },
-        { $set: { contacts: user.contacts.filter((contact: string) => contact !== userToRemove) } },
-        logger.error,
+        { $set: { contacts: [...user.contacts, userIdToAdd] } },
       );
       await this.user.updateOne(
-        { _id: userToRemove },
-        { $set: { inContactListOf: user.inContactListOf.filter((contact: string) => contact !== userId) } },
-        logger.error,
+        { _id: userIdToAdd },
+        { $set: { inContactListOf: [...user.inContactListOf, userId] } },
       );
-      return callback();
-    });
+    }
+    return { contact: toUserData(user) };
+  };
+
+  removeUserFromContactList = async (userId: string, userIdToRemove: string): Promise<Record<string, any>> => {
+    const user = await this.user.findById(userId);
+    await this.user.updateOne(
+      { _id: userId },
+      { $set: { contacts: user.contacts.filter((contact: string) => contact !== userIdToRemove) } },
+    );
+    await this.user.updateOne(
+      { _id: userIdToRemove },
+      { $set: { inContactListOf: user.inContactListOf.filter((contact: string) => contact !== userId) } },
+    );
+    return {};
   };
 
   findUserById = async (id: string): Promise<Record<string, UserData>> => {

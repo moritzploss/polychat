@@ -59,7 +59,7 @@ var logging_1 = require("../logging");
 var user_1 = require("../schemas/user");
 var testUsers_1 = require("../util/testUsers");
 var login_1 = require("../controllers/login");
-var updateDirectMessages = function (messages, parcel, senderId) {
+var addParcelToMessages = function (messages, parcel, senderId) {
     var _a;
     if (senderId === void 0) { senderId = parcel.senderId; }
     var newMessages = messages[senderId]
@@ -95,7 +95,7 @@ var Repository = /** @class */ (function () {
                             case 0: return [4 /*yield*/, user.save(function (error) {
                                     if (error)
                                         return;
-                                    _this.addUserToContactList(user.id, user.id, logging_1.logger.error);
+                                    _this.addUserToContactList(user.id, user.id);
                                 })];
                             case 1:
                                 _a.sent();
@@ -110,7 +110,7 @@ var Repository = /** @class */ (function () {
             _this.user.findById(senderId, function (error, user) {
                 if (error)
                     return logging_1.logger.error(error);
-                _this.user.updateOne({ _id: senderId }, { $set: { messages: updateDirectMessages(user.messages, parcel, receiverId) } }, logging_1.logger.error);
+                _this.user.updateOne({ _id: senderId }, { $set: { messages: addParcelToMessages(user.messages, parcel, receiverId) } }, logging_1.logger.error);
                 return logging_1.logger.info({
                     message: 'saved DirectMessageParcel to message database',
                     parcel: parcel,
@@ -121,15 +121,20 @@ var Repository = /** @class */ (function () {
             _this.saveParcelToUserMessages(parcel, parcel.senderId, parcel.receiverId);
             _this.saveParcelToUserMessages(parcel, parcel.receiverId, parcel.senderId);
         };
-        this.updateUser = function (callback, userId, fields) {
-            _this.user.findById(userId, function (error, user) { return __awaiter(_this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    return [2 /*return*/, ((error)
-                            ? logging_1.logger.error(error)
-                            : this.user.updateOne({ _id: userId }, { $set: fields }, function (err) { return callback(err, user); }))];
-                });
-            }); });
-        };
+        this.updateUser = function (userId, fields) { return __awaiter(_this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: fields })];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.user.findById(userId)];
+                    case 2:
+                        data = _a.sent();
+                        return [2 /*return*/, { user: login_1.toUserData(data) }];
+                }
+            });
+        }); };
         this.markMessageAsRead = function (senderId, receiverId, messageId) { return __awaiter(_this, void 0, void 0, function () {
             var targetMessage, targetField;
             var _a, _b;
@@ -139,50 +144,40 @@ var Repository = /** @class */ (function () {
                 return [2 /*return*/, this.user.findOneAndUpdate((_a = { _id: senderId }, _a[targetMessage] = messageId, _a), { $set: (_b = {}, _b[targetField] = true, _b) })];
             });
         }); };
-        this.addUserToContactList = function (userId, userToAdd, callback) { return __awaiter(_this, void 0, void 0, function () {
-            var _this = this;
+        this.addUserToContactList = function (userId, userIdToAdd) { return __awaiter(_this, void 0, void 0, function () {
+            var user;
             return __generator(this, function (_a) {
-                this.user.findById(userId, function (error, user) { return __awaiter(_this, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                if (error)
-                                    return [2 /*return*/, logging_1.logger.error(error)];
-                                if (!!user.contacts.includes(userToAdd)) return [3 /*break*/, 3];
-                                return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: { contacts: __spreadArrays(user.contacts, [userToAdd]) } }, logging_1.logger.error)];
-                            case 1:
-                                _a.sent();
-                                return [4 /*yield*/, this.user.updateOne({ _id: userToAdd }, { $set: { inContactListOf: __spreadArrays(user.inContactListOf, [userId]) } }, logging_1.logger.error)];
-                            case 2:
-                                _a.sent();
-                                _a.label = 3;
-                            case 3: return [2 /*return*/, callback()];
-                        }
-                    });
-                }); });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.user.findById(userId)];
+                    case 1:
+                        user = _a.sent();
+                        if (!!user.contacts.includes(userIdToAdd)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: { contacts: __spreadArrays(user.contacts, [userIdToAdd]) } })];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, this.user.updateOne({ _id: userIdToAdd }, { $set: { inContactListOf: __spreadArrays(user.inContactListOf, [userId]) } })];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [2 /*return*/, { contact: login_1.toUserData(user) }];
+                }
             });
         }); };
-        this.removeUserFromContactList = function (userId, userToRemove, callback) { return __awaiter(_this, void 0, void 0, function () {
-            var _this = this;
+        this.removeUserFromContactList = function (userId, userIdToRemove) { return __awaiter(_this, void 0, void 0, function () {
+            var user;
             return __generator(this, function (_a) {
-                this.user.findById(userId, function (error, user) { return __awaiter(_this, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                if (error)
-                                    return [2 /*return*/, logging_1.logger.error(error)];
-                                return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: { contacts: user.contacts.filter(function (contact) { return contact !== userToRemove; }) } }, logging_1.logger.error)];
-                            case 1:
-                                _a.sent();
-                                return [4 /*yield*/, this.user.updateOne({ _id: userToRemove }, { $set: { inContactListOf: user.inContactListOf.filter(function (contact) { return contact !== userId; }) } }, logging_1.logger.error)];
-                            case 2:
-                                _a.sent();
-                                return [2 /*return*/, callback()];
-                        }
-                    });
-                }); });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.user.findById(userId)];
+                    case 1:
+                        user = _a.sent();
+                        return [4 /*yield*/, this.user.updateOne({ _id: userId }, { $set: { contacts: user.contacts.filter(function (contact) { return contact !== userIdToRemove; }) } })];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, this.user.updateOne({ _id: userIdToRemove }, { $set: { inContactListOf: user.inContactListOf.filter(function (contact) { return contact !== userId; }) } })];
+                    case 3:
+                        _a.sent();
+                        return [2 /*return*/, {}];
+                }
             });
         }); };
         this.findUserById = function (id) { return __awaiter(_this, void 0, void 0, function () {

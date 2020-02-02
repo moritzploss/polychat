@@ -1,6 +1,10 @@
 import { MongooseDocument } from 'mongoose';
 import * as ws from 'ws';
+import { Response } from 'express-serve-static-core';
+
 import { Messages } from './applicationWide';
+
+export type JsonOrNext = Response<JSON> | void;
 
 interface MongoRegex {
   $regex: RegExp;

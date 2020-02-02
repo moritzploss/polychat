@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -51,22 +40,23 @@ var R = require("ramda");
 var repository_1 = require("../services/repository");
 var parcelService_1 = require("../services/parcelService");
 var login_1 = require("./login");
-var logging_1 = require("../logging");
 var mongo_1 = require("../util/mongo");
 var safeAsyncFunctions_1 = require("../util/safeAsyncFunctions");
-var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var getUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, user, error;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, safeAsyncFunctions_1.safely(repository_1.repository.findUserById)(req.params.userId)];
             case 1:
                 _a = _b.sent(), user = _a.user, error = _a.error;
-                return [2 /*return*/, safeAsyncFunctions_1.dataOrServerError(res, user, error)];
+                return [2 /*return*/, (error)
+                        ? next(error)
+                        : res.json(user)];
         }
     });
 }); };
 exports.getUser = getUser;
-var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var getUsers = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var mongoQuery, _a, users, error;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -75,39 +65,75 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 return [4 /*yield*/, safeAsyncFunctions_1.safely(repository_1.repository.findUsersBy)(mongoQuery)];
             case 1:
                 _a = _b.sent(), users = _a.users, error = _a.error;
-                return [2 /*return*/, safeAsyncFunctions_1.dataOrServerError(res, users, error)];
+                return [2 /*return*/, (error)
+                        ? next(error)
+                        : res.json(users)];
         }
     });
 }); };
 exports.getUsers = getUsers;
-var addContact = function (req, res) {
-    var contactId = req.body.contactId;
-    repository_1.repository.addUserToContactList(req.params.userId, contactId, function () {
-        parcelService_1.parcelService.deliverContactListParcel(req.params.userId);
-        res.json({});
-    });
-};
-exports.addContact = addContact;
-var deleteContact = function (req, res) {
-    repository_1.repository.removeUserFromContactList(req.params.userId, req.params.contactId, function () {
-        parcelService_1.parcelService.deliverContactListParcel(req.params.userId);
-        res.json({});
-    });
-};
-exports.deleteContact = deleteContact;
-var updateUser = function (req, res) {
-    var validRequestedUpdates = login_1.getUpdatableFields(req.body);
-    if (R.isEmpty(validRequestedUpdates)) {
-        return res.status(400).json({ error: 'no valid fields found' });
-    }
-    var callback = function (error, user) {
-        if (error) {
-            logging_1.logger.error(error);
-            return res.status(500).json({ error: 'an error occured' });
+var addContact = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var contact, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, repository_1.repository.addUserToContactList(req.params.userId, req.body.contactId)];
+            case 1:
+                contact = _a.sent();
+                parcelService_1.parcelService.deliverContactListParcel(req.params.userId);
+                return [2 /*return*/, res.json(contact)];
+            case 2:
+                error_1 = _a.sent();
+                return [2 /*return*/, next(error_1)];
+            case 3: return [2 /*return*/];
         }
-        parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(req.params.userId);
-        return res.json(login_1.toUserData(__assign(__assign({}, login_1.toUserData(user)), validRequestedUpdates)));
-    };
-    return repository_1.repository.updateUser(callback, req.params.userId, req.body);
-};
+    });
+}); };
+exports.addContact = addContact;
+var deleteContact = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, repository_1.repository.removeUserFromContactList(req.params.userId, req.params.contactId)];
+            case 1:
+                _a.sent();
+                parcelService_1.parcelService.deliverContactListParcel(req.params.userId);
+                return [2 /*return*/, res.json({})];
+            case 2:
+                error_2 = _a.sent();
+                return [2 /*return*/, next(error_2)];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.deleteContact = deleteContact;
+var updateUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var requestedUpdates, user, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                requestedUpdates = login_1.getUpdatableFields(req.body);
+                if (R.isEmpty(requestedUpdates)) {
+                    return [2 /*return*/, res
+                            .status(400)
+                            .json({ error: 'no valid fields found' })];
+                }
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, repository_1.repository.updateUser(req.params.userId, requestedUpdates)];
+            case 2:
+                user = _a.sent();
+                parcelService_1.parcelService.broadcastContactListUpdateToUserContacts(req.params.userId);
+                return [2 /*return*/, res.json(user)];
+            case 3:
+                error_3 = _a.sent();
+                return [2 /*return*/, next(error_3)];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
 exports.updateUser = updateUser;

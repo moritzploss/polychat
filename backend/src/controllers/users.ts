@@ -1,59 +1,62 @@
 import * as R from 'ramda';
-import { Request, Response } from 'express-serve-static-core';
+import { Request, Response, NextFunction } from 'express-serve-static-core';
 
+import { JsonOrNext } from '../types/backend';
 import { repository } from '../services/repository';
 import { parcelService } from '../services/parcelService';
-import { toUserData, getUpdatableFields } from './login';
-import { logger } from '../logging';
-import { MongooseUser } from '../types/backend';
+import { getUpdatableFields } from './login';
 import { toMongoRegexQuery } from '../util/mongo';
-import { safely, dataOrServerError } from '../util/safeAsyncFunctions';
+import { safely } from '../util/safeAsyncFunctions';
 
-const getUser = async (req: Request, res: Response): Promise<Response<JSON>> => {
+const getUser = async (req: Request, res: Response, next: NextFunction): Promise<JsonOrNext> => {
   const { user, error } = await safely(repository.findUserById)(req.params.userId);
-  return dataOrServerError(res, user, error);
+  return (error)
+    ? next(error)
+    : res.json(user);
 };
 
-const getUsers = async (req: Request, res: Response): Promise<Response<JSON>> => {
+const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<JsonOrNext> => {
   const mongoQuery = toMongoRegexQuery(req.query);
   const { users, error } = await safely(repository.findUsersBy)(mongoQuery);
-  return dataOrServerError(res, users, error);
+  return (error)
+    ? next(error)
+    : res.json(users);
 };
 
-const addContact = (req: Request, res: Response): void => {
-  const { contactId } = req.body;
-  repository.addUserToContactList(req.params.userId, contactId, () => {
+const addContact = async (req: Request, res: Response, next: NextFunction): Promise<JsonOrNext> => {
+  try {
+    const contact = await repository.addUserToContactList(req.params.userId, req.body.contactId);
     parcelService.deliverContactListParcel(req.params.userId);
-    res.json({});
-  });
-};
-
-const deleteContact = (req: Request, res: Response): void => {
-  repository.removeUserFromContactList(req.params.userId, req.params.contactId, () => {
-    parcelService.deliverContactListParcel(req.params.userId);
-    res.json({});
-  });
-};
-
-const updateUser = (req: Request, res: Response): Response<JSON> | void => {
-  const validRequestedUpdates = getUpdatableFields(req.body);
-  if (R.isEmpty(validRequestedUpdates)) {
-    return res.status(400).json({ error: 'no valid fields found' });
+    return res.json(contact);
+  } catch (error) {
+    return next(error);
   }
+};
 
-  const callback = (error: Error, user: MongooseUser): Response<JSON> => {
-    if (error) {
-      logger.error(error);
-      return res.status(500).json({ error: 'an error occured' });
-    }
+const deleteContact = async (req: Request, res: Response, next: NextFunction): Promise<JsonOrNext> => {
+  try {
+    await repository.removeUserFromContactList(req.params.userId, req.params.contactId);
+    parcelService.deliverContactListParcel(req.params.userId);
+    return res.json({});
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const updateUser = async (req: Request, res: Response, next: NextFunction): Promise<JsonOrNext> => {
+  const requestedUpdates = getUpdatableFields(req.body);
+  if (R.isEmpty(requestedUpdates)) {
+    return res
+      .status(400)
+      .json({ error: 'no valid fields found' });
+  }
+  try {
+    const user = await repository.updateUser(req.params.userId, requestedUpdates);
     parcelService.broadcastContactListUpdateToUserContacts(req.params.userId);
-    return res.json(toUserData({
-      ...toUserData(user),
-      ...validRequestedUpdates,
-    }));
-  };
-
-  return repository.updateUser(callback, req.params.userId, req.body);
+    return res.json(user);
+  } catch (error) {
+    return next(error);
+  }
 };
 
 export {
