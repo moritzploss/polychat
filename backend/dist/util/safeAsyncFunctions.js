@@ -60,10 +60,3 @@ var safely = function (func) { return (function () {
     });
 }); };
 exports.safely = safely;
-var returnDataOrServerError = function (res, error, data) {
-    if (data === void 0) { data = {}; }
-    return ((error)
-        ? res.status(500).json({ error: error })
-        : res.json(data));
-};
-exports.returnDataOrServerError = returnDataOrServerError;

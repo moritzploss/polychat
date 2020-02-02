@@ -14,13 +14,6 @@ const safely = <T extends (...args: any[]) => any>(func: T): T => (
   }) as T
 );
 
-const returnDataOrServerError = (res: Response, error: any, data = {}): Response<JSON> => (
-  (error)
-    ? res.status(500).json({ error })
-    : res.json(data)
-);
-
 export {
   safely,
-  returnDataOrServerError,
 };
