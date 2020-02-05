@@ -1,4 +1,5 @@
 import React from 'react';
+import * as R from 'ramda';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -34,7 +35,7 @@ const SettingsContactList = ({ store, actions }: ReduxProps): JSX.Element => {
             <FontAwesomeIcon
               className="settings_block_user_button"
               icon={faTimesCircle}
-              onClick={(): Promise<void> => removeUserFromContactList(contact)}
+              onClick={R.partial(removeUserFromContactList, [contact])}
             />
           </div>
         ))}

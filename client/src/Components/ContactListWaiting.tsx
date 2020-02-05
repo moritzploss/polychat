@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import * as R from 'ramda';
 
 import { ReduxProps } from '../types/client';
 import { mapStateToProps, mergeProps } from '../reducers/util';
@@ -40,7 +41,7 @@ const ContactListWaiting = ({ ownProps, store }: ReduxProps): JSX.Element => {
           <Contact
             user={user}
             key={user.id}
-            onClick={(): void => ownProps.clickHandler(user)}
+            onClick={R.partial(ownProps.clickHandler, [user])}
             className="contacts_waiting_list_item"
           />
         ))}

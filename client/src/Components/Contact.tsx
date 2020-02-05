@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ISO6391 from 'iso-639-1';
+import * as R from 'ramda';
 
 import { clientActions } from '../reducers/clientActions';
 import { mapStateToProps, mergeProps } from '../reducers/util';
@@ -15,7 +16,7 @@ const Contact = ({ ownProps, store }: ReduxProps): JSX.Element => {
       <button
         type="button"
         key={user.id}
-        onClick={(): void => onClick(user)}
+        onClick={R.partial(onClick, [user])}
       >
         <img
           alt="user avatar"

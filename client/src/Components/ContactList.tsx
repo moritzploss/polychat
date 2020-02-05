@@ -1,4 +1,5 @@
 import React from 'react';
+import * as R from 'ramda';
 import { connect } from 'react-redux';
 
 import { ReduxProps } from '../types/client';
@@ -29,7 +30,7 @@ const ContactList = ({ ownProps, store }: ReduxProps): JSX.Element => {
           <Contact
             user={user}
             key={user.id}
-            onClick={(): void => ownProps.clickHandler(user)}
+            onClick={R.partial(ownProps.clickHandler, [user])}
             unread={getReadStatusClass(user.id, store.session.user.id)}
             className={`${getOnlineStatusClass(user.id)}contacts_list_item`}
           />

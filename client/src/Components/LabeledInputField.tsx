@@ -10,7 +10,7 @@ const LabeledInputField = ({ type, id, name, value, onChange, className }: Recor
       id={id}
       name={name}
       value={value}
-      onChange={(event): void => onChange(event)}
+      onChange={onChange}
     />
   </div>
 );
