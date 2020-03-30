@@ -4,9 +4,15 @@
 
 ## About
 
-PolyChat is a chat application that supports real time translation of video and text messages using the Google Translate API.
+PolyChat is a chat application that supports real time translation of video and
+text messages using the Google Translate API.
 
-The project was originally developed using JavaScript (Express) and React. This version aims to improve and expand the original design and was built with TypeScript, React, Redux and MongoDB.
+The project was originally developed using JavaScript (Express) and React. This
+version aims to improve and expand the original design and was built with
+TypeScript, React, Redux and MongoDB.
+
+The original Node.js `backend` server is currently being rebuilt using Elixir
+(and Phoenix). See the `backend_elixir` directory for more information.
 
 ## What it looks like
 
