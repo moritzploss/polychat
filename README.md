@@ -11,9 +11,6 @@ The project was originally developed using JavaScript (Express) and React. This
 version aims to improve and expand the original design and was built with
 TypeScript, React, Redux and MongoDB.
 
-The original Node.js `backend` server is currently being rebuilt using Elixir
-(and Phoenix). See the `backend_elixir` directory for more information.
-
 ## What it looks like
 
 <img width="500px" src="./screenshots/1.png" />
